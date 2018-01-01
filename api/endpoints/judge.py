@@ -19,19 +19,19 @@ def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
     #   Find case's year from mongo
     # nx_graph = export_neo4j()
-    result = []
-    for i in range (1947,2020):
-        result[i] = 0
-    subgraph = lkg.query(judges =[judge_id],subjects=[], keywords=[] , judgements = [], types =[], year_range=[])
+    result = { 1934: 19,1936: 7,1940: 42,1943: 5, 1935: 19,1937: 7,1941: 42,1944: 5}
+    # for i in range (1947,2020):
+    #     result[i] = 0
+    # subgraph = lkg.query(judges =[judge_id],subjects=[], keywords=[] , judgements = [], types =[], year_range=[])
     
-    data = lkg.nodes(data=True)
-    such_cases = subgraph[judge_id]
-    for case in such_cases:
-        all_metas = lkg.in_edges(case)
-        for meta, _ in all_metas:
-            if data[meta]['type'] == 'year':
-                year = meta
-        result[int(year)] += 1
+    # data = lkg.nodes(data=True)
+    # such_cases = subgraph[judge_id]
+    # for case in such_cases:
+    #     all_metas = lkg.in_edges(case)
+    #     for meta, _ in all_metas:
+    #         if data[meta]['type'] == 'year':
+    #             year = meta
+    #     result[int(year)] += 1
     return jsonify(result)
 
 @app.route('/judge/<judge_id>/cases', methods=['GET'])

@@ -48,7 +48,8 @@ def act_line_distribution(act_id):
     #   Find citer's year from mongo
     #
     # 
-    return('Hello')
+    result = { 1934: 19,1936: 7,1940: 42,1943: 5, 1935: 19,1937: 7,1941: 42,1944: 5}
+    return jsonify(result)
 
 
 @app.route('/act/<act_id>/cases', methods=['GET'])
