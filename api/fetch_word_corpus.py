@@ -1,29 +1,34 @@
 import os
-directory = '/home/vinay/Documents/OpenSoft-Data/CaseDocuments/All_FT'
-BLOCK_CHARS=list('''.()"',-:;''')
-di = dict()
-for filename in os.listdir(directory):
+from env import ENV
+
+CHARS_TO_REMOVE = list('''.()"',-:;''')
+CORPUS = dict()
+
+def sanitize_line(line):
+	for char_to_remove in CHARS_TO_REMOVE:
+		line = line.replace(char_to_remove, ' ')
+	return(line)
+
+def fetch_corpus_from_file(filename):
 	if filename.endswith(".txt"):
-		with open("CaseDocuments/All_FT/"+filename) as f:
-			print(filename)
-			c=0
+		with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"], case_filename)) as f:
 			for line in f.readlines():
-				for char in BLOCK_CHARS:
-					line=line.replace(char,' ')
-				line=line.lower()
-				wds=line.split()
-				for w in wds:
-					w=w.strip()
-					if(len(w)>3):
-						if w in di:
-							di[w]=di[w]+1
+				line = sanitize_line(line)
+				words = line.lower().split()
+				for word in words:
+					word = word.strip()
+					if len(word) > 3:
+						if word in CORPUS:
+							CORPUS[word] += 1
 						else:
-							di[w]=1
-							c=c+1
-		f.close()
-		continue
-for key, value in sorted(di.items(), key=lambda k : k[1], reverse=True):
-	print("%s: %s" % (key, value))
-print('Total new words = ')
-#				print(c)
-f1.close()
+							CORPUS[word] = 1
+
+def fetch_corpus():
+	for filename in os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"])):
+		fetch_corpus_from_file(filename)
+
+if __name__ == "__main__":
+	fetch_corpus()
+	for (word, count) in sorted(CORPUS.items(), key=lambda k : k[1], reverse=True):
+		print(word, count)
+	print(len(CORPUS))
