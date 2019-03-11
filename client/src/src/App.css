@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+#mygreen{
+  background-color: #ccffff;
+}
+
+#box_shadow{
+  box-shadow: 2px 2px #bec0c4;
+  padding: 5px;
+  margin: auto;
+  border: 2px solid #bec0c4;
+}
