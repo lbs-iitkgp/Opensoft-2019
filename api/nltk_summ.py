@@ -165,3 +165,4 @@ for i, case_filename in enumerate(case_filenames[:500]):
     # print(summary)
     words_in_summary = len(summary.split(" "))
     print("\n{}. Summary of {} with {} words, {} sentences and {} score is : {}".format(i+1, case_filename, words_in_summary, len(selected_sizes), max_weight, summary))
+    print(nltk.pos_tag(nltk.word_tokenize(summary.lower())))
