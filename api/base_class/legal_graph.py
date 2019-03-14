@@ -1,48 +1,70 @@
+"""This is our graph-helper file
+    it defines LKG class with many methods to
+    help make the LKG directed graph"""
+
 import networkx as nx
 from Judge_class import Judge
 from Case_class import Case
 
-class LegalKnowledgeGraph(nx.DiGraph):
-    def add_key_node(self,keyword):
+
+class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
+    """class with methods to build/help_build
+        the Legal_Knowledge_Graph which inherits nx.DiGraph
+            for keeping LKG also a directed one """
+
+    def add_key_node(self, keyword):
+        """method to add keyword type node"""
+
         self.add_node(keyword, type='keyword')
-    
-    def add_key_word_to_case(self,key_word, case):
+
+    def add_key_word_to_case(self, key_word, case):
+        """method to add edge from
+            key_word type node to case type node"""
+
         self.add_key_node(key_word)
         self.add_edge(key_word, case)
         self.add_case(case)
-        
+
     def add_catch_node(self, catch):
+        """method to add catch type node"""
+
         self.add_node(catch, type='catch')
 
     def add_catch_to_case(self, case, catch):
+        """method to add edge from
+            case type node to catch type node"""
+
         self.add_case(case)
         self.add_catch_node(catch)
         self.add_edge(catch, case)
 
     def add_act(self, act):
+        """method to add act type node"""
+
         self.add_node(act, type='act')
 
     def add_case(self, case):
-        # TODO: Abstract case and add more metadata support w/ categories
+        """method to add case type node"""
+
         self.add_node(case, type='case')
 
     def add_judge(self, judge):
+        """method to add judge type node"""
+
         self.add_node(judge, type='judge')
 
-    def add_edge_judge_case(self, input_json):
-        for judge_name in input_json:
-            judge_node = Judge(judge_name)
-            for cases in input_json[judge_name]:
-                case_node = Case(cases["Case"], cases["Title"], cases["Date"])
-                self.graph.add_edge(judge_node, case_node)
-    
-    def add_citings(self, case1_id, case2_id):
-        self.add_case(case1_id)
-        self.add_case(case2_id)
-        self.add_edge(case1_id, case2_id)
+    def add_edge_judge_case(self, judge, case_id):
+        """method to add edge from judge to case_id
+        of cases he has worked on"""
 
-    # def add_citation(self, from_case, to_case):
-    #     self.add_case(from_case)
-    #     self.add_case(to_case)
-    #     self.add_edge(from_case.uuid, to_case.uuid)
+        self.add_judge(judge)
+        self.add_case(case_id)
+        self.add_edge(judge, case_id)
 
+    def add_citings(self, from_case_id, to_case_id):
+        """adds edge from cited case's id(from case)
+            to citing case's id(to case) """
+
+        self.add_case(from_case_id)
+        self.add_case(to_case_id)
+        self.add_edge(from_case_id, to_case_id)
