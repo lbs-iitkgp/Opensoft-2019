@@ -1,3 +1,9 @@
 networkx
 python-env
 autopep8
+sklearn
+scikit-learn
+nltk
+gensim
+beautifulsoup4
+knapsack
