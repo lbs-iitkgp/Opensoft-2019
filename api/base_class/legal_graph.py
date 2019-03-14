@@ -53,14 +53,13 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
 
         self.add_node(judge, type='judge')
 
-    def add_edge_judge_case(self, input_json):
-        """Work In Progress"""
+    def add_edge_judge_case(self, judge, case_id):
+        """method to add edge from judge to case_id
+        of cases he has worked on"""
 
-        for judge_name in input_json:
-            judge_node = Judge(judge_name)
-            for cases in input_json[judge_name]:
-                case_node = Case(cases["Case"], cases["Title"], cases["Date"])
-                self.graph.add_edge(judge_node, case_node)
+        self.add_judge(judge)
+        self.add_case(case_id)
+        self.add_edge(judge, case_id)
 
     def add_citings(self, from_case_id, to_case_id):
         """adds edge from cited case's id(from case)
