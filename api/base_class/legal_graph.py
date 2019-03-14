@@ -46,4 +46,3 @@ class LegalKnowledgeGraph(nx.DiGraph):
     #     self.add_case(to_case)
     #     self.add_edge(from_case.uuid, to_case.uuid)
 
-    
