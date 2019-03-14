@@ -18,7 +18,6 @@ STATE_FILES = list(
     glob.glob('./State_Text/*'))
 
 DICTIONARY_OF_ACTS = {}
-# i = 0
 '''
     Finds the acts in the central acts folder
     '''
@@ -33,7 +32,15 @@ for g in CENTRAL_FILES:
             idx = myline.find('_Section')
             yr = myline[idx - 4:idx]
             act = myline[:idx - 6]
+
+            if 'Act' in act:
+                act = act[:act.rindex('Act')]
+            if 'act' in act:
+                act = act[:act.rindex('act')]
+            act = act.strip()
             sections = sum(1 for ln in fg)
+            if act == "":
+                continue
             try:
                 DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
             except KeyError:
@@ -43,7 +50,7 @@ for g in CENTRAL_FILES:
 for g in STATE_FILES:
     path = g
     curr_files = [files for files in os.listdir(path)]
-    curr_act = []
+    curr_act = []   
     for filed in curr_files:
         r = os.path.join(path, filed)
         with open(r) as fg:
@@ -53,13 +60,24 @@ for g in STATE_FILES:
             idx = myline.find('_Section')
             yr = myline[idx - 4:idx]
             act = myline[:idx - 6]
+
+            if 'Act' in act:
+                act = act[:act.rindex('Act')]
+            if 'act' in act:
+                act = act[:act.rindex('act')]
+            act = act.strip()
             sections = sum(1 for ln in fg)
+            if act == "":
+                continue
             try:
                 DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
             except KeyError:
-                DICTIONARY_OF_ACTS[act] = [yr, type_f, sections + 1]
-            # if act in DICTIONARY_OF_ACTS:
-                # print(act)
+                DICTIONARY_OF_ACTS[act] = [] 
+                DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
+CNT = 0
+for key in DICTIONARY_OF_ACTS:
+    CNT += 1
+print(CNT)
 
-with open('acts_by_STATEs.json', 'w') as ff:
-    json.dump(DICTIONARY_OF_ACTS, ff, indent=4)
+with open('ACTS_BY_STATES.json', 'w') as ff:
+    json.dump(DICTIONARY_OF_ACTS, ff, indent=4,sort_keys=True)
