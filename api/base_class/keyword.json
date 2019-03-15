@@ -1,23 +1,23 @@
 [
     [
         "Practice & Procedure",
-        13307
+        13337
     ],
     [
         "Criminal",
-        12633
+        12661
     ],
     [
         "Constitution",
-        6478
+        6540
     ],
     [
         "Land & Property",
-        6254
+        6284
     ],
     [
         "Labour & Industrial Law",
-        6089
+        6093
     ],
     [
         "Service",
@@ -25,7 +25,7 @@
     ],
     [
         "Civil Procedure",
-        4916
+        4923
     ],
     [
         "Indirect Tax",
@@ -37,7 +37,7 @@
     ],
     [
         "Corporate",
-        2084
+        2090
     ],
     [
         "Excise",
@@ -49,19 +49,19 @@
     ],
     [
         "Family & Personal",
-        1563
+        1565
     ],
     [
         "Customs",
-        1551
+        1555
     ],
     [
         "Rent Control",
-        1538
+        1540
     ],
     [
         "Sales Tax",
-        1345
+        1358
     ],
     [
         "Banking & Finance",
@@ -73,27 +73,27 @@
     ],
     [
         "Arbitration & ADR",
-        1195
+        1196
     ],
     [
         "Administrative",
-        986
+        1006
     ],
     [
         "Contract & Commercial",
         945
     ],
     [
+        "Education",
+        893
+    ],
+    [
         "Defence & Security Forces",
         889
     ],
     [
-        "Education",
-        883
-    ],
-    [
         "Election",
-        816
+        818
     ],
     [
         "Socio-Economic",
@@ -113,15 +113,15 @@
     ],
     [
         "Insurance",
-        523
+        524
     ],
     [
         "Trade",
-        512
+        513
     ],
     [
         "Health & Drug",
-        502
+        504
     ],
     [
         "Women & Children",
@@ -149,18 +149,18 @@
     ],
     [
         "Human Rights",
-        172
+        180
     ],
     [
         "Parliament & Legislature",
         162
     ],
     [
-        "Intellectual Property",
+        "Water",
         136
     ],
     [
-        "Water",
+        "Intellectual Property",
         136
     ],
     [
@@ -209,15 +209,15 @@
     ],
     [
         "Service Tax",
-        35
+        39
     ],
     [
         "Textiles",
-        27
+        31
     ],
     [
         "Capital Market",
-        21
+        22
     ],
     [
         "Competition",
@@ -237,18 +237,18 @@
     ],
     [
         "Anti-Dumping",
-        12
+        13
     ],
     [
         "IT & E-Commerce",
         6
     ],
     [
-        "Labour & Industrial law",
+        "Disinvestment",
         1
     ],
     [
-        "Disinvestment",
+        "Labour & Industrial law",
         1
     ]
 ]
