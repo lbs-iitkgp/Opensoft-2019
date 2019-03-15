@@ -10,11 +10,13 @@ OK |implement union --> (Done) and intersection --> (Done) --> BUT ! When to use
 OK |implement dfs --> Done /
 '''
 
+import json
 import networkx as nx
 # from generate_graph import GenerateGraph
 # from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 from collections import defaultdict
+from graph_io import import_graph, export_graph
 
 
 def merge_graphs_by_intersection(universal_graph, subgraphs):
@@ -125,6 +127,15 @@ def printGraph(graph):
     plt.show()
 '''
 
+def prepare_corpus_dist_file(graph, query_type):
+    query_dist = dict()
+    query_members = fetch_subgraph_with_types(graph, [query_type])
+    for q in query_members:
+        query_dist[q] = len(graph[q])
+    query_dist = sorted(query_dist.items(), key=lambda k: k[1], reverse=True)
+    with open("{}.json".format(query_type), 'w') as f:
+        json.dump(query_dist, f, indent=4)
+
 if __name__ == "__main__":
 
     # file = open('output.txt', 'r')
@@ -132,12 +143,21 @@ if __name__ == "__main__":
     # graph = graph.return_graph()
     from legal_graph import LegalKnowledgeGraph
 
-    graph = nx.read_gpickle("LegalKnowledgeGraph.gpickle")
+    filename = "LegalKnowledgeGraph"
+    graph = nx.read_gpickle("{}.gpickle".format(filename))
+    export_graph(graph.to_nx(), "{}.json".format(filename))
+    graph_2 = import_graph("{}.json".format(filename))
+
     # result = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'case'], year_range=list(range(2002, 2005)))
-    result = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[])
+    result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[])
 
     print(result.nodes())
     print("Criminal" in result.nodes())
+    prepare_corpus_dist_file(graph_2, 'judge')
+    prepare_corpus_dist_file(graph_2, 'keyword')
+    prepare_corpus_dist_file(graph_2, 'act')
+    prepare_corpus_dist_file(graph_2, 'catch')
+
     # print(result.fetch_cases())
 
     # query_params = defaultdict(set)

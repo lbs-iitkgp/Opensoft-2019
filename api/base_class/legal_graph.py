@@ -12,6 +12,12 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
         the Legal_Knowledge_Graph which inherits nx.DiGraph
             for keeping LKG also a directed one """
 
+    def to_nx(self):
+        graph = nx.DiGraph()
+        graph.add_nodes_from(self.nodes(data=True))
+        graph.add_edges_from(self.edges())
+        return(graph)
+
     def add_key_node(self, keyword):
         """method to add keyword type node"""
 
