@@ -1,3 +1,7 @@
 networkx
 python-env
 autopep8
+regex
+behave
+nose
+bumpversion
