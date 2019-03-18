@@ -43,6 +43,11 @@ section_list = section_list[1:]
 
 
 def validate(date):
+    '''
+    Check if the date extracted is valid or not and processes it accordingly
+    :param date: the date string
+    :return: A tuple with processed date and its validity
+    '''
     # true if two hifens and last four are digits
     # else month name should be included
     # remove the if present
@@ -63,6 +68,12 @@ def validate(date):
 
 
 def find_dates_spacy(section):
+    '''
+    Extracts date using spacy
+    :param section: the section of the case
+    :return: A list of tuple (each element has the date extracted and its strat position)
+    '''
+
     dates = []
     doc = nlp(section)
     for ent in doc.ents:
@@ -75,6 +86,12 @@ def find_dates_spacy(section):
 
 
 def find_dates_regex(section):
+    '''
+    Extracts date using regex
+    :param section: the section of the case
+    :return: a list of tuple (each element has the date and its start position)
+    '''
+
     dates = []
     # check if date of any given format is present
     date1 = re.search(REGEX_LIST[0], section)
@@ -92,14 +109,18 @@ final_list = []
 last_date = 'start-case'
 for section in section_list:
 
+    # find dates using both spacy and regex
     dates = find_dates_regex(section) + find_dates_spacy(section)
-    # get dates using regex
-    # merge dates
+
+    # sort the dates according to its start position
     dates.sort(key=lambda x: x[1])
 
+    # last date of the previous section will be used if no date is found in that section
     final_date = last_date
     if len(dates) > 0:
+        # new date is the first date of that section
         final_date = dates[0][0]
+        # update last date
         last_date = dates[len(dates)-1][0]
 
     final_list.append((final_date, section))
