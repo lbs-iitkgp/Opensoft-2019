@@ -2,7 +2,6 @@ import spacy
 import os
 import re
 
-nlp = spacy.load('en')
 MONTHS_LIST = ['January', 'February', 'March', 'April',
                'May', 'June', 'July', 'August', 'September',
                'October', 'November', 'December']
@@ -12,9 +11,6 @@ REGEX_LIST = [
     r'([0-9]|[0-9]{2})-([0-9]|[0-9]{2})-([0-9]{4})',    # dd-mm-yyyy
     '([0-9]|[0-9]{2})(.{2})( of |\s+)(' + '|'.join(MONTHS_LIST) + '),(\s+)([0-9]{4})'   # eg. 29th October, 1982
 ]
-
-FILE_PATH = os.path.join(os.getcwd(), 'All_FT', '1953_M_3.txt')
-file = open(FILE_PATH, 'r')
 
 
 def validate(date):
