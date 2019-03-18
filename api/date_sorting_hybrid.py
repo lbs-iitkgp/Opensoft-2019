@@ -21,7 +21,7 @@ def validate(date):
     '''
     # true if two hifens and last four are digits
     # else month name should be included
-    # remove the if present
+    # remove 'the' if present
     if date.count('-') == 2 and date[-4:].isnumeric():
         return date, True
 
@@ -34,7 +34,9 @@ def validate(date):
     if not month_found or not date[-4:].isnumeric():
         return None, False
 
-    date = date.replace('the', '')
+    if date.find('the') == 0:
+        date = date.replace('the', '')
+    date = date[:1].upper() + date[1:]
     return date, True
 
 
@@ -49,8 +51,8 @@ def find_dates_spacy(section, nlp):
     dates = []
     doc = nlp(section)
     for ent in doc.ents:
-        if ent.label_ == "DATE":
-            date, is_valid = validate(ent.text)
+        if ent.label_ == "DATE" or ent.label_ == "TIME":
+            date, is_valid = validate(ent.text.strip())
             if is_valid:
                 dates.append((date.strip(), ent.start_char))
 
@@ -74,7 +76,7 @@ def find_dates_regex(section):
         dates.append((''.join(date2.groups()), date2.start()))
 
     return dates
- 
+
 
 def get_timelines(file_path, nlp=None):
     '''
@@ -133,7 +135,7 @@ def get_timelines(file_path, nlp=None):
         final_list.append((final_date, section))
 
     return final_list
-  
+
 # Uncomment to test script
-# file_path = os.path.join(os.getcwd(), 'All_FT', '1953_M_3.txt')
+# file_path = os.path.join(os.getcwd(), 'All_FT', '1953_A_7.txt')
 # print(get_timelines(file_path, spacy.load('en')))
