@@ -138,3 +138,6 @@ def get_timelines(file_path, nlp=None):
 
     return final_list
   
+# Uncomment to test script
+# file_path = os.path.join(os.getcwd(), 'All_FT', '1953_M_3.txt')
+# print(get_timelines(file_path, spacy.load('en')))
