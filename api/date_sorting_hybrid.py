@@ -16,31 +16,6 @@ REGEX_LIST = [
 FILE_PATH = os.path.join(os.getcwd(), 'All_FT', '1953_M_3.txt')
 file = open(FILE_PATH, 'r')
 
-# Section - Paragraph starting with numbered bullets
-# Extracts a list of sections from the case
-# section_list - Stores list of sections of cases
-# section - list of lines in a section
-# section_started - to check if section has been started
-section_list = []
-section = []
-section_started = False
-for line in file.readlines():
-    # check if line starts with numbers
-    match = re.search('(\d+)\.\s', line)
-    if not match and not section_started:
-        continue
-    elif match and match.start() == 0:
-        # Add all previous lines to the section list
-        section_list.append(''.join(section))
-        section = [line]
-        section_started = True
-    else:
-        # Add the line to the section
-        section.append(line)
-
-section_list.append(''.join(section))
-section_list = section_list[1:]
-
 
 def validate(date):
     '''
@@ -67,13 +42,14 @@ def validate(date):
     return date, True
 
 
-def find_dates_spacy(section):
+def find_dates_spacy(section, nlp):
     '''
     Extracts date using spacy
     :param section: the section of the case
     :return: A list of tuple (each element has the date extracted and its strat position)
     '''
-
+    if not nlp:
+      return []
     dates = []
     doc = nlp(section)
     for ent in doc.ents:
@@ -102,28 +78,63 @@ def find_dates_regex(section):
         dates.append((''.join(date2.groups()), date2.start()))
 
     return dates
+ 
 
+def get_timelines(file_path, nlp=None):
+    '''
+    Extracts dates from each section of the case file using regex and nlp
+    :param file_path: the path to the case file_path
+    :param nlp: the nlp vocabulary using spacy (default is None)
+    :return: a list of tuple (each element has a date and the section)
+    '''
+    file = open(file_path, 'r')
+    # Section - Paragraph starting with numbered bullets
+    # Extracts a list of sections from the case
+    # section_list - Stores list of sections of cases
+    # section - list of lines in a section
+    # section_started - to check if section has been started
+    section_list = []
+    section = []
+    section_started = False
+    for line in file.readlines():
+        # check if line starts with numbers
+        match = re.search('(\d+)\.\s', line)
+        if not match and not section_started:
+            continue
+        elif match and match.start() == 0:
+            # Add all previous lines to the section list
+            section_list.append(''.join(section))
+            section = [line]
+            section_started = True
+        else:
+            # Add the line to the section
+            section.append(line)
 
-# Extract dates from the sections
-final_list = []
-last_date = 'start-case'
-for section in section_list:
+    section_list.append(''.join(section))
+    section_list = section_list[1:]
 
-    # find dates using both spacy and regex
-    dates = find_dates_regex(section) + find_dates_spacy(section)
+    file.close()
 
-    # sort the dates according to its start position
-    dates.sort(key=lambda x: x[1])
+    # Extract dates from the sections
+    final_list = []
+    last_date = 'start-case'
+    for section in section_list:
 
-    # last date of the previous section will be used if no date is found in that section
-    final_date = last_date
-    if len(dates) > 0:
-        # new date is the first date of that section
-        final_date = dates[0][0]
-        # update last date
-        last_date = dates[len(dates)-1][0]
+        # find dates using both spacy and regex
+        dates = find_dates_regex(section) + find_dates_spacy(section, nlp)
 
-    final_list.append((final_date, section))
+        # sort the dates according to its start position
+        dates.sort(key=lambda x: x[1])
 
+        # last date of the previous section will be used if no date is found in that section
+        final_date = last_date
+        if len(dates) > 0:
+            # new date is the first date of that section
+            final_date = dates[0][0]
+            # update last date
+            last_date = dates[len(dates)-1][0]
 
-print(final_list)
+        final_list.append((final_date, section))
+
+    return final_list
+  
