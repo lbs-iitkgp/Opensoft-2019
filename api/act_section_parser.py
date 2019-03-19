@@ -25,7 +25,7 @@ nlp = spacy.load('en_core_web_sm')
 
 case_dict = {}
 act_cases = {}
-for j in range(len(all_cases)):
+for j in range(200):
 	file = open("./All_FT/" + all_cases[j], 'r')
 	text = ""
 	line_num = 1
