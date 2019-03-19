@@ -43,7 +43,7 @@ import TextField from '@material-ui/core/TextField';
         
       return (
         <TextField
-        fullWidth="true"
+        fullWidth={true}
         id="outlined-name"
         label="Query"
         //className={classes.textField}
@@ -52,7 +52,7 @@ import TextField from '@material-ui/core/TextField';
         placeholder="Search here..."
         margin="normal"
         variant="outlined"
-        multiline="true"
+        multiline={true}
       />
   
       );

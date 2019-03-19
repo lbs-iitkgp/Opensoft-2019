@@ -13,7 +13,6 @@ import MySlider from './components/slider.js'
 // import MenuItem from "@material-ui/core/MenuItem";
 // import TextField from "@material-ui/core/TextField"
 import SearchBar from './components/query.js';
-import styles from './components/query.js';
 import Category from './components/category.js';
 import Judges from './components/judges.js';
 import Acts from './components/acts.js'
@@ -61,10 +60,13 @@ updateSliderResult(sliderPass){
   render() {
     return (
       <Container id='box_shadow'> 
-        <SearchBar OnQueryPass={this.updateResultQuery}  style={styles}  />
-        <MySlider triggeerParent onSliderDataPass={this.updateSliderResult}  />
+        <h3>Search</h3>
+        <SearchBar OnQueryPass={this.updateResultQuery}   />
+        <MySlider onSliderDataPass={this.updateSliderResult}  />
         <Category onCategoryDataPass={this.updateResultCat}  />
-        <Judges  OnJudgeNamePass={this.updateResultJudge} />
+        <Judges  onJudgeNamePass={this.updateResultJudge} /> 
+        <br />
+        <h3>Acts</h3>
         <Acts onSeacrchedActsPass={this.updateSearchedResultAct} onSelectedActsPass={this.updateResSelectedAct} />
      </Container>
     );

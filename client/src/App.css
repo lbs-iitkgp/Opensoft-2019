@@ -8,9 +8,11 @@
 
 #box_shadow{
   box-shadow: 2px 2px #bec0c4;
-  padding: 5px;
+  padding: 10px;
   margin: auto;
   border: 2px solid #bec0c4;
+  box-align: center
+  
 }
 
 #case {
@@ -28,7 +30,7 @@
   margin :10px;
 }
 
-#card{
+.card{
   margin: 10px;
   border: 1px solid black;
 
@@ -37,4 +39,14 @@
 .timeline{
   background-color: 	 #a6a6a6;
   margin: 30px;
+}
+
+.form {
+  margin: 0 auto;
+  padding: 100px 30px 0;
+  
+}
+
+.input-range {
+  margin-bottom: 160px;
 }

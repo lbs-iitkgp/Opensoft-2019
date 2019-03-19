@@ -1,12 +1,11 @@
-//import './App.css';
+import '../App.css';
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import React, { Component } from 'react';
-//import ReactDOM from 'react-dom';
-import Tooltip from 'rc-tooltip';
-import Slider from 'rc-slider';
-
-
+import ReactDOM from 'react-dom';
+ import Tooltip from 'rc-tooltip';
+ import Slider from 'rc-slider';
+ 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 const Handle = Slider.Handle;
@@ -32,7 +31,13 @@ class MySlider extends Component
 
   constructor(props){
     super(props);
-    this.sliderChange = this.sliderChange.bind(this);
+  //   this.state = {
+  //     value4: {
+  //      min: 1953,
+  //      max: 2018,
+  //   },
+  // };
+   this.sliderChange = this.sliderChange.bind(this);
   }
 
   sliderChange(event){
@@ -52,4 +57,31 @@ class MySlider extends Component
     }
   }
 
-  export default MySlider
+  // render() {
+  //   return (
+  //     <Paper
+  //     value="183"
+  //     max="255"
+  //     secondary-progress="200"
+  //     editable>
+  //   </Paper>
+  //   );
+  // }
+
+  // render() {
+  //   return (
+  //     <form className="form">
+  //       <InputRange
+  //         maxValue={2018}
+  //         minValue={1953}
+  //         value={this.state.value4}
+  //         onChange={value => this.setState({ value4: value })}
+  //         onChangeComplete={value => console.log(value)} />
+  //     </form>
+  //   );
+  // }
+
+//}
+
+
+  export default MySlider;
