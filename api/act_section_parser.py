@@ -9,13 +9,16 @@ all_cases = filter(lambda x: x[-4:] == ".txt", all_files)
 nlp = spacy.load('en_core_web_sm')
 
 case_dict = {}
-for j in range(200):
+act_cases = {}
+for j in range(len(all_cases)):
 	file = open("./All_FT/" + all_cases[j], 'r')
 	text = ""
 	line_num = 1
 	print(all_cases[j])
 	case_dict[all_cases[j]] = {}
+	act_cases[all_cases[j]] = []
 	prev_act_name = ""
+	year = ""
 	for line in file:
 		if "u/s." in line :
 			line = line.replace("u/s.", "Section")
@@ -25,18 +28,22 @@ for j in range(200):
 			line = line.replace("S.", "Section")
 		if "section" in line:
 			line = line.replace("section", "Section")
-
+		if "the Act" in line:
+			line = line.replace("the Act", prev_act_name)
+		if "this Act" in line:
+			line = line.replace("this Act", prev_act_name)
+		if "that Act" in line:
+			line = line.replace("that Act", prev_act_name)
 		text += line
 		doc = nlp(text)
 		line_words = line.split(" ")
 		for entity in doc.ents:
 			act_bool = 0
 			words = entity.text.split(" ")
-
 			if entity.label_ == u"LAW" :
 				if "Act" in words or "Act," in words or "Act." in words:
 					act_bool = 1
-					if words[0] == "the" or words[0] == "The":
+					if words[0] == "the" or words[0] == "The" or words[0] == "that" or words[0] == "That" or words[0] == "this" or words[0] == "This" or words[0] == "under" or words[0] == "Under":
 						words = words[1:]
 
 					act_name = ""
@@ -53,7 +60,12 @@ for j in range(200):
 					if parts[0] == "Section" or parts[0] == "S." or parts[0] == "section" or parts[0] == "s." or parts[0] == "u/s." or parts[0] == "Article":
 						i = 0
 						sect_flag = 1
-						sect_num = parts[1]
+						a = 0
+						while a < len(parts):
+							if parts[a][0] >= '0' and parts[a][0] <= '9':
+								sect_num = parts[a]
+								break
+							a = a + 1
 						while parts[i] != "the":
 							i = i + 1
 							if i >= len(parts):
@@ -72,21 +84,41 @@ for j in range(200):
 					if act_name != "" and act_name not in case_dict[all_cases[j]]:
 						prev_act_name = act_name
 						case_dict[all_cases[j]][prev_act_name] = []
+						act_cases[all_cases[j]].append(prev_act_name)
 					if sect_flag and prev_act_name != "":
 						case_dict[all_cases[j]][prev_act_name].append(sect_num)
+						act_cases[all_cases[j]].append(prev_act_name)
 					print(prev_act_name)
-					if parts[0] in line_words:
-						ind = line_words.index(parts[0])
-						while ind > 0:
-							if line_words[ind] == "u/s." or line_words[ind] == "s." or line_words[ind] == "section" or line_words[ind] == "Section" or line_words[ind] == "S.":
-								sect_num = line_words[ind + 1]
-								case_dict[all_cases[j]][prev_act_name].append(sect_num)
-								break
-							ind = ind - 1
-	
+					# if parts[0] in line_words:
+					# 	ind = line_words.index(parts[0])
+					# 	while ind > 0:
+					# 		if line_words[ind] == "u/s." or line_words[ind] == "s." or line_words[ind] == "section" or line_words[ind] == "Section" or line_words[ind] == "S.":
+								
+					# 			case_dict[all_cases[j]][prev_act_name].append(sect_num)
+					# 			break
+					# 		ind = ind - 1
+					ind = 0
+					if " u/s. " in line:
+						ind = line_words.index("u/s.")
+					if " s. " in line:
+						ind = line_words.index("s.")
+					if " section " in line:
+						ind = line_words.index("section")
+					if " Section " in line:
+						ind = line_words.index("Section")
+					if " S. " in line:
+						ind = line_words.index("S.")
+					while ind < len(line_words):
+						pot_num = line_words[ind]
+						if pot_num[0] >= '0' and pot_num[0] <= '9':
+							sect_num = pot_num
+							case_dict[all_cases[j]][prev_act_name].append(sect_num)
+							break
+						ind = ind + 1
+			
 		text = ""
 
-with open("case_acts_sections.json", "w") as write_file:
-	json.dump(case_dict, write_file, indent = 4)
+with open("just_acts_and_cases.json", "w") as write_file:
+	json.dump(act_cases, write_file, indent = 4)
 
 
