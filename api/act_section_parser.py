@@ -2,9 +2,24 @@ from __future__ import unicode_literals
 import spacy
 import os
 import json
+import editdistance
+import difflib
 
 all_files = os.listdir("./All_FT")
 all_cases = filter(lambda x: x[-4:] == ".txt", all_files)
+
+ch = 'A'
+all_acts = []
+while ch < 'Z':
+	if ch == 'Q' or ch == 'X':
+		ch = chr(ord(ch) + 1)
+		continue
+	all_acts_in_alpha = os.listdir("./Acts/Central_Text/" + ch)
+	acts = filter(lambda x: x[-4:] == ".txt", all_acts_in_alpha)
+	acts = [x[:-4] for x in acts]
+	all_acts.extend(acts)
+	ch = chr(ord(ch) + 1)
+
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -81,8 +96,26 @@ for j in range(len(all_cases)):
 					if len(parts) <= 1:
 						continue
 
-					if act_name != "" and act_name not in case_dict[all_cases[j]]:
-						prev_act_name = act_name
+					minima = 1000000
+					# if act_name != "" and act_name not in case_dict[all_cases[j]]:
+					# 	prev_act_name = act_name
+					# 	for actual_act in all_acts:
+					# 		if(editdistance.eval(prev_act_name, actual_act) < minima):
+					# 			minima = editdistance.eval(prev_act_name, actual_act)
+					# 	case_dict[all_cases[j]][prev_act_name] = []
+					# 	act_cases[all_cases[j]].add(prev_act_name)
+					# if sect_flag and prev_act_name != "":
+					# 	case_dict[all_cases[j]][prev_act_name].append(sect_num)
+					# 	act_cases[all_cases[j]].add(prev_act_name)
+					# print(prev_act_name)
+
+					prev_act_name = act_name
+					if prev_act_name == "":
+						continue
+					if len(difflib.get_close_matches(prev_act_name, all_acts)) > 0:
+						prev_act_name = difflib.get_close_matches(prev_act_name, all_acts)[0]
+
+					if prev_act_name not in case_dict[all_cases[j]]:
 						case_dict[all_cases[j]][prev_act_name] = []
 						act_cases[all_cases[j]].add(prev_act_name)
 					if sect_flag and prev_act_name != "":
