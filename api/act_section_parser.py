@@ -16,7 +16,7 @@ for j in range(len(all_cases)):
 	line_num = 1
 	print(all_cases[j])
 	case_dict[all_cases[j]] = {}
-	act_cases[all_cases[j]] = []
+	act_cases[all_cases[j]] = set()
 	prev_act_name = ""
 	year = ""
 	for line in file:
@@ -84,10 +84,10 @@ for j in range(len(all_cases)):
 					if act_name != "" and act_name not in case_dict[all_cases[j]]:
 						prev_act_name = act_name
 						case_dict[all_cases[j]][prev_act_name] = []
-						act_cases[all_cases[j]].append(prev_act_name)
+						act_cases[all_cases[j]].add(prev_act_name)
 					if sect_flag and prev_act_name != "":
 						case_dict[all_cases[j]][prev_act_name].append(sect_num)
-						act_cases[all_cases[j]].append(prev_act_name)
+						act_cases[all_cases[j]].add(prev_act_name)
 					print(prev_act_name)
 					# if parts[0] in line_words:
 					# 	ind = line_words.index(parts[0])
@@ -117,6 +117,9 @@ for j in range(len(all_cases)):
 						ind = ind + 1
 			
 		text = ""
+
+for case_id in act_cases:
+	act_cases[case_id] = list(act_cases[case_id])
 
 with open("just_acts_and_cases.json", "w") as write_file:
 	json.dump(act_cases, write_file, indent = 4)
