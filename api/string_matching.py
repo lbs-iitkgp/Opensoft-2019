@@ -1,3 +1,7 @@
+def find_score(query, text):
+    return fuzz.token_set_ratio(query, text)
+
+
 def get_closest_match(query, suggestions):
 
     suggestions = [(text, find_score(query, text)) for text in suggestions]
