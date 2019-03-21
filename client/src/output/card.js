@@ -5,9 +5,9 @@ import Card from "@material-ui/core/Card";
 //import CardActions from "@material-ui/core/CardActions";
 //import CardContent from "@material-ui/core/CardContent";
 //import Button from "@material-ui/core/Button";
-import "./App.css";
-import Chips from './chips.js'
-import Switches from './switches.js'
+import "../App.css";
+import Chips from '../chips.js'
+import Switches from '../switches.js'
 
 
 function createData(listData, index) {
@@ -69,7 +69,7 @@ handleToggle(colorDecider, index){
     cardsColor : localcardsColor
   })  
 }
- //not by me
+ 
 render() {
      return (
           <div id="content" className="flex-container">

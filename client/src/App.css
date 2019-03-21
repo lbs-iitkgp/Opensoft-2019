@@ -18,27 +18,30 @@
 #case {
   text-align: center;
 }
-#content{
+/* #content{
   text-align: center
-}
+} */
 
-.flex-container {
+/* .flex-container {
   display: flex;
   flex-direction: row; 
-  border: 3px dotted black;
   padding: 2px;
   margin :10px;
-}
+} */
 
 .card{
   margin: 10px;
   border: 1px solid black;
+  font-size: 150%;
+  padding: 4px;
+  position: relative;
+  top: 70px;
 
 }
 
 .timeline{
-  background-color: 	 #a6a6a6;
-  margin: 30px;
+  background-color: 	  #ffff00;
+  /* margin: 30px; */
 }
 
 .form {
@@ -50,3 +53,52 @@
 .input-range {
   margin-bottom: 160px;
 }
+
+.vl {
+  border-left: 2px solid black;
+  height: 1200px;
+  position: relative;
+  left : 500px;
+  bottom: 600px;
+}
+
+
+#contain{
+  display: flex;
+  flex-direction: column;
+  flex-wrap : nowrap;
+  justify-content: flex-start;
+}
+
+#graphs{
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 80px;
+}
+
+#graph1{
+  flex: 1;
+}
+
+#radar{
+  flex: 1;
+  padding: 10px;
+}
+
+
+
+#vtl{
+  flex: 5;
+  padding: 10px;
+}
+
+#actchips{
+  flex: 1;
+}
+
+#fixedTitle{
+  position: fixed;
+}
+

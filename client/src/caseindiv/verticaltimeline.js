@@ -1,7 +1,7 @@
 import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 import React, { Component } from 'react';
-import './App.css';
+import '../App.css';
 
 
 class VerticalTimeline2 extends React.Component{

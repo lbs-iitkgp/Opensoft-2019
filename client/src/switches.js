@@ -10,16 +10,6 @@ class Switches extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(event) {
-  //  if(!this.state.switchState) {
-  //     this.setState({
-  //       switchState : true
-  //     })
-  //  }
-  //  else{
-  //   this.setState({
-  //     switchState : false
-  //   })
-  //  }
    this.setState({
      switchState : !this.state.switchState
    })
@@ -37,7 +27,6 @@ class Switches extends Component {
       <div>
         <Switch
          checked = {this.state.switchState}
-         //checked = {{checked : true}}
           onChange={this.handleChange}
           color="primary"
         />
