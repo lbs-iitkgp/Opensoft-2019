@@ -16,6 +16,7 @@ import SearchBar from './components/query.js';
 import Category from './components/category.js';
 import Judges from './components/judges.js';
 import Acts from './components/acts.js'
+import Navbar from './navbar.js'
 
 class App extends Component {
  constructor(props){
@@ -59,6 +60,9 @@ updateSliderResult(sliderPass){
 }
   render() {
     return (
+      <div>
+      <Navbar />  
+      <br></br>
       <Container id='box_shadow'> 
         <h3>Search</h3>
         <SearchBar OnQueryPass={this.updateResultQuery}   />
@@ -69,6 +73,7 @@ updateSliderResult(sliderPass){
         <h3>Acts</h3>
         <Acts onSeacrchedActsPass={this.updateSearchedResultAct} onSelectedActsPass={this.updateResSelectedAct} />
      </Container>
+     </div>
     );
   }
 }

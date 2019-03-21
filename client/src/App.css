@@ -9,25 +9,24 @@
 #box_shadow{
   box-shadow: 2px 2px #bec0c4;
   padding: 10px;
-  margin: auto;
   border: 2px solid #bec0c4;
-  box-align: center
-  
+  box-align: center;
+  margin-top : 50px;
 }
 
 #case {
   text-align: center;
 }
-/* #content{
+ #content{
   text-align: center
-} */
+} 
 
-/* .flex-container {
+ .flex-container {
   display: flex;
   flex-direction: row; 
   padding: 2px;
   margin :10px;
-} */
+} 
 
 .card{
   margin: 10px;
@@ -63,31 +62,29 @@
 }
 
 
+
 #contain{
   display: flex;
-  flex-direction: column;
-  flex-wrap : nowrap;
-  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap : wrap;
+  justify-content: space-between;
 }
 
-#graphs{
-  flex: 3;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 80px;
+#left-indiv{
+ display: flex;
+ flex-direction: column;
+ flex: 1;
+ justify-content: flex-start;
 }
 
-#graph1{
-  flex: 1;
+#resCard{
+  padding-bottom: 10%;
 }
 
-#radar{
-  flex: 1;
-  padding: 10px;
+#graph{
+  padding-top: 20px;
+  
 }
-
-
 
 #vtl{
   flex: 5;
@@ -98,7 +95,21 @@
   flex: 1;
 }
 
-#fixedTitle{
-  position: fixed;
+#searchTypes{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  
+}
+
+#basic{
+  font-size : 30px;
+  border: 2px solid white;
+}
+
+#adv{
+  font-size : 30px;
+  border: 2px solid white;
 }
 

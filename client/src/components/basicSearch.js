@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Navbar from '../navbar.js'
-  
-class SearchBar extends Component{
+class BasicSearch extends Component{
     constructor(props){
       super(props);
       this.passQuery = this.passQuery.bind(this)
     }
   
     passQuery(event){
-      var searchedQuery = event.target.value;
-      this.props.OnQueryPass(searchedQuery);
+      var searchedBasicQuery = event.target.value;
+      this.props.OnBasicSearchPass(searchedBasicQuery);
   
     }
       
@@ -34,23 +33,23 @@ class SearchBar extends Component{
         
         
       return (
-      <div>
-        <Navbar />
+       <div> 
+         <Navbar />
+         <br /><br /><br /><br />
         <TextField
         fullWidth={true}
         id="outlined-name"
         label="Query"
-        //className={classes.textField}
         defaultValue=""
         onChange={this.passQuery}
         placeholder="Search here..."
         margin="normal"
         variant="outlined"
         multiline={true}
-      />
-     </div>  
+         />
+       </div>
       );
     }
   }
    
-export default SearchBar;
+export default BasicSearch;

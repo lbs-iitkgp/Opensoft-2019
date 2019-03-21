@@ -3,13 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-// import Card from './output/card.js/index.js';
-// import Advfilter from './output/advtable.js/index.js';
-import Output from './output/output.js'
-import Modal from './caseindiv/modal.js'
 import Router from './caseindiv/router.js'
 
-//ReactDOM.render(<Modal/>,document.getElementById('modal'));
 ReactDOM.render(<Router />,document.getElementById('router'));
 
 //ReactDOM.render(<Test />,document.getElementById('check'));

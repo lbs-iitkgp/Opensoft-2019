@@ -47,43 +47,44 @@ var state2 = {
 class AdvFilter extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            columns: ['Title','Judgement','Judge','Acts Cited','Category','Date'],
-            data: [
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['myie','appeal announcvjgnjed','mjnahajan','indian stfjamp act','crimifm nal','12-12j-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12']  
-            ],
-            filters:''
-        };
-        this.onFiltersChange = this.onFiltersChange.bind(this);
-        this.onChangeRowsPerPages = this.onChangeRowsPerPages.bind(this);
-        this.onChangePages = this.onChangePages.bind(this);
+        // this.state = {
+        //     columns: ['Title','Judgement','Judge','Acts Cited','Category','Date'],
+        //     data: [
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['myie','appeal announcvjgnjed','mjnahajan','indian stfjamp act','crimifm nal','12-12j-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
+        //      ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12']  
+        //     ],
+        //     filters:''
+        // };
+        this.state = state2;
+        // this.onFiltersChange = this.onFiltersChange.bind(this);
+        // this.onChangeRowsPerPages = this.onChangeRowsPerPages.bind(this);
+        // this.onChangePages = this.onChangePages.bind(this);
     }
      
-    onFiltersChange(changedColumn,filterList){
-        console.log(changedColumn,filterList);
-        this.setState({
-            filters : filterList,
-            data : state2.data,
-            columns : state2.columns
-          });
-    }
+    // onFiltersChange(changedColumn,filterList){
+    //     console.log(changedColumn,filterList);
+    //     this.setState({
+    //         filters : filterList,
+    //         data : state2.data,
+    //         columns : state2.columns
+    //       });
+    // }
 
-    onChangeRowsPerPages(number){
-        console.log(number,this.state.filters);
-    }
+    // onChangeRowsPerPages(number){
+    //     console.log(number,this.state.filters);
+    // }
     
-    onChangePages(number){
-        console.log(number,"Page changed",this.state.filters);
-    }
+    // onChangePages(number){
+    //     console.log(number,"Page changed",this.state.filters);
+    // }
 
 render() {
   const { columns, data, filters } = this.state;
@@ -94,10 +95,10 @@ render() {
     rowsPerPage : 6,
     rowsPerPageOptions 	: [5,6,8,10,15],
     page: 1,
-    serverSide : true,
-    onFilterChange: this.onFiltersChange,
-    onChangeRowsPerPage: this.onChangeRowsPerPages,
-    onChangePage : this.onChangePages
+    serverSide : true
+    // onFilterChange: this.onFiltersChange,
+    // onChangeRowsPerPage: this.onChangeRowsPerPages,
+    // onChangePage : this.onChangePages
   };
   return (
     <MUIDataTable

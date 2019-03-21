@@ -19,7 +19,7 @@ import Radar from './radar.js'
 
 const useStyles = makeStyles({
   appBar: {
-    position: 'relative',
+    position: 'fixed',
   },
   flex: {
     flex: 1,
@@ -58,11 +58,12 @@ function FullScreenDialog() {
             </IconButton>
           </Toolbar>
         </AppBar>
-          <div id='contain'>
-          <ResultCard />
-          <div id='graphs'> 
-            <div id='radar'><Radar /></div>
-           </div>
+         <div id='contain'>
+         <div id='left-indiv'>
+            <div id ='resCard'><ResultCard /></div> 
+            <div id='graph'>< Area /></div>
+            <div id='graph'><Radar /></div>
+          </div>
           <div id='vtl'>
             <VerticalTimeline />
           </div>
