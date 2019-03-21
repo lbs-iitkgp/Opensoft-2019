@@ -5,3 +5,6 @@ regex
 behave
 nose
 bumpversion
+python-Levenshtein
+fuzzywuzzy
+
