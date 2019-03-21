@@ -8,18 +8,22 @@ import difflib
 all_files = os.listdir("./All_FT")
 all_cases = filter(lambda x: x[-4:] == ".txt", all_files)
 
-ch = 'A'
-all_acts = []
-while ch < 'Z':
-	if ch == 'Q' or ch == 'X':
-		ch = chr(ord(ch) + 1)
-		continue
-	all_acts_in_alpha = os.listdir("./Acts/Central_Text/" + ch)
-	acts = filter(lambda x: x[-4:] == ".txt", all_acts_in_alpha)
-	acts = [x[:-4] for x in acts]
-	all_acts.extend(acts)
-	ch = chr(ord(ch) + 1)
+# ch = 'A'
+# all_acts = []
+# while ch < 'Z':
+# 	if ch == 'Q' or ch == 'X':
+# 		ch = chr(ord(ch) + 1)
+# 		continue
+# 	all_acts_in_alpha = os.listdir("./Acts/Central_Text/" + ch)
+# 	acts = filter(lambda x: x[-4:] == ".txt", all_acts_in_alpha)
+# 	acts = [x[:-4] for x in acts]
+# 	all_acts.extend(acts)
+# 	ch = chr(ord(ch) + 1)
 
+with open("ACTS_BY_STATES.json") as f:
+ 	acts_dict = json.load(f)
+
+all_acts = acts_dict.keys()
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -37,8 +41,8 @@ for j in range(len(all_cases)):
 	for line in file:
 		if "u/s." in line :
 			line = line.replace("u/s.", "Section")
-		if "s." in line:
-			line = line.replace("s.", "Section")
+		if " s." in line:
+			line = line.replace(" s.", " Section")
 		if "S." in line:
 			line = line.replace("S.", "Section")
 		if "section" in line:
@@ -56,6 +60,7 @@ for j in range(len(all_cases)):
 			act_bool = 0
 			words = entity.text.split(" ")
 			if entity.label_ == u"LAW" :
+				#print("Spacey : ", entity.text)
 				if "Act" in words or "Act," in words or "Act." in words:
 					act_bool = 1
 					if words[0] == "the" or words[0] == "The" or words[0] == "that" or words[0] == "That" or words[0] == "this" or words[0] == "This" or words[0] == "under" or words[0] == "Under":
@@ -110,18 +115,36 @@ for j in range(len(all_cases)):
 					# print(prev_act_name)
 
 					prev_act_name = act_name
+					print("Yo, ", prev_act_name)
 					if prev_act_name == "":
 						continue
 					if len(difflib.get_close_matches(prev_act_name, all_acts)) > 0:
 						prev_act_name = difflib.get_close_matches(prev_act_name, all_acts)[0]
+					#else:
+					#	print(prev_act_name)
 
+					ind = 0
+					sect_num = ""
+					if "Section" in line:
+						ind = line.index("Section")
+						ind = ind + 7
+					while(line[ind] == " "):
+						ind = ind + 1
+						if ind >= len(line):
+							break
+					if ind < len(line):
+						while(line[ind] != " "):
+							sect_num += line[ind]
+							ind += 1
+							if ind >= len(line):
+								break
 					if prev_act_name not in case_dict[all_cases[j]]:
 						case_dict[all_cases[j]][prev_act_name] = []
 						act_cases[all_cases[j]].add(prev_act_name)
 					if sect_flag and prev_act_name != "":
 						case_dict[all_cases[j]][prev_act_name].append(sect_num)
 						act_cases[all_cases[j]].add(prev_act_name)
-					print(prev_act_name)
+					#print(prev_act_name)
 					# if parts[0] in line_words:
 					# 	ind = line_words.index(parts[0])
 					# 	while ind > 0:
@@ -130,31 +153,44 @@ for j in range(len(all_cases)):
 					# 			case_dict[all_cases[j]][prev_act_name].append(sect_num)
 					# 			break
 					# 		ind = ind - 1
-					ind = 0
-					if " u/s. " in line:
-						ind = line_words.index("u/s.")
-					if " s. " in line:
-						ind = line_words.index("s.")
-					if " section " in line:
-						ind = line_words.index("section")
-					if " Section " in line:
-						ind = line_words.index("Section")
-					if " S. " in line:
-						ind = line_words.index("S.")
-					while ind < len(line_words):
-						pot_num = line_words[ind]
-						if pot_num[0] >= '0' and pot_num[0] <= '9':
-							sect_num = pot_num
+
+
+					# 	ind = line.index("Section")
+					# 	ind = ind + 7
+
+					# while ind < len(line):
+					# 	if
+					# if " u/s. " in line:
+					# 	ind = line_words.index("u/s.")
+					# if " s. " in line:
+					# 	ind = line_words.index("s.")
+					# if " section " in line:
+					# 	ind = line_words.index("section")
+					# if " Section " in line:
+					# 	ind = line_words.index("Section")
+					# if " S. " in line:
+					# 	ind = line_words.index("S.")
+					# while ind < len(line_words):
+					# 	pot_num = line_words[ind]
+					# 	if pot_num[0] >= '0' and pot_num[0] <= '9':
+					# 		sect_num = pot_num
+					# 		case_dict[all_cases[j]][prev_act_name].append(sect_num)
+					# 		break
+				
+					# 	ind = ind + 1
+				elif "Section" in words:
+					t = words.index("Section") + 1
+					if t < len(words):
+						sect_num = words[t]
+						if prev_act_name != "":
 							case_dict[all_cases[j]][prev_act_name].append(sect_num)
-							break
-						ind = ind + 1
 			
 		text = ""
 
 for case_id in act_cases:
 	act_cases[case_id] = list(act_cases[case_id])
 
-with open("just_acts_and_cases.json", "w") as write_file:
-	json.dump(act_cases, write_file, indent = 4)
+with open("secy_acts_and_cases.json", "w") as write_file:
+	json.dump(case_dict, write_file, indent = 4)
 
 
