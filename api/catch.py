@@ -21,12 +21,12 @@ def add_catch_subject(graf):
             line = line.strip()
             if '-->' in line:
                 file_name2, title, catch_words_subjs = line.split("-->")
-                print(catch_words_subjs)
+                # print(catch_words_subjs)
                 if '$$$' in catch_words_subjs:
                     subjects, catch_words = catch_words_subjs.split("$$$")
-                    print(subjects, catch_words)
+                    # print(subjects, catch_words)
                     subjects = subjects.split(";")
-                    catch_words = catch_words.split(";")
+                    catch_words = catch_words.split(",")
                     case_id = CASE_FILE_TO_ID[file_name2]
                     for subject in subjects:
                         graf.add_key_word_to_case(subject.strip(), case_id)

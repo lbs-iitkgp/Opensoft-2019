@@ -5,13 +5,24 @@
 import networkx as nx
 from Judge_class import Judge
 from Case_class import Case
-
+from subgraph import graph_query
 
 class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
     """class with methods to build/help_build
         the Legal_Knowledge_Graph which inherits nx.DiGraph
             for keeping LKG also a directed one """
 
+    def to_nx(self):
+        graph = nx.DiGraph()
+        graph.add_nodes_from(self.nodes(data=True))
+        graph.add_edges_from(self.edges())
+        return(graph)
+
+    
+    def from_nx(self, graph):
+        self.add_nodes_from(graph.nodes(data=True))
+        self.add_edges_from(graph.edges())
+    
     def add_key_node(self, keyword):
         """method to add keyword type node"""
 
@@ -68,3 +79,25 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
         self.add_case(from_case_id)
         self.add_case(to_case_id)
         self.add_edge(from_case_id, to_case_id)
+
+    def fetch_type(self, node_type):
+        matching_nodes = [node for (node, data) in self.nodes(data=True) if data['type'] == node_type]
+        return(matching_nodes)
+
+    def fetch_judges(self):
+        return(self.fetch_type('judge'))
+
+    def fetch_cases(self):
+        return(self.fetch_type('case'))
+
+    def fetch_acts(self):
+        return(self.fetch_type('act'))
+
+    def fetch_catchwords(self):
+        return(self.fetch_type('catch'))
+
+    def fetch_keywords(self):
+        return(self.fetch_type('keyword'))
+
+    def query(**query_params):
+        return(graph_query(self, **query_params))
