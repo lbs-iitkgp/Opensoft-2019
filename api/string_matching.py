@@ -28,12 +28,12 @@ def get_closest_match(query, suggestions):
     return suggestions[0]
 
 
-# uncomment for testing files
-# PATH = os.path.join('base_class', 'act.json')
-# file = open(PATH, 'r')
-# act_list = json.loads(file.read())
-# acts = [act_data[0] for act_data in act_list]
+if __name__ == '__main__':
+    PATH = os.path.join('base_class', 'act.json')
+    file = open(PATH, 'r')
+    act_list = json.loads(file.read())
+    acts = [act_data[0] for act_data in act_list]
 
-# query = input("Enter Act name : ")
+    query = input("Enter Act name : ")
 
-# print(get_closest_match(query, acts))
+    print(get_closest_match(query, acts))
