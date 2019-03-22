@@ -35,7 +35,6 @@ class SearchBar extends Component{
         
       return (
       <div>
-        <Navbar />
         <TextField
         fullWidth={true}
         id="outlined-name"
