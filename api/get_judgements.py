@@ -2,8 +2,8 @@
     This script constructs the case's judgements corresponding to their Case Id's
     '''
 import os
-
-CASE_FILE = os.listdir('./All_FT')
+from env import ENV
+CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
 OPTIMAL = []
 
@@ -12,7 +12,7 @@ def get_all_judgements(case):
     '''
         Extracts the file path first from the case ID and then gets the date from it
         '''
-    with open('doc_path_ttl_id.txt') as doc_file:
+    with open("{}/{}".format(ENV["DATASET_PATH"], 'doc_path_ttl_id.txt')) as doc_file:
         for line in doc_file.readlines():
             line = line.strip()
             file_name, title, case_id = line.split('-->')

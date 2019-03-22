@@ -1,46 +1,46 @@
-"""makes a dictionary with
-    ACT names as keys and the list
-        of all its "updated versions with year" tuples as values"""
-import json
+"""
+    Makes a dictionary with
+        ACT names as keys and the list
+            of all its "updated versions with year" tuples as values
+            """
+            
+from env import ENV
 
-ACT_TO_ALL_YEARS = dict()
-# i = 1
-with open('actlist.txt') as f:
+def get_all_versions_of_all_acts():
 
-    for line in f.readlines():
-        line = line.strip()
-        Act_name, year = line[:-4], line[-4:]
-        Act_name = Act_name.strip()
+    ACT_TO_ALL_YEARS = dict()
+    with open("{}/{}".format(ENV["DATASET_PATH"], 'actlist.txt'))  as f:   
 
-        if 'Act' in Act_name:
-            Act_name = Act_name[:Act_name.rindex('Act')]
+        for line in f.readlines():
+            line = line.strip()
+            Act_name, year = line[:-4], line[-4:]
+            Act_name = Act_name.strip()
+            if "," in Act_name:
+                Act_name = Act_name[:Act_name.index(
+                    ",")] + Act_name[Act_name.index(",")+1:]
 
-        if 'act' in Act_name:
-            Act_name = Act_name[:Act_name.rindex('act')]
+            if 'Act' in Act_name:
+                Act_name = Act_name[:Act_name.rindex('Act')]
 
-        Act_name = Act_name.strip()
-        if Act_name in ACT_TO_ALL_YEARS:
-            ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
-        else:
-            ACT_TO_ALL_YEARS[Act_name] = []
-            ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
+            if 'act' in Act_name:
+                Act_name = Act_name[:Act_name.rindex('act')]
+            # print(Act_name)
+            Act_name = Act_name.strip()
+            if Act_name in ACT_TO_ALL_YEARS:
+                ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
+            else:
+                ACT_TO_ALL_YEARS[Act_name] = []
+                ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
 
-ACT_RECENT_YEARS = {}
+    ACT_RECENT_YEARS = {}
 
-for act in ACT_TO_ALL_YEARS:
-    ACT_RECENT_YEARS[act] = []
-    for another_act in ACT_TO_ALL_YEARS:
-        if another_act.find(act) == 0:
+    for act in ACT_TO_ALL_YEARS:
+        ACT_RECENT_YEARS[act] = []
+        for another_act in ACT_TO_ALL_YEARS:
+            if another_act.find(act) == 0:
 
-            [ACT_RECENT_YEARS[act].append(x)
-             for x in ACT_TO_ALL_YEARS[another_act]]      
-CNT = 0
-for key in ACT_RECENT_YEARS:
-    CNT += 1
-print(CNT)
+                [ACT_RECENT_YEARS[act].append(x)
+                for x in ACT_TO_ALL_YEARS[another_act]]      
 
-# print(json.dumps(ACT_TO_ALL_YEARS, indent=4, sort_keys=True))
-# print(ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax (Second Amendment)"])
-# print((ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax"]))
-with open('ACTS_TO_ALL_YEARS.json','w') as f:
-    json.dump(ACT_RECENT_YEARS,f,indent=4)
+    return ACT_TO_ALL_YEARS
+
