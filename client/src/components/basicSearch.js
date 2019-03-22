@@ -11,6 +11,7 @@ class BasicSearch extends Component{
     constructor(props){
       super(props);
       this.passQuery = this.passQuery.bind(this)
+      this.getBasicResult = this.getBasicResult.bind(this)
     }
   
     passQuery(queryRes){
@@ -20,6 +21,7 @@ class BasicSearch extends Component{
 
     getBasicResult(){
       console.log(basicSearched);
+      this.props.history.push("/output");
     }
       
     render(){

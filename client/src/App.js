@@ -8,6 +8,7 @@ import Judges from './components/judges.js';
 import Acts from './components/acts.js'
 import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
 
 var Results={
   query : '',
@@ -25,6 +26,7 @@ class App extends Component {
   this.updateResultJudge = this.updateResultJudge.bind(this);
   this.updateResSelectedAct = this.updateResSelectedAct.bind(this);
   this.updateSliderResult = this.updateSliderResult.bind(this);
+  this.printResults = this.printResults.bind(this);
 }
 
 
@@ -55,6 +57,7 @@ printResults(){
   console.log(Results.category);
   console.log(Results.judgeName);
   console.log(Results.selectedActs);
+  this.props.history.push("/output");
 
 }
   render() {
