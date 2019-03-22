@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MUIDataTable from 'mui-datatables';
-
 /*
   It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
   Checkout full documentation here :
   https://github.com/gregnb/mui-datatables/blob/master/README.md
 */
-
-var state2 = {
+class AdvFilter extends React.Component {
+  state = {
     columns: ['Name', 'Title', 'Location', 'Age', 'Salary'],
     data: [
       ['Gabby George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
@@ -42,72 +41,24 @@ var state2 = {
       ['Mason Ray', 'Computer Scientist', 'San Francisco', 39, '$142,000']
     ]
   }
-
-
-class JudgeIndiv extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            columns: ['Title','Judgement','Judge','Acts Cited','Category','Date'],
-            data: [
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['myie','appeal announcvjgnjed','mjnahajan','indian stfjamp act','crimifm nal','12-12j-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12'],
-             ['mytitle','appeal announced','mahajan','indian stamp act','criminal','12-12-12']  
-            ],
-            filters:''
-        };
-        this.onFiltersChange = this.onFiltersChange.bind(this);
-        this.onChangeRowsPerPages = this.onChangeRowsPerPages.bind(this);
-        this.onChangePages = this.onChangePages.bind(this);
-    }
-     
-    onFiltersChange(changedColumn,filterList){
-        console.log(changedColumn,filterList);
-        this.setState({
-            filters : filterList,
-            data : state2.data,
-            columns : state2.columns
-          });
-    }
-
-    onChangeRowsPerPages(number){
-        console.log(number,this.state.filters);
-    }
-    
-    onChangePages(number){
-        console.log(number,"Page changed",this.state.filters);
-    }
-
-render() {
-  const { columns, data, filters } = this.state;
-  const options = {
-    filterType: 'multiselect',
-    responsive: 'scroll',
-    print: true,
-    rowsPerPage : 6,
-    rowsPerPageOptions 	: [5,6,8,10,15],
-    page: 1,
-    serverSide : true,
-    onFilterChange: this.onFiltersChange,
-    onChangeRowsPerPage: this.onChangeRowsPerPages,
-    onChangePage : this.onChangePages
-  };
-  return (
-    <MUIDataTable
-      title="Employee list"
-      data={data}
-      columns={columns}
-      options={options}
-    />
-  );
-}
+  render() {
+    const { columns, data } = this.state;
+    const options = {
+      filterType: 'multiselect',
+      responsive: 'stacked',
+      print: true,
+      rowsPerPage: 10,
+      page: 1
+    };
+    return (
+      <MUIDataTable
+        title="Employee list"
+        data={data}
+        columns={columns}
+        options={options}
+      />
+    );
+  }
 }
 
-export default JudgeIndiv;
+export default AdvFilter;
