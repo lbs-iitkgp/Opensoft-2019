@@ -7,23 +7,26 @@ import glob
 import re
 from env import ENV
 
+
 def get_acts_by_states():
+    serial = 0
 
     STATE_FILES = os.listdir("{}/State_Text".format(ENV["DATASET_PATH"]))
-    CENTRAL_FILES = os.listdir("{}/Central_Text".format(ENV["DATASET_PATH"]))  
-    
+    CENTRAL_FILES = os.listdir("{}/Central_Text".format(ENV["DATASET_PATH"]))
+
     DICTIONARY_OF_ACTS = {}
     '''
         Finds the acts in the central acts folder
         '''
     for g in CENTRAL_FILES:
-        
+
         curr_files = os.listdir("{}/Central_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
-            with open("{}/Central_Text/{}/{}".format(ENV["DATASET_PATH"],g, filed)) as fg:
+            serial += 1
+            with open("{}/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
-                # Type of these kind of acts is CENTRAL 
+                # Type of these kind of acts is CENTRAL
 
                 type_f = "Central"
                 myline = fg.readline()
@@ -48,21 +51,22 @@ def get_acts_by_states():
 
                 # No. of sections of a act = No. of lines in it's act file
                 sections = sum(1 for ln in fg)
-                
+
                 if act == "":
                     continue
                 try:
-                    DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
+                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
                 except KeyError:
                     DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
+                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
 
     for g in STATE_FILES:
 
         curr_files = os.listdir("{}/State_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
-            with open("{}/State_Text/{}/{}".format(ENV["DATASET_PATH"],g, filed)) as fg:
+            serial += 1
+            with open("{}/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
                 myline = fg.readline()
                 myline = str(myline)
@@ -94,8 +98,9 @@ def get_acts_by_states():
                 if act == "":
                     continue
                 if act in DICTIONARY_OF_ACTS:
-                    DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
+                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
                 else:
-                    DICTIONARY_OF_ACTS[act] = [] 
-                    DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
-    return DICTIONARY_OF_ACTS   # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
+                    DICTIONARY_OF_ACTS[act] = []
+                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+    # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
+    return DICTIONARY_OF_ACTS
