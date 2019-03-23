@@ -17,12 +17,14 @@ class Router extends Component {
       return (
         <BrowserRouter>
             <Switch>
+              <div className="App">
               <Route exact path='/' component={App} />  
               <Route exact path='/basic' component={BasicSearch} />
               <Route exact path="/judge" component={JudgeIndiv}  />
               <Route exact path="/act" component={ActIndiv}  />
               <Route  exact path='/output' component={Output} />
               <Route exact path='/modal' component={Modal}  />
+              </div>
             </Switch>
         </BrowserRouter>
       );
