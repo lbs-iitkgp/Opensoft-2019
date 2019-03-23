@@ -7,7 +7,7 @@ import os
 import re
 import nltk
 from env import ENV
-import json
+# import json
 CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
 JUDGES = []
@@ -103,7 +103,7 @@ def get_case_id():
             CASE_FILE_TO_ID[file_name] = case_id
 
 
-def judge_to_case():
+def judge_to_case(graph):
     '''
         This function builds the required graph having judge pointing to his/her cases
         '''
@@ -120,6 +120,14 @@ def judge_to_case():
         if idx is not None:
             idx = idx.start()
         file_key = file_name[:idx]
+
+        try:
+            file_key = CASE_FILE_TO_ID[file_key]
+        except:
+            KeyError
+        else:
+            file_key = file_key
+
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
         # with open(path, 'r') as curr_file:
 
@@ -194,15 +202,17 @@ def judge_to_case():
         names = re.split(',', judge)
         multiple_names = []
         for name in names:
+            if name == '':
+                continue
             if name.find(' AND ') != -1:
                 temp = name.split(' AND ')
                 for tt in temp:
-                    if(len(tt) <= 20):
+                    if(len(tt) <= 25):
                         number = re.search(r"[0-9]",tt)
                         if number is None:
                             multiple_names.append(tt)
             else:
-                if(len(name) <= 20):
+                if(len(name) <= 25):
                     number = re.search(r"[0-9]",name)
                     if number is None:
                         multiple_names.append(name)
@@ -308,13 +318,13 @@ def judge_to_case():
                     marked.add(m)
                     result[q] += final_list[m]
 
-    # for judge in result:
-        # for key in result[judge]:
-            # graph.add_edge_judge_case(judge, key)
+    for judge in result:
+        for key in result[judge]:
+            graph.add_edge_judge_case(judge, key)
 
-    # return graph
-    with open('test2.json','w') as f:
-        json.dump(result,f,indent=4)        
+    return graph
+    # with open('test2.json','w') as f:
+    #     json.dump(result,f,indent=4)        
 
-if __name__ == "__main__":
-    judge_to_case()
+# if __name__ == "__main__":
+    # judge_to_case()
