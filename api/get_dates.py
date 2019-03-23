@@ -18,6 +18,7 @@ def get_year_from_case(case):
             line = line.strip()
             file_name, title, case_id = line.split('-->')
             if case_id == case:
+                # Get the year from the file name and search for the date in the file  
                 year = line[:4]
                 path = file_name + '.txt'
                 path = os.path.join('./All_FT', path)

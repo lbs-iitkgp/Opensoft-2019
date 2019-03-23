@@ -109,8 +109,9 @@ def judge_to_case(graph):
         '''
     get_case_id()
 
-    temporary_judges = {}
-    immediate_next_line = {}
+    temporary_judges = {}   # Stores the line where a judge may potentially be found
+    immediate_next_line = {}    #   Similar to above, handles some more edge cases
+
     for file_name in CASE_FILE:
         path = os.path.join('./All_FT', file_name)
 
@@ -129,15 +130,15 @@ def judge_to_case(graph):
             file_key = file_key
 
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
-        # with open(path, 'r') as curr_file:
 
-            found_judge = 0
+            found_judge = 0         #   Flags to mark name has been found
             found_next_line = 0
 
             for line in curr_file.readlines():
                 if found_judge:
                     found_next_line = 1
-                    immediate_next_line[file_key] = line
+                    immediate_next_line[file_key] = line    
+                    #   Done so as to handle cases where the name of the judge is in the line following the one having 'delivered'
 
                 idx = re.search(r"delivered", line)
 
@@ -156,8 +157,8 @@ def judge_to_case(graph):
                     temporary_judges[file_key] = judge_containing_line
                     break
 
-    final_list = {}
-    result = {}
+    final_list = {} #   Will store the final_list after separating the names of judges from the lines stored above
+    result = {} # Will store the final mapping of the judge names to cases after a lot of filtering below
     cnt = 0
 
     print(len(temporary_judges))
@@ -168,14 +169,15 @@ def judge_to_case(graph):
         judge = temporary_judges[judge_key]
 
         judge = judge.strip()
-        judge = judge.upper()
+        judge = judge.upper()   # Convert names to upper case for easy handling
 
-        judge = judge.replace('.','. ')
+        judge = judge.replace('.','. ') # Add extra space after . in names so as to separate out the initials from the title 
 
-        for word in HONORIFICS:
+        for word in HONORIFICS: # Remove all hororifics from the name for easy handling
             if word in judge:
                 judge = judge.replace(word, '')
-        if 'BY ' in judge:
+
+        if 'BY ' in judge:      #  Gets the actual name of the judge by removing all unncessary prepositions
             judge = judge[:judge.index('BY ')] + judge[judge.index('BY ') + 3:]
         if 'BY:' in judge:
             judge = judge[:judge.index('BY:')] + judge[judge.index('BY:') + 3:]
@@ -185,14 +187,14 @@ def judge_to_case(graph):
         if 'BY' == judge[-2:]:
             judge = immediate_next_line[judge_key]
 
-        judge = judge.replace('.','. ')
+        judge = judge.replace('.','. ') #   Additional checks for cases where next line is considered
 
         for word in HONORIFICS:
             if word in judge:
                 judge = judge.replace(word, '')
 
-        judge = judge.upper()
-        judge = judge.rstrip('J.')
+        judge = judge.upper()           #   Uppercase the name in case the next line is chosen
+        judge = judge.rstrip('J.')      #   Remove all trailing J., J, commas, and leading figures
         judge = judge.rstrip('J')
         judge = judge.rstrip(',')
         judge = judge.strip('1.')
@@ -200,24 +202,24 @@ def judge_to_case(graph):
         judge = judge.strip()
 
         names = re.split(',', judge)
-        multiple_names = []
+        multiple_names = []             #   Handles multiple judges by splitting the name by commas
         for name in names:
             if name == '':
                 continue
-            if name.find(' AND ') != -1:
+            if name.find(' AND ') != -1:    # The substring having the last two judges, split them by ' AND ' and keep both
                 temp = name.split(' AND ')
                 for tt in temp:
                     if(len(tt) <= 25):
-                        number = re.search(r"[0-9]",tt)
+                        number = re.search(r"[0-9]",tt) #   Probably a junk string having digits, remove it
                         if number is None:
                             multiple_names.append(tt)
             else:
-                if(len(name) <= 25):
+                if(len(name) <= 25):        # 25 is set as the limit to prevent random strings from getting into the result
                     number = re.search(r"[0-9]",name)
                     if number is None:
                         multiple_names.append(name)
 
-        for i in range(len(multiple_names)):
+        for i in range(len(multiple_names)):    # Do the preprocessing and filtering on all the separated multiple names again
 
             multiple_names[i] = multiple_names[i].strip()
             multiple_names[i] = multiple_names[i].rstrip('J.')
@@ -236,7 +238,7 @@ def judge_to_case(graph):
             multiple_names[i] = string
             multiple_names[i] = multiple_names[i].strip()
 
-        multiple_names = list(filter(lambda a: a != 'J. ', multiple_names))
+        multiple_names = list(filter(lambda a: a != 'J. ', multiple_names)) #   Final fine tuning process
         multiple_names = list(filter(lambda a: a != 'J.', multiple_names))
         multiple_names = list(filter(lambda a: a != 'J', multiple_names))
 
@@ -248,7 +250,7 @@ def judge_to_case(graph):
                 continue
             PARENT[name] = name
             try:
-                final_list[name].append(judge_key)
+                final_list[name].append(judge_key)  # final_list has all judges (which may have same names repeated, thanks to typos)
             except KeyError:
                 final_list[name] = []
                 final_list[name].append(judge_key)
@@ -257,7 +259,7 @@ def judge_to_case(graph):
 
     done = set()
 
-    for key_1 in PARENT:
+    for key_1 in PARENT:    #   Groups isomorphic names together based on the pattern of their initials and titles
         for key_2 in PARENT:
             if key_1 != key_2:
                 m = min(key_1, key_2)
@@ -278,8 +280,15 @@ def judge_to_case(graph):
                                     PARENT[n] = m
 
     done = set()
-    for key in PARENT:
+    ''' Set the local parent of each name earlier to global parents, 
+            such that all n nnumber of variations of a name get the same key in the final result'''
+
+    for key in PARENT:  
         PARENT[key] = get_parent(key)
+
+    '''
+        Final filtering step, grouping words with close Edit distance together (Ex. A. B. BHAT & A. B. BHATT)
+        '''
 
     for key_1 in PARENT:
         for key_2 in PARENT:
@@ -293,6 +302,10 @@ def judge_to_case(graph):
                     if edit_dist <= 1 and check_typo(m, n):
                         if PARENT[m] != n:
                             PARENT[n] = m
+
+    '''
+        Appends every name's details to it's parent's dict and constructs the graph
+        '''
 
     done = set()
     marked = set()
@@ -318,6 +331,9 @@ def judge_to_case(graph):
                     marked.add(m)
                     result[q] += final_list[m]
 
+    '''
+        Final process, get the graph with judge -> case constructed
+        '''
     for judge in result:
         for key in result[judge]:
             graph.add_edge_judge_case(judge, key)
