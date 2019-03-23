@@ -47,7 +47,7 @@ function FullScreenDialog() {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Case URL here
       </Button>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} setOpen={true}>
         <AppBar className={classes.appBar} id='fixedTitle'>
           <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.flex}>
