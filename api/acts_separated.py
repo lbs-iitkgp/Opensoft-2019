@@ -93,9 +93,9 @@ def get_acts_by_states():
                 sections = sum(1 for ln in fg)
                 if act == "":
                     continue
-                try:
+                if act in DICTIONARY_OF_ACTS:
                     DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
-                except KeyError:
+                else:
                     DICTIONARY_OF_ACTS[act] = [] 
                     DICTIONARY_OF_ACTS[act].append([yr, type_f, sections + 1])
     return DICTIONARY_OF_ACTS   # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
