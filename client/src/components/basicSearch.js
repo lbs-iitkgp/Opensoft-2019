@@ -16,8 +16,7 @@ class BasicSearch extends Component{
   
     passQuery(queryRes){
       basicSearched = queryRes;
-//console.log(basicSearched);
-    }
+  }
 
     getBasicResult(){
       console.log(basicSearched);

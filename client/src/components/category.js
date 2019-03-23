@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-// import FormLabel from '@material-ui/core/FormLabel';
 import starWarsNames from "starwars-names";
 import MultiChipSelect from "./MultiChipSelect.js";
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 
