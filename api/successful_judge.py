@@ -122,12 +122,16 @@ def judge_to_case(graph):
             idx = idx.start()
         file_key = file_name[:idx]
 
-        try:
+        # try:
+        #     file_key = CASE_FILE_TO_ID[file_key]
+        # except:
+        #     KeyError
+        # else:
+        #     file_key = file_key
+
+        if file_key in CASE_FILE_TO_ID:
             file_key = CASE_FILE_TO_ID[file_key]
-        except:
-            KeyError
-        else:
-            file_key = file_key
+
 
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
 
@@ -249,9 +253,15 @@ def judge_to_case(graph):
             if len(name) <= 2:
                 continue
             PARENT[name] = name
-            try:
-                final_list[name].append(judge_key)  # final_list has all judges (which may have same names repeated, thanks to typos)
-            except KeyError:
+            # try:
+            #     final_list[name].append(judge_key)  # final_list has all judges (which may have same names repeated, thanks to typos)
+            # except KeyError:
+            #     final_list[name] = []
+            #     final_list[name].append(judge_key)
+
+            if judge_key in final_list:
+                final_list[name].append(judge_key)
+            else:
                 final_list[name] = []
                 final_list[name].append(judge_key)
 
