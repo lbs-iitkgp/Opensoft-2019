@@ -77,7 +77,7 @@ printResults(){
         <Acts  onSelectedActsPass={this.updateResSelectedAct} />
         <br />
         <div className='searchButton'>
-            <Button variant="contained" color="primary" onClick={this.printResults}>
+            <Button variant="contained" color="primary" onClick={this.printResults} style={{width:'130px',height:'50px'}}>
                 Search
             </Button>
         </div>

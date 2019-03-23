@@ -51,9 +51,9 @@ class BasicSearch extends Component{
         <h3>Search</h3>
         <SearchBar OnQueryPass={this.passQuery}   />
         <div className='searchButton'>
-          <Button variant="contained" color="primary" onClick={this.getBasicResult} >
+          <Button variant="contained" color="primary" onClick={this.getBasicResult}  style={{width:'130px',height:'50px'}}>
             Search
-          </Button >
+          </Button  >
         </div>      
         </Container>
        </div>

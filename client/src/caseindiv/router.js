@@ -8,7 +8,12 @@ import Modal from './modal.js'
 import BasicSearch from '../components/basicSearch.js'
 
 class Router extends Component {
-    render() {
+  num = 2;
+  num1=3;
+  
+  render() {
+      // tried this interpolation,but couldn't succeed,babel added in  the dependencies
+     // <Route exact path=`/act/:${num}/:${num1}` component={ActIndiv}  />      
       return (
         <BrowserRouter>
             <Switch>
