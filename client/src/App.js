@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
-import MySlider from './components/slider.js'
+import YearsSlider from './components/slider.js'
 import SearchBar from './components/query.js';
 import Category from './components/category.js';
 import Judges from './components/judges.js';
 import Acts from './components/acts.js'
 import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
-import { Redirect } from 'react-router-dom';
 
 var Results={
   query : '',
@@ -66,13 +65,15 @@ printResults(){
       <Navbar />  
       <br></br>
       <Container id='box_shadow'> 
-        <h3>Search</h3>
+        <h2>Search</h2>
         <SearchBar OnQueryPass={this.updateResultQuery}   />
-        <MySlider onSliderDataPass={this.updateSliderResult}  />
+        <h2>Years</h2>
+        <br />
+        <YearsSlider onSliderDataPass={this.updateSliderResult}  />
         <Category onCategoryDataPass={this.updateResultCat}  />
         <Judges  onJudgeNamePass={this.updateResultJudge} /> 
         <br />
-        <h3>Acts</h3>
+        <h2>Acts</h2>
         <Acts  onSelectedActsPass={this.updateResSelectedAct} />
         <br />
         <div className='searchButton'>
