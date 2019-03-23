@@ -7,6 +7,7 @@ import os
 import re
 import nltk
 from env import ENV
+import json
 CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
 JUDGES = []
@@ -16,7 +17,7 @@ JUDGES = []
 
 HONORIFICS = ["MR. ", "MRS. ", "DR. ", "MRS. ",
               "SHRI ", "SHRI ", "HON'BLE ", "JUSTICE ", "CJI ", 
-              "JUTICE ","(J)","(CJ)"]
+              "JUTICE ","(J)","(CJ)","(CJI)"]
 
 
 def check_match(a, b):
@@ -31,7 +32,7 @@ def check_match(a, b):
 
     if len(l) != r:
         return 0
-
+    j = r
     for i in range(r):
         if l[r - i - 1] != m[r - i - 1]:
             j = i
@@ -63,7 +64,7 @@ def check_typo(a, b):
     m = b.split()
 
     r = len(m)
-
+    j = r
     if len(l) != r:
         return 0
 
@@ -102,7 +103,7 @@ def get_case_id():
             CASE_FILE_TO_ID[file_name] = case_id
 
 
-def judge_to_case(graph):
+def judge_to_case():
     '''
         This function builds the required graph having judge pointing to his/her cases
         '''
@@ -161,6 +162,8 @@ def judge_to_case(graph):
         judge = judge.strip()
         judge = judge.upper()
 
+        judge = judge.replace('.','. ')
+
         for word in HONORIFICS:
             if word in judge:
                 judge = judge.replace(word, '')
@@ -173,32 +176,36 @@ def judge_to_case(graph):
 
         if 'BY' == judge[-2:]:
             judge = immediate_next_line[judge_key]
-        # if 'BY' in judge:	# ???
-        # 	# Name probably in the next line
-        # 	idx = judge.index('BY')
-        # 	if idx == 0:
-        # 		req_line = immediate_next_line[judge_key]
-        # 		req_line = req_line.strip('1.')
-        # 		req_line = req_line.rstrip('J.')
-        # 		judge = req_line
-        # 	else:
-        # 		if not (judge[idx - 1] >= 'a' and judge[idx - 1] <= 'z'):
-        # 			req_line = immediate_next_line[judge_key]
-        
-        judge = judge.strip()
+
+        judge = judge.replace('.','. ')
+
+        for word in HONORIFICS:
+            if word in judge:
+                judge = judge.replace(word, '')
+
+        judge = judge.upper()
         judge = judge.rstrip('J.')
         judge = judge.rstrip('J')
         judge = judge.rstrip(',')
+        judge = judge.strip('1.')
+
+        judge = judge.strip()
 
         names = re.split(',', judge)
         multiple_names = []
         for name in names:
             if name.find(' AND ') != -1:
-                temp = name.split('AND ')
+                temp = name.split(' AND ')
                 for tt in temp:
-                    multiple_names.append(tt)
+                    if(len(tt) <= 20):
+                        number = re.search(r"[0-9]",tt)
+                        if number is None:
+                            multiple_names.append(tt)
             else:
-                multiple_names.append(name)
+                if(len(name) <= 20):
+                    number = re.search(r"[0-9]",name)
+                    if number is None:
+                        multiple_names.append(name)
 
         for i in range(len(multiple_names)):
 
@@ -301,9 +308,13 @@ def judge_to_case(graph):
                     marked.add(m)
                     result[q] += final_list[m]
 
-    for judge in result:
-        for key in result[judge]:
-            graph.add_edge_judge_case(judge, key)
+    # for judge in result:
+        # for key in result[judge]:
+            # graph.add_edge_judge_case(judge, key)
 
-    return graph
-        
+    # return graph
+    with open('test2.json','w') as f:
+        json.dump(result,f,indent=4)        
+
+if __name__ == "__main__":
+    judge_to_case()
