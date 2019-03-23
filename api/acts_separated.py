@@ -2,20 +2,14 @@
     This module generates the list of details of all the acts in
         'actslist.txt' comprising of [year, type (central/state), No. of sections]
         '''
-
+from env import ENV
 import os
 import glob
 import json
 
-CENTRAL = [d for d in os.listdir(
-    './Central_Text')]
-STATE = [d for d in os.listdir(
-    './State_Text')]
 
-CENTRAL_FILES = list(
-    glob.glob('./Central_Text/*'))
-STATE_FILES = list(
-    glob.glob('./State_Text/*'))
+CENTRAL_FILES = os.listdir('{}/ActDocuments/Central_Text/'.format(ENV["DATASET_PATH"]))
+STATE_FILES = os.listdir('{}/ActDocuments/State_Text/'.format(ENV["DATASET_PATH"]))
 
 DICTIONARY_OF_ACTS = {}
 '''
@@ -30,8 +24,7 @@ def acts_data_miner():
         curr_files = [files for files in os.listdir(path)]
         for filed in curr_files:
             serial += 1
-            r = os.path.join(path, filed)
-            with open(r) as fg:
+            with open(path+"/{}".format(filed)) as fg:
                 type_f = "Central"
                 myline = fg.readline()
                 idx = myline.find('_Section')
