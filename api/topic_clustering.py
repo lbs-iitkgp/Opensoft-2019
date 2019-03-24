@@ -14,10 +14,10 @@ def get_topic_clusters(keywords, nlp):
     :param nlp: the nlp vocab by spacy
     :return: clusters of topic (list of lists)
     """
-    # # make a line out of these words
-    # keywords_line = " ".join(keywords)
+    # make a line out of these words
+    keywords_line = " ".join(keywords)
     # for testing
-    keywords_line = " ".join(keywords[:100])
+    # keywords_line = " ".join(keywords[:100])
 
     # remove duplicate words and join them
     keywords_line = set(keywords_line.split())
@@ -69,10 +69,10 @@ def get_topic_clusters_with_count(keywords, nlp):
     """
 
     dict_keys = list(keywords.keys())
-    # # make a line out of these words
-    # keywords_line = " ".join(keywords.keys())
+    # make a line out of these words
+    keywords_line = " ".join(dict_keys)
     # for testing
-    keywords_line = " ".join(dict_keys[:100])
+    # keywords_line = " ".join(dict_keys[:100])
 
     # remove duplicate words and join them
     keywords_line = set(keywords_line.split())
@@ -116,11 +116,16 @@ def is_similar(word1, word2, clusters):
     """
     Checks if two strings belong to the cluster
     """
-    for cluster in clusters:
-        if word1 in cluster and word2 in cluster:
-            return True
-
-    return False
+    if isinstance(clusters[0], tuple):
+        for cluster, count in clusters:
+            if word1 in cluster and word2 in cluster:
+                return True
+        return False
+    else:
+        for cluster in clusters:
+            if word1 in cluster and word2 in cluster:
+                return True
+        return False
 
 
 if __name__ == '__main__':
