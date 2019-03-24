@@ -20,7 +20,9 @@
  }
 
 #case {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; 
 }
  #content{
   text-align: center;
@@ -31,6 +33,7 @@
   flex-direction: row; 
   padding: 2px;
   margin :10px;
+  justify-content: center;
 } 
 
 .card{
