@@ -49,6 +49,9 @@ def get_topic_clusters(keywords, nlp):
 
 
 def get_count(word, dictionary):
+    """
+    Find the occurrences of the word in the dictionary
+    """
     sum = 0
     for key, val in dictionary.items():
         if word in key:
@@ -59,7 +62,7 @@ def get_count(word, dictionary):
 
 def get_topic_clusters_with_count(keywords, nlp):
     """
-        Returns clusters of topics (list of lists) from a given list of keywords
+        Returns clusters of topics and their occurences in the list (list of lists) from a given list of keywords
         :param keywords: list of keywords to be clustered
         :param nlp: the nlp vocab by spacy
         :return: clusters of topic (list of lists)
@@ -87,17 +90,22 @@ def get_topic_clusters_with_count(keywords, nlp):
     # make clusters with formed tokens
     clusters = []
     for token in words:
+        # add word and its occurrences to the cluster
         cluster = [(token.text, get_count(token.text, keywords))]
         for word2 in words:
             if word2.text == token.text:
                 continue
             if word2.similarity(token) >= SIMILARITY_THRESHOLD:
+                # add words and its respective occurrencces to the cluster
                 cluster.append((word2.text, get_count(word2.text, keywords)))
                 words.remove(word2)
         cluster_count = 0
         for word, count in cluster:
             cluster_count += count
+        # remove all word occurrences from the cluster
         cluster = [item[0] for item in cluster]
+
+        # add cluster and its cumulative occurrences to the list
         clusters.append((cluster, cluster_count))
         words.remove(token)
 
@@ -105,6 +113,9 @@ def get_topic_clusters_with_count(keywords, nlp):
 
 
 def is_similar(word1, word2, clusters):
+    """
+    Checks if two strings belong to the cluster
+    """
     for cluster in clusters:
         if word1 in cluster and word2 in cluster:
             return True
