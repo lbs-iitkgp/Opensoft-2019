@@ -15,9 +15,6 @@ SIMILARITY_THRESHOLD = 0.6
 
 def get_topic_clusters(keywords, nlp):
 
-    # Removes year from keywords
-    keywords = [item.lower() for item in keywords if not item.isnumeric()]
-
     # make a line out of these words
     keywords_line = " ".join(keywords)
     # for testing
@@ -53,8 +50,13 @@ def get_topic_clusters(keywords, nlp):
 
 
 if __name__ == '__main__':
+
     nlp = spacy.load('en_core_web_md')
-    print(os.getcwd())
+
     file = open(os.path.join(os.getcwd(), 'api', 'base_class', 'catch.json'), 'r')
+
     catch_words = [item[0] for item in json.loads(file.read())]
+    # Removes year from keywords
+    catch_words = [item.lower() for item in catch_words if not item.isnumeric()]
+
     print(get_topic_clusters(catch_words, nlp))
