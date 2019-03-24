@@ -16,8 +16,8 @@ const data = letterFrequency.slice(2, 12);
 const y = d => d.frequency;
 
 export default ({
-  width=500,
-  height=500,
+  width=350,
+  height=350,
   levels = 5,
   margin = {
     top: 40,
