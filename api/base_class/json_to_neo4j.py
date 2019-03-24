@@ -11,23 +11,24 @@ from env import ENV
         This function converts the JSON file to a neo4j graph and stores it into the NEO4J browser.
 '''
 def import_to_neo4j(filename):
-        authenticate(ENV["DB_URL"], ENV["DB_USERNAME"],ENV["DB_PASSWORD"]) # Accessing the NEO4J server
-        graph = Graph()
+    print(ENV)
+    authenticate(ENV["DB_URL"], ENV["DB_USERNAME"],ENV["DB_PASSWORD"]) # Accessing the NEO4J server
+    graph = Graph()
 
-        string_to_instance=dict()
-        with open(filename,'r') as data_file:
-                data = json.load(data_file)
-                for node in data["nodes"]:
-                        a = Node(node["type"], id=node["id"])
-                        string_to_instance[node["id"]]=a
-                for link in data["links"]:
-                        b = Relationship(string_to_instance[link["source"]],"MAPS TO",string_to_instance[link["target"]])
-                        graph.create(b)
+    string_to_instance=dict()
+    with open(filename,'r') as data_file:
+        data = json.load(data_file)
+        for node in data["nodes"]:
+            a = Node(node["type"], id=node["id"])
+            string_to_instance[node["id"]]=a
+        for link in data["links"]:
+            b = Relationship(string_to_instance[link["source"]],"MAPS TO",string_to_instance[link["target"]])
+            graph.create(b)
 
 
 def json_file():
-        filename='LegalKnowledgeGraph.json'
-        import_to_neo4j(filename)
+    filename='LegalKnowledgeGraph.json'
+    import_to_neo4j(filename)
 
 
 if __name__ == "__main__":

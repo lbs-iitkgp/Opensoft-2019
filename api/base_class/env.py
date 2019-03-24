@@ -1,7 +1,7 @@
 from dotenv import load
 import os
 
-load("../.env")
+load("../../.env")
 ENV = os.environ
 
 

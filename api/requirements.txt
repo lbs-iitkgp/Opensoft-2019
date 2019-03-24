@@ -7,4 +7,4 @@ nose
 bumpversion
 python-Levenshtein
 fuzzywuzzy
-
+py2neo==2.0.8
