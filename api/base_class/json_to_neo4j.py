@@ -11,7 +11,7 @@ from env import ENV
         This function converts the JSON file to a neo4j graph and stores it into the NEO4J browser.
 '''
 def import_to_neo4j(filename):
-        authenticate(ENV["DB_URL"], ENV["DB_USERNAME"], ENV["DB_PASSWORD"]) # Accessing the NEO4J server
+        authenticate(ENV["DB_URL"], ENV["DB_USERNAME"],ENV["DB_PASSWORD"]) # Accessing the NEO4J server
         graph = Graph()
 
         string_to_instance=dict()
