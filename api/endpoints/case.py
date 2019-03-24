@@ -1,8 +1,8 @@
 from endpoints import app, cors
 
 @app.route('/case/<case_id>', methods=['GET'])
-def case_metadata():
-    return('Hello')
+def case_metadata(case_id):
+    return('Hello '+case_id)
 
 @app.route('/case/<case_id>/plot_line', methods=['GET'])
 def case_line_distribution():
