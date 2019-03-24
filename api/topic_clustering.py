@@ -2,19 +2,18 @@ import os
 import spacy
 import json
 
-# for token in doc:
-#     if token.pos_ not in tags.keys():
-#         tags[token.pos_] = [token.text]
-#     else:
-#         tags[token.pos_].append(token.text)
-#
-# for key, val in tags.items():
-#     print(key, ': ', val)
+
+# The threshold limit for two words to consider as similar
 SIMILARITY_THRESHOLD = 0.6
 
 
 def get_topic_clusters(keywords, nlp):
-
+    """
+    Returns clusters of topics (list of lists) from a given list of keywords
+    :param keywords: list of keywords to be clustered
+    :param nlp: the nlp vocab by spacy
+    :return: clusters of topic (list of lists)
+    """
     # make a line out of these words
     keywords_line = " ".join(keywords)
     # for testing
