@@ -3,13 +3,14 @@ from neo4jrestclient import client
 import networkx as nx
 import matplotlib.pyplot as plt
 from env import ENV
+from legal_graph import LegalKnowledgeGraph
 
 '''
     This function reads the NEO4J graph stored in the neo4j browser and converts it into a networkx graph
 '''
 def export_neo4j():
     types=['judge','keyword','case','catch']
-    graph = nx.DiGraph()
+    graph = LegalKnowledgeGraph()
     db = GraphDatabase(ENV["DB_URL"], username=ENV["DB_USERNAME"], password=ENV["DB_PASSWORD"]) # Authentication for NEO4J Browser
     for i in range(len(types)):
         print(types[i])
@@ -42,4 +43,5 @@ def export_neo4j():
 
 
 if __name__ == "__main__":
+    print(ENV["DB_URL"], ENV["DB_USERNAME"], ENV["DB_PASSWORD"])
     export_neo4j()
