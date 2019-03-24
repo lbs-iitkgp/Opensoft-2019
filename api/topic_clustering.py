@@ -4,7 +4,7 @@ import json
 
 
 # The threshold limit for two words to consider as similar
-SIMILARITY_THRESHOLD = 0.6
+SIMILARITY_THRESHOLD = 0.65
 
 
 def get_topic_clusters(keywords, nlp):
@@ -14,10 +14,10 @@ def get_topic_clusters(keywords, nlp):
     :param nlp: the nlp vocab by spacy
     :return: clusters of topic (list of lists)
     """
-    # make a line out of these words
-    keywords_line = " ".join(keywords)
+    # # make a line out of these words
+    # keywords_line = " ".join(keywords)
     # for testing
-    # keywords_line = " ".join(keywords[:100])
+    keywords_line = " ".join(keywords[:100])
 
     # remove duplicate words and join them
     keywords_line = set(keywords_line.split())
@@ -35,17 +35,25 @@ def get_topic_clusters(keywords, nlp):
     # make clusters with formed tokens
     clusters = []
     for word in words:
-        cluster = [word]
+        cluster = [word.text]
         for word2 in words:
             if word2.text == word.text:
                 continue
-            if word2.similarity(word) > SIMILARITY_THRESHOLD:
+            if word2.similarity(word) >= SIMILARITY_THRESHOLD:
                 cluster.append(word2.text)
                 words.remove(word2)
         clusters.append(cluster)
         words.remove(word)
 
     return clusters
+
+
+def is_similar(word1, word2, clusters):
+    for cluster in clusters:
+        if word1 in cluster and word2 in cluster:
+            return True
+
+    return False
 
 
 if __name__ == '__main__':
@@ -58,4 +66,13 @@ if __name__ == '__main__':
     # Removes year from keywords
     catch_words = [item.lower() for item in catch_words if not item.isnumeric()]
 
-    print(get_topic_clusters(catch_words, nlp))
+    clusters = get_topic_clusters(catch_words, nlp)
+    print(clusters)
+
+    word1 = input("Enter first word : ")
+    word2 = input("Enter second word : ")
+
+    print(is_similar(word1, word2, clusters))
+
+
+
