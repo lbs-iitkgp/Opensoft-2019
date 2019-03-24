@@ -1,17 +1,17 @@
 from endpoints import app, cors
 
 @app.route('/keyword/<keyword_id>', methods=['GET'])
-def keyword_metadata():
+def keyword_metadata(keyword_id):
+    # Just return keyword name, and precentile among keywords maybe?
     return('Hello')
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])
-def keyword_line_distribution():
-    return('Hello')
-
-@app.route('/keyword/<keyword_id>/plot_radar', methods=['GET'])
-def keyword_radar_distribution():
+def keyword_line_distribution(keyword_id):
+    # Iterate through each citer in neo4j
+    #   Find citer's year from mongo
     return('Hello')
 
 @app.route('/keyword/<keyword_id>/cases', methods=['GET'])
-def keyword_cases():
+def keyword_cases(keyword_id):
+    # Fetch list of cases that cite this keyword from neo4j and return their details from mongodb as json
     return('Hello')
