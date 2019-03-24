@@ -5,21 +5,6 @@ import json
 nlp = spacy.load('en_core_web_md')
 
 file = open(os.path.join(os.getcwd(), 'base_class', 'catch.json'), 'r')
-#
-# word = input("Enter word : ")
-#
-# catch_words = []
-#
-# word_token = nlp(word)[0]
-# print(word_token)
-#
-# for line in file.readlines():
-#     doc = nlp(line)
-#     for token in doc:
-#         if token.similarity(word_token) > 0.7:
-#             catch_words.append(token)
-#
-# print(catch_words)
 
 # Removes year from keywords
 catch_words = [item[0].lower() for item in json.loads(file.read()) if not item[0].isnumeric()]
