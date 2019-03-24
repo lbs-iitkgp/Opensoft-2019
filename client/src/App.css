@@ -110,27 +110,23 @@
   flex-direction: row;
   justify-content: flex-end;
   padding: 7px;
+  
  }
 
 #basic{
   font-size : 20px;
-  
   margin-right: 10px;
-  background-color: white;
   font-family: 'Lato';
   font-weight: bolder;
   padding: 4px;
- 
-}
+  }
 
 #adv{
   font-size : 20px;
-  
   margin-left: 10px;
-  background-color: white;
   font-family: 'Lato';
   font-weight: bolder;
-  padding: 4px;  
+  padding: 4px; 
 }
 
 
@@ -157,4 +153,20 @@
 
 .ant-tooltip-inner {
   font-size: 20px;
+}
+
+#basic .MuiButton-label-40 {
+  color : white
+}
+
+#adv .MuiButton-label-40 {
+  color: white
+}
+
+#line{
+  border-left: 2px solid white;
+  height: 32px;
+  position: relative;
+  top: 4px;
+
 }
