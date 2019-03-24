@@ -48,6 +48,62 @@ def get_topic_clusters(keywords, nlp):
     return clusters
 
 
+def get_count(word, dictionary):
+    sum = 0
+    for key, val in dictionary.items():
+        if word in key:
+            sum += val
+
+    return sum
+
+
+def get_topic_clusters_with_count(keywords, nlp):
+    """
+        Returns clusters of topics (list of lists) from a given list of keywords
+        :param keywords: list of keywords to be clustered
+        :param nlp: the nlp vocab by spacy
+        :return: clusters of topic (list of lists)
+    """
+
+    dict_keys = list(keywords.keys())
+    # # make a line out of these words
+    # keywords_line = " ".join(keywords.keys())
+    # for testing
+    keywords_line = " ".join(dict_keys[:100])
+
+    # remove duplicate words and join them
+    keywords_line = set(keywords_line.split())
+    keywords_line = " ".join(keywords_line)
+
+    doc = nlp(keywords_line)
+
+    # form token only of nouns and adjectives
+    tags = ['NOUN', 'ADJ']
+    words = []
+    for token in doc:
+        if token.pos_ in tags:
+            words.append(token)
+
+    # make clusters with formed tokens
+    clusters = []
+    for token in words:
+        cluster = [(token.text, get_count(token.text, keywords))]
+        for word2 in words:
+            if word2.text == token.text:
+                continue
+            if word2.similarity(token) >= SIMILARITY_THRESHOLD:
+                cluster.append((word2.text, get_count(word2.text, keywords)))
+                words.remove(word2)
+        cluster_count = 0
+        for word, count in cluster:
+            cluster_count += count
+        cluster = [item[0] for item in cluster]
+        clusters.append((cluster, cluster_count))
+        words.remove(token)
+
+    return clusters
+
+
 def is_similar(word1, word2, clusters):
     for cluster in clusters:
         if word1 in cluster and word2 in cluster:
@@ -60,13 +116,18 @@ if __name__ == '__main__':
 
     nlp = spacy.load('en_core_web_md')
 
-    file = open(os.path.join(os.getcwd(), 'api', 'base_class', 'catch.json'), 'r')
+    file = open(os.path.join(os.getcwd(), 'api', 'base_class', 'keyword.json'), 'r')
 
-    catch_words = [item[0] for item in json.loads(file.read())]
-    # Removes year from keywords
-    catch_words = [item.lower() for item in catch_words if not item.isnumeric()]
+    # catch_words = [item[0] for item in json.loads(file.read())]
+    # # Removes year from keywords
+    # catch_words = [item.lower() for item in catch_words if not item.isnumeric()]
+    #
+    # clusters = get_topic_clusters(catch_words, nlp)
 
-    clusters = get_topic_clusters(catch_words, nlp)
+    catch_words = {item[0].lower(): item[1] for item in json.loads(file.read()) if not item[0].isnumeric()}
+
+    clusters = get_topic_clusters_with_count(catch_words, nlp)
+
     print(clusters)
 
     word1 = input("Enter first word : ")
