@@ -50,11 +50,16 @@ for act in ACT_TO_ALL_YEARS:
         if another_act.find(act) == 0:
             print(another_act)
             print(act)
-            [ACT_RECENT_YEARS[act + ' ' +  rem[act]].append(x + ' ' + rem[x])for x in ACT_TO_ALL_YEARS[another_act]] 
+            [ACT_RECENT_YEARS[act + ' ' +  rem[act]].append((x[0], x[1] + ' ' + rem[x[1]])) for x in ACT_TO_ALL_YEARS[another_act]] 
             print(another_act)
 # print(json.dumps(ACT_TO_ALL_YEARS, indent=4, sort_keys=True))
 # print(ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax (Second Amendment)"])
 # print((ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax"]))
+
+
+
+
+
 
 
 
