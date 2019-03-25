@@ -1,6 +1,10 @@
 networkx
 python-env
 autopep8
+summa
+nltk
+gensim
+knapsack
 regex
 behave
 nose
