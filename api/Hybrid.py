@@ -9,9 +9,10 @@ import bs4 as bs
 import urllib.request  
 import re
 import nltk
+from env import ENV
 # nltk.download('averaged_perceptron_tagger')
-DATASET_LOCATION = "/home/carry/opensoft/OpenSoft-Data/All_FT"
-DESTINATION_LOCATION = "/home/carry/opensoft/Opensoft-2019/api"
+DATASET_LOCATION = ENV["DATASET_PATH"]+"/All_FT"
+DESTINATION_LOCATION = "."
 from knapsack import knapsack
 import heapq 
 from gensim.summarization.summarizer import summarize,_set_graph_edge_weights,_build_graph,_build_corpus,_clean_text_by_sentences, _build_hasheable_corpus
@@ -26,7 +27,7 @@ case_filenames = [f for f in os.listdir(DATASET_LOCATION) if not f.startswith(".
 
 
 MAX_WORDS=100
-for i,case_filename in enumerate(case_filenames[0:5]):
+for i,case_filename in enumerate(case_filenames[0:100]):
     with open('{}/{}'.format(DATASET_LOCATION,case_filename)) as f:
         text = f.read().strip()
         text = text.split("\n",6)[6]
@@ -116,8 +117,6 @@ for i,case_filename in enumerate(case_filenames[0:5]):
     summary = " ".join(summary_sentences[s] for s in selected_sizes)
     words_in_summary = len(summary.split(" "))
     print("\n File : {} \n Summary : {} \n Words : {} \n".format(case_filename,summary,words_in_summary))
-    q=open("{}/{}".format(DESTINATION_LOCATION,case_filename),"w")
-    q.write(summary)
 
 
 # In[ ]:
