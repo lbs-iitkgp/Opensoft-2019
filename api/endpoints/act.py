@@ -26,7 +26,8 @@ def act_sections(act_id):
     #   {
     #       "section_id": ,
     #       "section_text":
-    #   }
+    #   },
+    #   ...
     # ]    
 
     return('Hello')

@@ -10,7 +10,6 @@ def advanced_search():
     #   },
     #   ...
     # ]
-    #
     return('Hello')
 
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])
@@ -21,8 +20,7 @@ def basic_search_to_propose_topic_cards():
     #       "name": "Judge name",
     #       "toggle_state": true
     #   },
-    #   {
-    #   }
+    #   ...
     # ]
     #
     return('Hello')
@@ -31,12 +29,10 @@ def basic_search_to_propose_topic_cards():
 def basic_search_to_get_results_from_cards():
     # [
     #   {
-    #       "type": "JUDGE",
-    #       "name": "Judge name",
-    #       "toggle_state": true
+    #       "case_id": 4,
+    #       "case_name": "X vs Y",
+    #       ...
     #   },
-    #   {
-    #   }
+    #   ...
     # ]
-    #
     return('Hello')
