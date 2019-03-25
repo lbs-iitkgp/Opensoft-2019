@@ -37,7 +37,7 @@ def fetch_acts_from_cases(all_acts):
 	case_dict = {}
 	act_cases = {}
 	total_num_cases = len(all_cases)
-	for j in range(100):
+	for j in range(total_num_cases):
 		file = open("./All_FT/" + all_cases[j], 'r')
 		#file = open("./All_FT/2003_C_16.txt", 'r')
 		text = ""
@@ -69,20 +69,21 @@ def fetch_acts_from_cases(all_acts):
 			if "subSection" in line:
 				line = line.replace("subSection", "Section")
 			if "the Act" in line:
-				print("*********", line_num )
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num )
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("the Act", prev_act_name)
 			if "this Act" in line:
-				print("*********", line_num)
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num)
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("this Act", prev_act_name)
 			if "that Act" in line:
-				print("*********", line_num )
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num )
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("that Act", prev_act_name)
 			if "the said Act" in line:
-				print("*********", line_num)
-				print("&&&&&&&&", prev_act_name)
+				#print("*********", line_num)
+				#print("&&&&&&&&", prev_act_name)
+				line = line.replace("the said Act", prev_act_name)
 			actual_line = line
 			line = re.sub(r"[-()\"#/'@;<>{}`+=~|!?]", '', line)
 			text += line
@@ -235,7 +236,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 
 	case_dict = {}
 	total_num_cases = len(all_cases)
-	for j in range(100):
+	for j in range(total_num_cases):
 		#all_cases[j] = "2003_C_16.txt"
 		file = open("./All_FT/" + all_cases[j], 'r')
 		#file = open("./All_FT/2003_C_16.txt", 'r')
@@ -261,20 +262,21 @@ def fetch_section_act_mapping_from_case(all_acts):
 			if "subSection" in line:
 				line = line.replace("subSection", "Section")
 			if "the Act" in line:
-				print("*********", line_num )
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num )
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("the Act", prev_act_name)
 			if "this Act" in line:
-				print("*********", line_num)
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num)
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("this Act", prev_act_name)
 			if "that Act" in line:
-				print("*********", line_num )
-				print("&&&&&&&&&&",prev_act_name)
+				#print("*********", line_num )
+				#print("&&&&&&&&&&",prev_act_name)
 				line = line.replace("that Act", prev_act_name)
 			if "the said Act" in line:
-				print("*********", line_num)
-				print("&&&&&&&&", prev_act_name)
+				#print("*********", line_num)
+				#print("&&&&&&&&", prev_act_name)
+				line = line.replace("the said Act", prev_act_name)
 			actual_line = line
 			line = re.sub(r"[-()\"#/'@;<>{}`+=~|!?]", '', line)
 			text += line
