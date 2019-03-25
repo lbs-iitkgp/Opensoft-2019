@@ -1,30 +1,89 @@
 import React, { Component } from 'react';
-import { MDBCol, MDBFormInline, MDBBtn } from "mdbreact";
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+// import FormLabel from '@material-ui/core/FormLabel';
+import starWarsNames from "starwars-names";
+import MultiChipSelect from "./MultiChipSelect.js";
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
 
 class Judges extends Component{
-    constructor(props){
-      super(props);
-      this.passDataJudges = this.passDataJudges.bind(this);
-    }
-  
-    passDataJudges(event){
-      var searchedJudge = event.target.value;
-      this.props.OnJudgeNamePass(searchedJudge);
-    }
-    
-    render(){
-      const wrapperStyle = {  margin: 20 };
-  
-      return (
-        <MDBCol md="12" style={wrapperStyle}>
-          <h3> Judges </h3>
-  
-          <MDBFormInline className="md-form mr-auto mb-4">
-            <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="judge"  onChange={this.passDataJudges} defaultValue = '' />
-          </MDBFormInline>
-        </MDBCol>
-      );
-    }
+  constructor(props){
+    super(props);
+  this.handleChange= this.handleChange.bind(this);
+  this.addSelectedItem= this.addSelectedItem.bind(this);
+  this.removeSelectedItem=this.removeSelectedItem.bind(this);
+  this.handleChangeInput=this.handleChangeInput.bind(this);
+  this.passData = this.passData.bind(this);
+  }
+   
+  passData(event){
+    this.props.onJudgeNamePass(event);
   }
 
-  export default Judges;
+  allItems = starWarsNames
+    .random(7)
+    .map(s => ({ name: s, id: s.toLowerCase() }));
+
+  state = {
+    items: this.allItems,
+    selectedItem: []
+  };
+
+  handleChange = selectedItem => {
+    if (this.state.selectedItem.includes(selectedItem)) {
+      this.removeSelectedItem(selectedItem);
+    } else {
+      this.addSelectedItem(selectedItem);
+    }
+   };
+
+  addSelectedItem=item => {
+    this.setState(({ selectedItem, items }) => ({
+      inputValue: "",
+      selectedItem: [...selectedItem, item],
+      items: items.filter(i => i.name !== item)
+    }));
+  }
+
+  removeSelectedItem = item => {
+    this.setState(({ selectedItem, items }) => ({
+      inputValue: "",
+      selectedItem: selectedItem.filter(i => i !== item),
+      items: [...items, { name: item, id: item.toLowerCase() }]
+    }));
+  };
+
+  handleChangeInput = inputVal => {
+    const t = inputVal.split(",");
+    if (JSON.stringify(t) !== JSON.stringify(this.state.selectedItem)) {
+      this.setState({ inputValue: inputVal });
+   
+    }
+  }
+     
+      render() {
+        const { selectedItem, items } = this.state
+        return (
+        // <MuiThemeProvider> 
+          <FormGroup>
+            <FormControl>
+              <h3>Judges</h3>
+              <MultiChipSelect
+                onInputValueChange={this.handleChangeInput}
+                inputValue={this.state.inputValue}
+                availableItems={items}
+                 selectedItem={selectedItem}
+                onChange={this.handleChange}
+                onRemoveItem={this.removeSelectedItem}
+                onInputValueChange={this.passData}
+               />
+            </FormControl>
+          </FormGroup>
+        //  </MuiThemeProvider> 
+        );
+      }
+    }
+   
+    export default Judges;

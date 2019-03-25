@@ -1,72 +1,88 @@
 import React, { Component } from 'react';
 import './App.css';
 import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
-//import { MDBCol, MDBFormInline, MDBBtn } from "mdbreact";
-import MySlider from './components/slider.js'
-//import Select from 'react-select';
-//import acts from './components/actsfinal.js/index.js';
-// import PropTypes from "prop-types";
-// import classNames from "classnames";
-// import { withStyles } from "@material-ui/core/styles";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import TextField from "@material-ui/core/TextField"
+import YearsSlider from './components/slider.js'
 import SearchBar from './components/query.js';
-import styles from './components/query.js';
 import Category from './components/category.js';
 import Judges from './components/judges.js';
 import Acts from './components/acts.js'
+import Navbar from './navbar.js'
+import Button from '@material-ui/core/Button';
 
+var Results={
+  query : '',
+  years : [],
+  category : '',
+  judgeName : '',
+  selectedActs :[]
+}
 class App extends Component {
  constructor(props){
    super(props);
   
   this.updateResultCat = this.updateResultCat.bind(this);
-  this.updateSearchedResultAct = this.updateSearchedResultAct.bind(this);
   this.updateResultQuery = this.updateResultQuery.bind(this);
   this.updateResultJudge = this.updateResultJudge.bind(this);
   this.updateResSelectedAct = this.updateResSelectedAct.bind(this);
   this.updateSliderResult = this.updateSliderResult.bind(this);
+  this.printResults = this.printResults.bind(this);
 }
 
 
-updateSearchedResultAct(searchedActPass){
-   console.log(searchedActPass);
-}
 
 updateResultJudge(JudgeRes){
-   console.log(JudgeRes);
+  Results.judgeName = JudgeRes; 
 }
 
 updateResultCat(catRes){
-  console.log(catRes);
+  Results.category = catRes;
 }
  
-updateResultAct(joinedActs){
-  console.log(joinedActs);
-}
-
 updateResultQuery(queryRes){
-  console.log(queryRes);
-}
+  Results.query=queryRes
+  }
 
 updateResSelectedAct(selectedActPass){
-  console.log(selectedActPass);
+  Results.selectedActs = selectedActPass
 }
 
 updateSliderResult(sliderPass){
-  console.log(sliderPass[0], sliderPass[1]);
+  Results.years  = sliderPass.slice(0,2)
+  }
+
+printResults(){
+  console.log(Results.query);
+  console.log(Results.years[0], Results.years[1]);
+  console.log(Results.category);
+  console.log(Results.judgeName);
+  console.log(Results.selectedActs);
+  this.props.history.push("/output");
+
 }
   render() {
     return (
+      <div>
+      <Navbar />  
+      <br></br>
       <Container id='box_shadow'> 
-        <SearchBar OnQueryPass={this.updateResultQuery}  style={styles}  />
-        <MySlider triggeerParent onSliderDataPass={this.updateSliderResult}  />
+        <h2>Search</h2>
+        <SearchBar OnQueryPass={this.updateResultQuery}   />
+        <h2>Years</h2>
+        <br />
+        <YearsSlider onSliderDataPass={this.updateSliderResult}  />
         <Category onCategoryDataPass={this.updateResultCat}  />
-        <Judges  OnJudgeNamePass={this.updateResultJudge} />
-        <Acts onSeacrchedActsPass={this.updateSearchedResultAct} onSelectedActsPass={this.updateResSelectedAct} />
+        <Judges  onJudgeNamePass={this.updateResultJudge} /> 
+        <br />
+        <h2>Acts</h2>
+        <Acts  onSelectedActsPass={this.updateResSelectedAct} />
+        <br />
+        <div className='searchButton'>
+            <Button variant="contained" color="primary" onClick={this.printResults} style={{width:'130px',height:'50px'}}>
+                Search
+            </Button>
+        </div>
      </Container>
+     </div>
     );
   }
 }

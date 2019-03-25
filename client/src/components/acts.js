@@ -38,8 +38,6 @@ class Acts extends Component{
        });
      }
   
-    var searchedAct = event;
-    this.props.onSeacrchedActsPass(searchedAct);
     }
   
     
@@ -51,8 +49,6 @@ class Acts extends Component{
     
     render(){
       const trimLongActs = (data) =>{
-       // i++;
-       // console.log(data.label.length)
         if(data.label.length > 135){
           return(
             data.label = data.label.slice(0,135) + '...'
