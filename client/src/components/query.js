@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-//import '/src/App.css';
-// import PropTypes from 'prop-types';
-// import deburr from 'lodash/deburr';
-// import Downshift from 'downshift';
-// import { makeStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
-// import Popper from '@material-ui/core/Popper';
-// import Paper from '@material-ui/core/Paper';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Chip from '@material-ui/core/Chip';
-
-  class SearchBar extends Component{
+import Navbar from '../navbar.js'
+  
+class SearchBar extends Component{
     constructor(props){
       super(props);
       this.passQuery = this.passQuery.bind(this)
@@ -42,8 +34,9 @@ import TextField from '@material-ui/core/TextField';
         
         
       return (
+      <div>
         <TextField
-        fullWidth="true"
+        fullWidth={true}
         id="outlined-name"
         label="Query"
         //className={classes.textField}
@@ -52,9 +45,9 @@ import TextField from '@material-ui/core/TextField';
         placeholder="Search here..."
         margin="normal"
         variant="outlined"
-        multiline="true"
+        multiline={true}
       />
-  
+     </div>  
       );
     }
   }

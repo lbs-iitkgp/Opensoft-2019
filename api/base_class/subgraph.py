@@ -29,14 +29,19 @@ def merge_graphs_by_intersection(universal_graph, subgraphs):
 
 def fetch_subgraph_from_matching_cases(graph, cases):
     data = graph.nodes(data=True)
-
+    print(data)
     meta_nodes = set()
 
     for case in cases:
         for meta_node in graph.in_edges(case):
-            if data[meta_node]['type'] != 'case':
+            meta_node = meta_node[0]
+            print(meta_node)
+            if meta_node in data:
+                print(data[meta_node]['type'])
+            if meta_node in data and data[meta_node]['type'] != 'case':
                 meta_nodes.add(meta_node)
 
+    print(meta_nodes)
     return(graph.subgraph(list(cases.union(meta_nodes))))
 
 def fetch_subgraph_from_meta_nodes(graph, set_of_meta_nodes=set()):
@@ -50,7 +55,7 @@ def fetch_subgraph_from_meta_nodes(graph, set_of_meta_nodes=set()):
         for case in graph[meta_node]:
             matching_cases.add(case)
 
-    return(fetch_subgraph_from_matching_cases(matching_cases))
+    return(fetch_subgraph_from_matching_cases(graph, matching_cases))
 
 # How exactly are case years stored in graph?
 def fetch_subgraph_with_year_range(graph, years=set()):
