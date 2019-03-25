@@ -1,21 +1,42 @@
 # ==============================================================================|
 # TO DO :                                                                       |
 # ==============================================================================|
-# Acts :Serial_id, name, to state/year, act_file.name, Page rank score          |
+# Acts :Serial_id, name, to state/year, act_file.name, Page rank score          |DONE
+# ==============================================================================|
 # Acts ka updated versions: Serial_id1 to Serial_id2                            |
 # ==============================================================================|
 # Judge :serial_id, ka Name, No.of cases, Page rank score                       |
 # ==============================================================================|
-# Cases :serial_id, file name , indlaw /judgement/  date /title, Page rank score|
+# Cases :serial_id, file name , indlaw , title, date, judgement, Page rank score|DONE
 # ==============================================================================|
+#catch words, key words     , act ka abbreviations                              |
+#===============================================================================|
 import json
 import pymongo
 import base64
 import acts_separated
 from encode_helper import custom_encode, custom_decode
+import os
+import case_ka_data_nikal as ckdn
+
+# ALL_CASE_FILES = os.listdir("{}/{}".format(ENV["DATASET_PATH"], "All_FT")) #################include after TEST####################
+ALL_CASE_FILES = os.listdir("./All_FT")
+ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:] == ".txt"]
+ckdn.compute_mapping()
+l=[]
+l_encoded = []
+for case in ALL_CASES:
+    temp_dict = dict()
+    ckdn.serial_id += 1
+    temp_dict[str(ckdn.serial_id)] = ckdn.citing(case)
+    l.append(temp_dict)
+
+for x in l:
+    for k in x.keys():
+        l_encoded.append({(str(k)):x[k]})
 
 # Year, State, no.of sections ## Make serial id as key add act
-acts_ka_data = acts_separated.acts_data_miner()
+acts_ka_data = acts_separated.get_acts_by_states()
 acts_ka_data_encoded = {}
 s_acts_ka_data = []
 
@@ -52,3 +73,21 @@ cases_collection = legal_db["cases_ka_db"]
 x = acts_collection.insert_one(acts_ka_data_encoded)
 
 # y = mycol.insert_one(cases_ka_data)
+
+# for someone in l_encoded:
+#     alpha = cases_collection.insert_one(someone)
+    
+
+
+
+# for record in (legal_db.cases_collection.find({"53200":[]})):
+#     print(record)
+#     print("Printed recorD")
+
+# for k in l:
+#     print(k)
+# case = cases_collection['53200']
+# i =  case.find_one()
+# # print(json.dumps(, indent=4))
+# # i = custom_decode(i)
+# print(i)
