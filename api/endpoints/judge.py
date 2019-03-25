@@ -2,7 +2,13 @@ from endpoints import app, cors
 
 @app.route('/judge/<judge_id>', methods=['GET'])
 def judge_metadata(judge_id):
-    # Just return judge name, and precentile among judges maybe?
+    # Just return judge name, # of cases, and percentile among judges maybe?
+    #
+    # {
+    #   "name": ,
+    #   "number_of_cases": ,
+    #   "percentile": 
+    # }
     return('Hello')
 
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])

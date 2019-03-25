@@ -2,7 +2,13 @@ from endpoints import app, cors
 
 @app.route('/keyword/<keyword_id>', methods=['GET'])
 def keyword_metadata(keyword_id):
-    # Just return keyword name, and precentile among keywords maybe?
+    # Just return keyword name, # of cases and precentile among keywords maybe?
+    #
+    # {
+    #   "name": ,
+    #   "number_of_cases": ,
+    #   "percentile": 
+    # }
     return('Hello')
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])

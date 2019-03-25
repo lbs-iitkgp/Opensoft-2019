@@ -2,7 +2,13 @@ from endpoints import app, cors
 
 @app.route('/catchword/<catchword_id>', methods=['GET'])
 def catchword_metadata(catchword_id):
-    # Just return catchword name, and precentile among catchwords maybe?
+    # Just return catchword name, # of cases and precentile among catchwords maybe?
+    #
+    # {
+    #   "name": ,
+    #   "number_of_cases": ,
+    #   "percentile": 
+    # }
     return('Hello')
 
 @app.route('/catchword/<catchword_id>/plot_line', methods=['GET'])

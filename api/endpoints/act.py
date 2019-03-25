@@ -3,22 +3,50 @@ from endpoints import app, cors
 @app.route('/act/<act_id>', methods=['GET'])
 def act_metadata(act_id):
     # Fetch filename path from mongodb
+    # act name, year, state/central, recent version
+    #
+    # {
+    #     "name": ,
+    #     "year": ,
+    #     "type": ,
+    #     "recent_version": {
+    #         "id": ,
+    #         "name":
+    #     },
+    #     "abbreviation": 
+    # }
+
     return('Hello')
 
 @app.route('/act/<act_id>/sections', methods=['GET'])
 def act_sections(act_id):
     # Fetch sections for a particular act from file
+    #
+    # [
+    #   {
+    #       "section_id": ,
+    #       "section_text":
+    #   }
+    # ]    
+
     return('Hello')
 
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
-def act_sections(act_id, section_id):
+def act_section(act_id, section_id):
     # Fetch sections for a particular act from file
+    #
+    # {
+    #   "section_id": ,
+    #   "section_text": 
+    # }
     return('Hello')
 
 @app.route('/act/<act_id>/plot_line', methods=['GET'])
 def act_line_distribution(act_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
+    #
+    # 
     return('Hello')
 
 @app.route('/act/<act_id>/plot_radar', methods=['GET'])
