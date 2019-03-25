@@ -1,4 +1,4 @@
-from endpoints import app, cors
+from endpoints import *
 
 @app.route('/case/<case_id>', methods=['GET'])
 def case_metadata():
