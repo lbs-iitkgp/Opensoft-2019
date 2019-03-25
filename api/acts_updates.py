@@ -1,5 +1,6 @@
 import json
 import re
+from env import ENV
 """makes a dictionary with
     ACT names as keys and the list
         of all its "updated versions with year" tuples as values"""
@@ -8,7 +9,7 @@ ACT_TO_ALL_YEARS = dict()
 primary = dict() #temporary funny dictonary
 rem  = dict()
 i = 1
-with open('actlist.txt') as f:
+with open('{}/actlist.txt'.format(ENV["DATASET_PATH"])) as f:
 
     for line in f.readlines():
         line = line.strip()

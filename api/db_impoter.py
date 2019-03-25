@@ -19,8 +19,8 @@ from encode_helper import custom_encode, custom_decode
 import os
 import case_ka_data_nikal as ckdn
 
-# ALL_CASE_FILES = os.listdir("{}/{}".format(ENV["DATASET_PATH"], "All_FT")) #################include after TEST####################
-ALL_CASE_FILES = os.listdir("./All_FT")
+ ALL_CASE_FILES = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
+#ALL_CASE_FILES = os.listdir("./All_FT")
 ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:] == ".txt"]
 ckdn.compute_mapping()
 l=[]

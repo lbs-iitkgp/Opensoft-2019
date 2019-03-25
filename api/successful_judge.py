@@ -2,11 +2,12 @@ import os
 import json
 import networkx as nx
 from legal_graph import LegalKnowledgeGraph
+from env import ENV
 # j = nx.DiGraph()
 
 judge_names_dict_final = {}
 
-all_files = os.listdir("./All_FT")
+all_files = os.listdir("{}/CaseDocuments/{}".format(ENV["DATASET_PATH"], All_FT))
 all_cases = [x for x in all_files if x[-4:] == ".txt"]
 
 # print(len(all_cases))
@@ -121,7 +122,7 @@ def judge_to_case_helper():
                             break
 
                 break
-                
+
             # if name == "":
             # 	case_without_judge += 1
             # 	judge_names[name].append({"Case":case, "Date": date_line})
@@ -180,4 +181,3 @@ def judge_to_case(knowledge_graph=LegalKnowledgeGraph()):
 
 # print(nono)
 # print(non)
-

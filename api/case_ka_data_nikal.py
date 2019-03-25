@@ -13,8 +13,8 @@ def compute_mapping():
         with corresponding case_id as value for
             all given cases"""
 
-    # with open('{}/{}'.format(ENV["DATASET_PATH"], "doc_path_ttl_id.txt")) as path_title_id:####################commentd for TEST only#######
-    with open('./{}'.format("doc_path_ttl_id.txt")) as path_title_id:
+    with open('{}/{}'.format(ENV["DATASET_PATH"], "doc_path_ttl_id.txt")) as path_title_id:
+    #with open('./{}'.format("doc_path_ttl_id.txt")) as path_title_id:
         for line in path_title_id.readlines():
             line = line.strip()
 
@@ -27,7 +27,7 @@ def citing(case):
         in the given graph"""
     # compute_mapping()
         
-    with open("./All_FT/{}".format(case)) as case_file:
+    with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"],case)) as case_file:
         if case[:-4] in CASE_FILE_TO_ID:
             curr_case_id = CASE_FILE_TO_ID[case[:-4]][1]
             all_lines = case_file.readlines()
