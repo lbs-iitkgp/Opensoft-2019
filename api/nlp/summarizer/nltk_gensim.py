@@ -1,33 +1,25 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import os
 import bs4 as bs
 import urllib.request  
 import re
 import nltk
 from env import ENV
-# nltk.download('averaged_perceptron_tagger')
 DATASET_LOCATION = ENV["DATASET_PATH"]+"/All_FT"
 DESTINATION_LOCATION = "."
 from knapsack import knapsack
-import heapq 
+import heapq
 from gensim.summarization.summarizer import summarize,_set_graph_edge_weights,_build_graph,_build_corpus,_clean_text_by_sentences, _build_hasheable_corpus
 from gensim.summarization import keywords
 from gensim.summarization.pagerank_weighted import pagerank_weighted as _pagerank
 from gensim.summarization.commons import build_graph as _build_graph
 from gensim.summarization.commons import remove_unreachable_nodes as _remove_unreachable_nodes
-case_filenames = [f for f in os.listdir(DATASET_LOCATION) if not f.startswith(".") ]
 
 
 # In[2]:
 
 
-MAX_WORDS=100
-for i,case_filename in enumerate(case_filenames[0:100]):
+def fetch_summary_from_case(case_filename):
+    MAX_WORDS=100
     with open('{}/{}'.format(DATASET_LOCATION,case_filename)) as f:
         text = f.read().strip()
         text = text.split("\n",6)[6]
@@ -116,11 +108,14 @@ for i,case_filename in enumerate(case_filenames[0:100]):
     max_weight, selected_sizes = sol
     summary = " ".join(summary_sentences[s] for s in selected_sizes)
     words_in_summary = len(summary.split(" "))
-    print("\n File : {} \n Summary : {} \n Words : {} \n".format(case_filename,summary,words_in_summary))
+    return(summary)
 
+def main():
+    case_filenames = [f for f in os.listdir(DATASET_LOCATION) if not f.startswith(".") ]
+    for i,case_filename in enumerate(case_filenames[0:100]):
+        summary = fetch_summary_from_case(case_filename)
+        words_in_summary = len(summary.split(" "))
+        print("\n File : {} \n Summary : {} \n Words : {} \n".format(case_filename, summary, words_in_summary))
 
-# In[ ]:
-
-
-
-
+if __name__ == "__main__":
+    main()
