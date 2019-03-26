@@ -6,15 +6,15 @@ import os
 import glob
 import re
 from env import ENV
-import json
-DICTIONARY_OF_ACTS = {}
+
+
 def get_acts_by_states():
     serial = 0
 
     STATE_FILES = os.listdir("{}/Acts/State_Text".format(ENV["DATASET_PATH"]))
     CENTRAL_FILES = os.listdir("{}/Acts/Central_Text".format(ENV["DATASET_PATH"]))
 
-    
+    DICTIONARY_OF_ACTS = {}
     '''
         Finds the acts in the central acts folder
         '''
@@ -56,11 +56,11 @@ def get_acts_by_states():
                     continue
                 this_dict = {
                     "serial": serial,
-                    "act": act,
-                    "year": yr,
-                    "type": type_f,
-                    "file": filed,
-                    "pagerank": "Pagerank score"
+                    "act":act,
+                    "type":type_f,
+                    "year":yr,
+                    "file":filed,
+                    "pagerank": "Pagerank Score"
                 }
                 if act in DICTIONARY_OF_ACTS:
                     DICTIONARY_OF_ACTS[act].append(this_dict)
@@ -107,21 +107,22 @@ def get_acts_by_states():
                     continue
                 this_dict = {
                     "serial": serial,
-                    "act": act,
-                    "year": yr,
-                    "type": type_f,
-                    "file": filed,
-                    "pagerank": "Pagerank score"
+                    "act":act,
+                    "type":type_f,
+                    "year":yr,
+                    "file":filed,
+                    "pagerank": "Pagerank Score"
                 }
-                print(act, type_f)
                 if act in DICTIONARY_OF_ACTS:
                     DICTIONARY_OF_ACTS[act].append(this_dict)
                 else:
                     DICTIONARY_OF_ACTS[act] = []
                     DICTIONARY_OF_ACTS[act].append(this_dict)
     # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
-        return DICTIONARY_OF_ACTS
+    return DICTIONARY_OF_ACTS
+
 if __name__ == "__main__":
-    with open("funnyjson.json", 'w') as fjs:
-        json.dump(get_acts_by_states(), fjs, indent=4)
-     
+    D = get_acts_by_states()
+    import json 
+    with open('funnyjson.json','w') as f:
+        json.dump(D,f,indent=4)
