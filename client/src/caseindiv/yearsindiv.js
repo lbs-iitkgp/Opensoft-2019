@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import AdvTable from '../caseindiv/advtable.js'
 import Radar from './radar.js'
-import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
 import Navbar from '../navbar.js'
@@ -15,12 +14,12 @@ function createData(list, index) {
  }
 
 var cardsData={
-  'name' : 'mahajan',
+  'name' : '1999',
   'number_of_cases' : '1500',
   'percentile' : '99'
 }
 
-class ResultCard extends Component{
+class YeardsIndiv extends Component{
  constructor(...props){
    super(...props);
  this.state = {
@@ -52,9 +51,7 @@ render() {
                </div>
                <br /><br />
              </Card>
-          
-          <Graph />
-          <Radar />
+            <Radar />
           </div>
           <AdvTable />
          </div>
@@ -65,4 +62,4 @@ render() {
 
    }
 
-   export default ResultCard;
+   export default YeardsIndiv;

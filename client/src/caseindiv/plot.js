@@ -2,6 +2,7 @@ import React from 'react';
 import { AreaClosed, Line, Bar } from '@vx/shape';
 import { appleStock } from '@vx/mock-data';
 import { curveMonotoneX } from '@vx/curve';
+import { ParentSize } from '@vx/responsive';
 import { GridRows, GridColumns } from '@vx/grid';
 import { scaleTime, scaleLinear } from '@vx/scale';
 import { withTooltip, Tooltip } from '@vx/tooltip';
@@ -46,8 +47,8 @@ class Area extends React.Component {
   }
   render() {
     const {
-      width=500,
-      height=500,
+      width=350,
+      height=350,
       margin= { top: 20, bottom: 20, left: 20, right: 20 },
       hideTooltip,
       tooltipData,
