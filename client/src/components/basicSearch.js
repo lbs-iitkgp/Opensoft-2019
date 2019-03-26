@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
 import Navbar from '../navbar.js'
 import SearchBar from './query.js'
 import Container from 'react-bootstrap/Container';
@@ -10,17 +9,30 @@ var basicSearched;
 class BasicSearch extends Component{
     constructor(props){
       super(props);
-      this.passQuery = this.passQuery.bind(this)
+      
+      this.state={
+         basicSearched : '' 
+      }
+      
+      this.PassQuery = this.PassQuery.bind(this)
       this.getBasicResult = this.getBasicResult.bind(this)
+      
     }
   
-    passQuery(queryRes){
-      basicSearched = queryRes;
-  }
+    PassQuery(queryRes){
+      this.setState({
+        basicSearched : queryRes
+      })
+   }
 
     getBasicResult(){
-      console.log(basicSearched);
-      this.props.history.push("/output");
+        this.props.history.push({
+        pathname : '/basic/output',
+        state : {
+          defaultSearch : this.state.basicSearched,
+        }
+      });
+      
     }
       
     render(){
@@ -40,7 +52,7 @@ class BasicSearch extends Component{
               width: 200
             }
           });
-        
+    
         
       return (
        <div> 
@@ -48,7 +60,7 @@ class BasicSearch extends Component{
         <br /><br />
          <Container id='box_shadow'> 
         <h3>Search</h3>
-        <SearchBar OnQueryPass={this.passQuery}   />
+        <SearchBar OnQueryPass={this.PassQuery} defaultSearch={this.props.searchedQuery}  />
         <div className='searchButton'>
           <Button variant="contained" color="primary" onClick={this.getBasicResult}  style={{width:'130px',height:'50px'}}>
             Search

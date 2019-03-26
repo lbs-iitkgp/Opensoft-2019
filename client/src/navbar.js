@@ -24,8 +24,9 @@ function Navbar(props) {
     <div className={classes.root}>
       <AppBar  >
           <div id='searchTypes'>
-          <NavLink to='/basic' style={{ textDecoration: 'none' }} ><Button color="inherit" id='basic'>Basic Search</Button></NavLink> 
-          <NavLink to='/' style={{ textDecoration: 'none' }} ><Button color="inherit" id='adv'>Advanced Search</Button></NavLink>   
+          <NavLink to='/basic' style={{ textDecoration: 'none' }} ><Button  id='basic'>Basic Search</Button></NavLink> 
+          <div id='line'></div>
+          <NavLink to='/' style={{ textDecoration: 'none' }} ><Button  id='adv'>Advanced Search</Button></NavLink>   
          </div>   
       </AppBar>
     </div>

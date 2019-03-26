@@ -17,13 +17,13 @@ class ActChips extends Component{
   constructor(...props){
     super(...props);
   this.state = {
-    minWidth  : 400, 
-    minHeight : 200,
+    // minWidth  : 400, 
+    // minHeight : 200,
     color : '',
     fontSize: 14,
-    marginBottom: 12,
-    padding : 10,
-    margin :10,
+    // marginBottom: 12,
+    // padding : 10,
+    // margin :10,
    }
 
 }
@@ -31,7 +31,7 @@ class ActChips extends Component{
 render(){
   return(
         <div id="content" className='flex-container'>
-          <Card className='card' style={{ color : this.state.color, minWidth : this.state.minWidth,minHeight:this.state.minHeight}} >
+          <Card className='card' style={{ color : this.state.color}} >
           {Acts.map(ele => (
             <Chips actName={ele.act} />
         ))}
