@@ -23,13 +23,9 @@ class BasicSearch extends Component{
       this.setState({
         basicSearched : queryRes
       })
-      console.log('in PassQuery in basicSearch.js' + this.state.basicSearched) 
-  }
+   }
 
     getBasicResult(){
-     
-      console.log('came in getBasicREsult'+ this.state.basicSearched)
-     
         this.props.history.push({
         pathname : '/basic/output',
         state : {

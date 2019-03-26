@@ -248,3 +248,12 @@ li{
   margin-top: 3.2%;
   
 }
+
+#updatedSearchPart{
+  margin: 2%;
+}
+
+#updateButton{
+  position: relative;
+  left: 45%;
+}
