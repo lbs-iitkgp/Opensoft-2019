@@ -121,10 +121,18 @@ def get_topic_clusters_with_count(keywords, nlp):
 
 
 def process(text):
+    """
+    Removes numbers from strings
+    """
     return " ".join([word for word in text.split() if not word.isnumeric()])
 
 
 def is_sentence_similar(doc1, doc2, text1, text2):
+    """
+    Checks if two sentences are similar using a hybrid algorithm
+    """
+
+    # if no. of words is only one, then only check for semantic similarity
     if len(text1.split()) < 2 or len(text2.split()) < 2:
         return doc1.similarity(doc2) > 0.7
     return 0.9 * doc1.similarity(doc2) + 0.2 * find_score(text1, text2) / 100 > 0.8
@@ -135,6 +143,12 @@ def find_match_score(text1, text2):
 
 
 def get_sentence_clusters(keywords, nlp):
+    """
+    clusters a list of sentences according to their semantic similarity
+    :param keywords: the list of sentences to be clustered
+    :param nlp: the nlp vocab of spacy
+    :return: the clusters of sentences (as a list of lists)
+    """
     # make a line out of these words
     keywords = [item for item in keywords if not item.isnumeric()]
 
