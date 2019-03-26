@@ -10,7 +10,7 @@ class Output extends Component {
         return(
             <div>
                 <Navbar />
-                <Drawer/>
+                <Drawer FromParent={this.props.location.state.defaultAdvSearch} />
                 <AdvCards />
                 <br /><br />
                 <div id='tableInOutput'><AdvFilter /></div>

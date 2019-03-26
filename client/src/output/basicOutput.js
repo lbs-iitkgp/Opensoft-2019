@@ -3,10 +3,8 @@ import AdvFilter from './advtable.js';
 import Navbar from '../navbar.js';
 import BasicCards from './basicCards.js'
 import '../App.css'
-import BasicSearch from '../components/basicSearch.js'
 import SearchBar from '../components/query.js'
 import Button from '@material-ui/core/Button';
-
 
 class Output extends Component {
     

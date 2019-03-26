@@ -57,8 +57,17 @@ printResults(){
   console.log(Results.category);
   console.log(Results.judgeName);
   console.log(Results.selectedActs);
-  this.props.history.push("/output");
-
+  //this.props.history.push("/output");
+  this.props.history.push({
+    pathname : "/output" ,
+    state : {
+      defaultAdvSearch : Results.query,
+      defaultYrs : Results.years,
+      defaultCategory : Results.category,
+      defaultJudge : Results.judgeName,
+      defaultActs : Results.selectedActs
+    }
+  })
 }
   render() {
     return (
