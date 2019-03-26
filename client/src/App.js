@@ -8,6 +8,9 @@ import Judges from './components/judges.js';
 import Acts from './components/acts.js'
 import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
+import ReactDOM from 'react-dom';
+import Output from './output/output.js'
+
 
 var Results = {
   "query" : "",
@@ -58,16 +61,17 @@ printResults(){
   console.log(Results.judgeName);
   console.log(Results.selectedActs);
   //this.props.history.push("/output");
-  this.props.history.push({
-    pathname : "/output" ,
-    state : {
-      defaultAdvSearch : Results.query,
-      defaultYrs : Results.years,
-      defaultCategory : Results.category,
-      defaultJudge : Results.judgeName,
-      defaultActs : Results.selectedActs
-    }
-  })
+  // this.props.history.push({
+  //   pathname : "/output" ,
+  //   state : {
+  //     defaultAdvSearch : Results.query,
+  //     defaultYrs : Results.years,
+  //     defaultCategory : Results.category,
+  //     defaultJudge : Results.judgeName,
+  //     defaultActs : Results.selectedActs
+  //   }
+  // })
+    ReactDOM.render(<Output />,document.getElementById('root'))
 }
   render() {
     return (

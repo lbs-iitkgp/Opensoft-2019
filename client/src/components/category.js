@@ -74,6 +74,7 @@ class Category extends Component{
                 onChange={this.handleChange}
                 onRemoveItem={this.removeSelectedItem}
                 onInputValueChange={this.passData}
+                
                />
             </FormControl>
           </FormGroup>

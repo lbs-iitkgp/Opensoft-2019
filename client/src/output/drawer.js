@@ -87,8 +87,8 @@ function PermanentDrawerLeft(props) {
       <h2>Search</h2>
         <SearchBar OnQueryPass={updateResultQuery} defaultSearch = {props.FromParent}     />
         <h2>Years</h2>
-        <br />
-        <YearsSlider onSliderDataPass={  updateSliderResult }  />
+        <br /><br />
+        <YearsSlider onSliderDataPass={  updateSliderResult } />
         <Category onCategoryDataPass={  updateResultCat }  />
         <Judges  onJudgeNamePass={  updateResultJudge } /> 
         <br />
