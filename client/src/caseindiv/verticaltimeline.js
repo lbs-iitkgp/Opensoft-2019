@@ -2,6 +2,7 @@ import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timel
 import 'react-vertical-timeline-component/style.min.css';
 import React, { Component } from 'react';
 import '../App.css';
+import ReadMoreAndLess from 'react-read-more-less';
 
 function createTimelineElement(TimelineELe,index){
   var date = TimelineELe[0];
@@ -30,7 +31,17 @@ class VerticalTimeline2 extends React.Component{
       iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
     >
     <h3 className="vertical-timeline-element-title">{ele.date}</h3>
-    <p>{ele.description}</p>
+    <p> 
+      <ReadMoreAndLess
+          ref={this.ReadMore}
+          className="read-more-content"
+          charLimit={250}
+          readMoreText="Read more"
+          readLessText="Read less"
+          >
+            {ele.description}
+      </ReadMoreAndLess>
+     </p>
     </VerticalTimelineElement>
     ))}
     </VerticalTimeline>
