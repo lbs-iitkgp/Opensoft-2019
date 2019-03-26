@@ -1,5 +1,6 @@
 import json
 import re
+import acts_separated as asd
 from env import ENV
 """makes a dictionary with
     ACT names as keys and the list
@@ -56,13 +57,34 @@ for act in ACT_TO_ALL_YEARS:
 # print(ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax (Second Amendment)"])
 # print((ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax"]))
 
+STATE_WISE_ACTS = asd.get_acts_by_states()
+
+def which_state_are_you_from(given_act_name):
+    for act_serial in STATE_WISE_ACTS:
+        print(STATE_WISE_ACTS[act_serial])
+        if given_act_name == STATE_WISE_ACTS[act_serial][3].split('.txt')[0]:
+            return STATE_WISE_ACTS[act_serial][2]
+
+
+another_new_dict = dict()
+for _, act_versions in ACT_RECENT_YEARS.items():
+    most_recent_act_year, most_recent_act_name = act_versions[-1]
+    most_recent_act = most_recent_act_name +", " + most_recent_act_year
+    for (act_year, act_name) in act_versions:
+        act = act_name + ", " + act_year
+        state_of_act = which_state_are_you_from(act)
+        state_of_most_recent_act = which_state_are_you_from(most_recent_act)
+        print(state_of_act)
+        print(state_of_most_recent_act)
+        if act not in another_new_dict and state_of_act == state_of_most_recent_act:
+            another_new_dict[act] = most_recent_act
+
+    # for every_act in an_act:
+    #     another_new_dict[every_act[1]]=[every_act[0] max(an_act)]
 
 
 
 
 
-
-
-
-with open('ACTS_TO_ALL_YEARS.json','w') as f:
-    json.dump(ACT_RECENT_YEARS,f,indent=4)
+with open('ACTS_TO_ALL_YEARS_u.json','w') as f:
+    json.dump(another_new_dict,f,indent=4)

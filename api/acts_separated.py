@@ -6,25 +6,25 @@ import os
 import glob
 import re
 from env import ENV
-
-
+import json
+DICTIONARY_OF_ACTS = {}
 def get_acts_by_states():
     serial = 0
 
-    STATE_FILES = os.listdir("{}/State_Text".format(ENV["DATASET_PATH"]))
-    CENTRAL_FILES = os.listdir("{}/Central_Text".format(ENV["DATASET_PATH"]))
+    STATE_FILES = os.listdir("{}/Acts/State_Text".format(ENV["DATASET_PATH"]))
+    CENTRAL_FILES = os.listdir("{}/Acts/Central_Text".format(ENV["DATASET_PATH"]))
 
-    DICTIONARY_OF_ACTS = {}
+    
     '''
         Finds the acts in the central acts folder
         '''
     for g in CENTRAL_FILES:
 
-        curr_files = os.listdir("{}/Central_Text/{}".format(ENV["DATASET_PATH"], g))
+        curr_files = os.listdir("{}/Acts/Central_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
             serial += 1
-            with open("{}/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
+            with open("{}/Acts/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
                 # Type of these kind of acts is CENTRAL
 
@@ -54,19 +54,27 @@ def get_acts_by_states():
 
                 if act == "":
                     continue
+                this_dict = {
+                    "serial": serial,
+                    "act": act,
+                    "year": yr,
+                    "type": type_f,
+                    "file": filed,
+                    "pagerank": "Pagerank score"
+                }
                 if act in DICTIONARY_OF_ACTS:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
                 else:
                     DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
 
     for g in STATE_FILES:
 
-        curr_files = os.listdir("{}/State_Text/{}".format(ENV["DATASET_PATH"], g))
+        curr_files = os.listdir("{}/Acts/State_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
             serial += 1
-            with open("{}/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
+            with open("{}/Acts/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
                 myline = fg.readline()
                 myline = str(myline)
@@ -97,10 +105,23 @@ def get_acts_by_states():
                 sections = sum(1 for ln in fg)
                 if act == "":
                     continue
+                this_dict = {
+                    "serial": serial,
+                    "act": act,
+                    "year": yr,
+                    "type": type_f,
+                    "file": filed,
+                    "pagerank": "Pagerank score"
+                }
+                print(act, type_f)
                 if act in DICTIONARY_OF_ACTS:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
                 else:
                     DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
     # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
         return DICTIONARY_OF_ACTS
+if __name__ == "__main__":
+    with open("funnyjson.json", 'w') as fjs:
+        json.dump(get_acts_by_states(), fjs, indent=4)
+     
