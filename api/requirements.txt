@@ -13,3 +13,7 @@ python-Levenshtein
 fuzzywuzzy
 py2neo==2.0.8
 neo4jrestclient
+difflib
+spacy 2.0.13
+editdistance
+en_core_web_sm (spacy)
