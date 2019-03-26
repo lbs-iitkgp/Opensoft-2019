@@ -54,11 +54,19 @@ def get_acts_by_states():
 
                 if act == "":
                     continue
-                try:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
-                except KeyError:
+                this_dict = {
+                    "serial": serial,
+                    "act":act,
+                    "type":type_f,
+                    "year":yr,
+                    "file":filed,
+                    "pagerank": "Pagerank Score"
+                }
+                if act in DICTIONARY_OF_ACTS:
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
+                else:
                     DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
 
     for g in STATE_FILES:
 
@@ -97,10 +105,24 @@ def get_acts_by_states():
                 sections = sum(1 for ln in fg)
                 if act == "":
                     continue
+                this_dict = {
+                    "serial": serial,
+                    "act":act,
+                    "type":type_f,
+                    "year":yr,
+                    "file":filed,
+                    "pagerank": "Pagerank Score"
+                }
                 if act in DICTIONARY_OF_ACTS:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
                 else:
                     DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                    DICTIONARY_OF_ACTS[act].append(this_dict)
     # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
     return DICTIONARY_OF_ACTS
+
+if __name__ == "__main__":
+    D = get_acts_by_states()
+    import json 
+    with open('funnyjson.json','w') as f:
+        json.dump(D,f,indent=4)
