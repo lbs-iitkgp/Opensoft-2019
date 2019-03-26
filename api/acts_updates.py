@@ -62,8 +62,8 @@ STATE_WISE_ACTS = asd.get_acts_by_states()
 def which_state_are_you_from(given_act_name):
     for act_serial in STATE_WISE_ACTS:
         print(STATE_WISE_ACTS[act_serial])
-        if given_act_name == STATE_WISE_ACTS[act_serial][3].split('.txt')[0]:
-            return STATE_WISE_ACTS[act_serial][2]
+        if given_act_name == STATE_WISE_ACTS[act_serial]["act"]:
+            return STATE_WISE_ACTS[act_serial][""]
 
 
 another_new_dict = dict()
