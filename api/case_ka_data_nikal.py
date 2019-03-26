@@ -44,10 +44,10 @@ def citing(case):
                         OPTIMAL.append(ll)
                 judgement = min(OPTIMAL, key=lambda s: len(s))
             
-            d_ate = all_lines[3]
-            d_ate = d_ate.strip()
-            CASE_FILE_TO_ID[case[:-4]].append(d_ate)
+            date = all_lines[3]
+            date = date.strip()
+            CASE_FILE_TO_ID[case[:-4]].append(date)
             CASE_FILE_TO_ID[case[:-4]].append(judgement)
             CASE_FILE_TO_ID[case[:-4]].append("Page rank score")
             return CASE_FILE_TO_ID[case[:-4]]
-    
+ 

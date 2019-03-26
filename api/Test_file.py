@@ -14,7 +14,7 @@ j = catch.add_catch_subject(j)
 j = act_nodes.act_add(j)
 j = successful_judge.judge_to_case(j)
 
-print(j.fetch_cases()
+print(j.fetch_cases())
 
 nx.write_gpickle(j, "LegalKnowledgeGraph.gpickle")
 # with open('LegalKnowledgeGraph.pkl', 'w') as f:
