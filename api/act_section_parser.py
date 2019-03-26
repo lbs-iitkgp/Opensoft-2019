@@ -248,6 +248,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 		dada_act_name = ""
 		year = ""
 		acts_so_far = {}
+		sect_num = {}
 		for line in file:
 			if "u/s." in line :
 				line = line.replace("u/s.", "Section")
@@ -313,7 +314,6 @@ def fetch_section_act_mapping_from_case(all_acts):
 					parts = act_name.split(" ")
 					
 					sect_flag = 0
-					sect_num = -1
 					if parts[0] in BAD_WORDS_TYPE2:
 						i = 0
 						sect_flag = 1
@@ -321,7 +321,6 @@ def fetch_section_act_mapping_from_case(all_acts):
 						parts_len = len(parts)
 						while a < parts_len:
 							if parts[a][0] >= '0' and parts[a][0] <= '9':
-								sect_num = parts[a]
 								break
 							a = a + 1
 						while parts[i] not in BAD_WORDS_TYPE1:
@@ -386,16 +385,23 @@ def fetch_section_act_mapping_from_case(all_acts):
 							loc_of_act = line_words.index(each_word)
 
 					ind = 0
-					sect_num = set()
+					
 					while ind < len(actual_line_words):
 						if actual_line_words[ind] == "Section":
-							sect_num.add(actual_line_words[ind + 1])
+							if actual_line_words[ind + 1][0] >= '0' and actual_line_words[ind + 1][0] <= '9':
+								if actual_line_words[ind + 1] in sect_num:
+									sect_num[actual_line_words[ind + 1]].add(str(line_num) + ',' + str(ind + 1))
+								else:
+									sect_num[actual_line_words[ind + 1]] = set()
+									sect_num[actual_line_words[ind + 1]].add(str(line_num) + ',' + str(ind + 1))
 						ind = ind + 1
 					if prev_act_name not in case_dict[all_cases[j]] and prev_act_name != "":
 						case_dict[all_cases[j]][prev_act_name] = {}
 						case_dict[all_cases[j]][prev_act_name]["Section"] = sect_num
-						case_dict[all_cases[j]][prev_act_name]["Location"] = (line_num, loc_of_act)
-
+						case_dict[all_cases[j]][prev_act_name]["Location"] = set()
+						case_dict[all_cases[j]][prev_act_name]["Location"].add(str(line_num) + ',' + str(loc_of_act))
+					if prev_act_name in case_dict[all_cases[j]]:
+						case_dict[all_cases[j]][prev_act_name]["Location"].add(str(line_num) + ',' + str(loc_of_act))
 
 					# line_length = len(line)
 					# if "Section" in line:
@@ -419,17 +425,30 @@ def fetch_section_act_mapping_from_case(all_acts):
 					# 	case_dict[all_cases[j]][prev_act_name]["Section"].add(sect_num)
 						
 				if "Section" in words:
-					t = words.index("Section") + 1
-					if t < len(words):
-						sect_num = words[t]
-						if prev_act_name != "":
-							case_dict[all_cases[j]][prev_act_name]["Section"].add(sect_num)
+					#t = words.index("Section") + 1
+					e = 0
+					while e < len(actual_line_words):
+						if actual_line_words[e] == "Section":
+							if actual_line_words[e + 1][0] >= '0' and actual_line_words[e + 1] <= '9': 
+								if actual_line_words[e + 1] in sect_num:
+									sect_num[actual_line_words[e + 1]].add(str(line_num) + ',' +  str(e + 1))
+								else:
+									sect_num[actual_line_words[e + 1]] = set()
+									sect_num[actual_line_words[e + 1]].add(str(line_num) + ',' + str(e + 1))
+						e = e + 1
+					if prev_act_name != "":
+						case_dict[all_cases[j]][prev_act_name]["Section"] = sect_num
 
 				
 			text = ""
+	# for case_id in case_dict:
+	# 	for act in case_dict[case_id]:
+	# 		case_dict[case_id][act]["Section"] = list(case_dict[case_id][act]["Section"])
 	for case_id in case_dict:
 		for act in case_dict[case_id]:
-			case_dict[case_id][act]["Section"] = list(case_dict[case_id][act]["Section"])
+			case_dict[case_id][act]["Location"] = list(case_dict[case_id][act]["Location"])
+			for section in case_dict[case_id][act]["Section"]:
+				case_dict[case_id][act]["Section"][section] = list(case_dict[case_id][act]["Section"][section])
 	with open("section_act_mapping_from_case.json", "w") as write_file:
 		json.dump(case_dict, write_file, indent = 4)
 	return case_dict
