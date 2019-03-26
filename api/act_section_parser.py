@@ -453,10 +453,16 @@ def fetch_section_act_mapping_from_case(all_acts):
 		json.dump(case_dict, write_file, indent = 4)
 	return case_dict
 
+def fetch_mappings_of_given_case(case_id, case_dict):
+	with open("mappings_of_given_case.json", "w") as write_file:
+		json.dump(case_dict[case_id], write_file, indent = 4)
+	return case_dict[case_id]
+
 print("################################################################")
 print("Hey There!")
 print("If you want act to case mapping in a json, press 1")
 print("If you want section to act to case mapping in a json, press 2")
+print("If you want all mappings in a given case , press 3 and enter case ID")
 choice = input()
 if choice == 1:
 	act_to_case = fetch_acts_from_cases(fetch_all_acts())
@@ -464,3 +470,8 @@ if choice == 1:
 if choice == 2:
 	sect_to_act_to_case = fetch_section_act_mapping_from_case(fetch_all_acts())
 
+if choice == 3:
+	print("Enter Case ID:")
+	particular_case = raw_input()
+	all_cases_dict = fetch_section_act_mapping_from_case(fetch_all_acts())
+	case_mappings = fetch_mappings_of_given_case(particular_case, all_cases_dict)
