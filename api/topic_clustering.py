@@ -15,12 +15,13 @@ def get_topic_clusters(keywords, nlp):
     :return: clusters of topic (list of lists)
     """
     # make a line out of these words
-    keywords_line = " ".join(keywords)
+    # keywords_line = " ".join(keywords)
     # for testing
-    # keywords_line = " ".join(keywords[:100])
+    keywords_line = " ".join(keywords[:500])
 
     # remove duplicate words and join them
     keywords_line = set(keywords_line.split())
+    keywords_line = [item for item in keywords_line if not item.isnumeric()]
     keywords_line = " ".join(keywords_line)
 
     doc = nlp(keywords_line)
@@ -34,16 +35,19 @@ def get_topic_clusters(keywords, nlp):
 
     # make clusters with formed tokens
     clusters = []
-    for word in words:
-        cluster = [word.text]
-        for word2 in words:
-            if word2.text == word.text:
+    words_used = []
+    for token in words:
+        if token.text in words_used:
+            continue
+        words_used.append(token.text)
+        cluster = [token.text]
+        for token2 in words:
+            if token2.text in words_used:
                 continue
-            if word2.similarity(word) >= SIMILARITY_THRESHOLD:
-                cluster.append(word2.text)
-                words.remove(word2)
+            if token2.similarity(token) >= SIMILARITY_THRESHOLD:
+                cluster.append(token2.text)
+                words_used.append(token2.text)
         clusters.append(cluster)
-        words.remove(word)
 
     return clusters
 
@@ -72,10 +76,11 @@ def get_topic_clusters_with_count(keywords, nlp):
     # make a line out of these words
     keywords_line = " ".join(dict_keys)
     # for testing
-    # keywords_line = " ".join(dict_keys[:100])
+    keywords_line = " ".join(dict_keys[:500])
 
     # remove duplicate words and join them
     keywords_line = set(keywords_line.split())
+    keywords_line = [item for item in keywords_line if not item.isnumeric()]
     keywords_line = " ".join(keywords_line)
 
     doc = nlp(keywords_line)
@@ -89,16 +94,20 @@ def get_topic_clusters_with_count(keywords, nlp):
 
     # make clusters with formed tokens
     clusters = []
+    words_used = []
     for token in words:
+        if token.text in words_used:
+            continue
+        words_used.append(token.text)
         # add word and its occurrences to the cluster
         cluster = [(token.text, get_count(token.text, keywords))]
-        for word2 in words:
-            if word2.text == token.text:
+        for token2 in words:
+            if token2.text in words_used:
                 continue
-            if word2.similarity(token) >= SIMILARITY_THRESHOLD:
+            if token2.similarity(token) >= SIMILARITY_THRESHOLD:
                 # add words and its respective occurrencces to the cluster
-                cluster.append((word2.text, get_count(word2.text, keywords)))
-                words.remove(word2)
+                cluster.append((token2.text, get_count(token2.text, keywords)))
+                words_used.append(token2.text)
         cluster_count = 0
         for word, count in cluster:
             cluster_count += count
@@ -107,7 +116,6 @@ def get_topic_clusters_with_count(keywords, nlp):
 
         # add cluster and its cumulative occurrences to the list
         clusters.append((cluster, cluster_count))
-        words.remove(token)
 
     return clusters
 
@@ -171,20 +179,15 @@ if __name__ == '__main__':
     file = open(os.path.join(os.getcwd(), 'api', 'base_class', 'catch.json'), 'r')
 
     catch_words = [item[0].lower() for item in json.loads(file.read())]
-    # catch_words.append("criminal")
-    # catch_words.append("crime")
-    # catch_words.append("killing")
-
-    # Removes year from keywords
-    # catch_words = [item.lower() for item in catch_words if not item.isnumeric()]
-
-    clusters = get_sentence_clusters(catch_words, nlp)
+    clusters = get_topic_clusters(catch_words, nlp)
+    clusters.sort(key=lambda x: len(x), reverse=True)
 
     # catch_words = {item[0].lower(): item[1] for item in json.loads(file.read()) if not item[0].isnumeric()}
-    #
     # clusters = get_topic_clusters_with_count(catch_words, nlp)
+    # clusters.sort(key=lambda x: len(x[0]), reverse=True)
 
-    print(len(clusters))
+    for cluster in clusters:
+        print(cluster)
 
     # word1 = input("Enter first word : ")
     # word2 = input("Enter second word : ")
