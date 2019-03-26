@@ -182,3 +182,69 @@
   top: 4px;
 
 }
+
+#drawer1{
+ padding: 20px;
+}
+
+#tableInOutput{
+  position: relative;
+  left: 25%;
+  padding-right: 26%;
+
+}
+
+#chipCross{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+ul{
+  font-size: 20px;
+  margin: 10px;
+}
+li{ 
+  margin : 15px;
+}
+ 
+#tabTitles{
+  font-size: 20px;
+}
+
+.caption{
+  font-size: 20px;
+}
+
+#judgeIndivRes{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2%;
+}
+
+#judgeLeftCol{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+.cardInJudge{
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+
+.cardInActs{
+  margin-top: 10%;
+  margin-left:5%;
+  border: 2px solid black;
+  margin-bottom: 5%;
+  font-size: 25px;
+}
+
+#tabsInActs{
+  margin-top: 3.2%;
+  
+}

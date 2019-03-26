@@ -11,11 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import ResultCard from './jjd.js'
-import ActChips from './actchips.js'
 import '../App.css'
 import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
 import Radar from './radar.js'
+import CitedCases from './citedCases.js'
 
 const useStyles = makeStyles({
   appBar: {
@@ -68,7 +68,7 @@ function FullScreenDialog() {
             <VerticalTimeline />
           </div>
           <div id='actchips'>
-            <ActChips />
+             <CitedCases />
           </div>
         </div>
       </Dialog>

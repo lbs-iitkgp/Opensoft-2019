@@ -1065,18 +1065,7 @@
     js-levenshtein "^1.1.3"
     semver "^5.3.0"
 
-"@babel/preset-react@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/@babel/preset-react/-/preset-react-7.0.0.tgz#e86b4b3d99433c7b3e9e91747e2653958bc6b3c0"
-  integrity sha512-oayxyPS4Zj+hF6Et11BwuBkmpgT/zMxyuZgFrMeZID6Hdh3dGlk4sHCAhdBCpuCKW2ppBfl2uCCetlrUIJRY3w==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@babel/plugin-transform-react-display-name" "^7.0.0"
-    "@babel/plugin-transform-react-jsx" "^7.0.0"
-    "@babel/plugin-transform-react-jsx-self" "^7.0.0"
-    "@babel/plugin-transform-react-jsx-source" "^7.0.0"
-
-"@babel/preset-react@^7.0.0":
+"@babel/preset-react@7.0.0", "@babel/preset-react@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.0.0.tgz#e86b4b3d99433c7b3e9e91747e2653958bc6b3c0"
   integrity sha512-oayxyPS4Zj+hF6Et11BwuBkmpgT/zMxyuZgFrMeZID6Hdh3dGlk4sHCAhdBCpuCKW2ppBfl2uCCetlrUIJRY3w==
@@ -1094,6 +1083,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.1.0"
+
+"@babel/runtime@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0.tgz#adeb78fedfc855aa05bc041640f3f6f98e85424c"
+  integrity sha512-7hGhzlcmg01CvH1EHdSPVXYX1aJ8KCEyz6I9xYIi/asDtzBPMyMhVibhM/K6g/5qnKBwjZtp10bNZIEFTRW1MA==
+  dependencies:
+    regenerator-runtime "^0.12.0"
 
 "@babel/runtime@7.0.0-beta.42":
   version "7.0.0-beta.42"
@@ -2333,17 +2329,7 @@ babel-jest@23.6.0, babel-jest@^23.6.0:
     babel-plugin-istanbul "^4.1.6"
     babel-preset-jest "^23.2.0"
 
-babel-loader@8.0.5:
-  version "8.0.5"
-  resolved "https://registry.npmjs.org/babel-loader/-/babel-loader-8.0.5.tgz#225322d7509c2157655840bba52e46b6c2f2fe33"
-  integrity sha512-NTnHnVRd2JnRqPC0vW+iOQWU5pchDbYXsG2E6DMXEpMfUcQKclF9gmf3G3ZMhzG7IG9ji4coL0cm+FxeWxDpnw==
-  dependencies:
-    find-cache-dir "^2.0.0"
-    loader-utils "^1.0.2"
-    mkdirp "^0.5.1"
-    util.promisify "^1.0.0"
-
-babel-loader@^8.0.5:
+babel-loader@8.0.5, babel-loader@^8.0.5:
   version "8.0.5"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.5.tgz#225322d7509c2157655840bba52e46b6c2f2fe33"
   integrity sha512-NTnHnVRd2JnRqPC0vW+iOQWU5pchDbYXsG2E6DMXEpMfUcQKclF9gmf3G3ZMhzG7IG9ji4coL0cm+FxeWxDpnw==
@@ -3854,7 +3840,15 @@ d3-random@^1.0.3:
   resolved "https://registry.yarnpkg.com/d3-random/-/d3-random-1.1.2.tgz#2833be7c124360bf9e2d3fd4f33847cfe6cab291"
   integrity sha512-6AK5BNpIFqP+cx/sreKzNjWbwZQCSUatxq+pPRmFIQaWuoD+NrbVWw7YWpHiXpCQ/NanKdtGDuB+VQcZDaEmYQ==
 
-d3-scale@^2.0.0:
+d3-scale-chromatic@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/d3-scale-chromatic/-/d3-scale-chromatic-1.3.3.tgz#dad4366f0edcb288f490128979c3c793583ed3c0"
+  integrity sha512-BWTipif1CimXcYfT02LKjAyItX5gKiwxuPRgr4xM58JwlLocWbjPLI7aMEjkcoOQXMkYsmNsvv3d2yl/OKuHHw==
+  dependencies:
+    d3-color "1"
+    d3-interpolate "1"
+
+d3-scale@^2.0.0, d3-scale@^2.1.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-2.2.2.tgz#4e880e0b2745acaaddd3ede26a9e908a9e17b81f"
   integrity sha512-LbeEvGgIb8UMcAa0EATLNX0lelKWGYDQiPdHj+gLblGVhGLyNbaCn3EvrJf0A3Y/uOOU5aD6MTh5ZFCdEwGiCw==
@@ -3873,6 +3867,13 @@ d3-shape@^1.0.6, d3-shape@^1.2.0:
   dependencies:
     d3-path "1"
 
+d3-shape@^1.2.2:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.3.5.tgz#e81aea5940f59f0a79cfccac012232a8987c6033"
+  integrity sha512-VKazVR3phgD+MUCldapHD7P9kcrvPcexeX/PkMJmkUov4JM8IxsSg1DvbYoYich9AtdTsa5nNk2++ImPiDiSxg==
+  dependencies:
+    d3-path "1"
+
 d3-time-format@2, d3-time-format@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.1.3.tgz#ae06f8e0126a9d60d6364eac5b1533ae1bac826b"
@@ -3884,6 +3885,11 @@ d3-time@1:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.0.11.tgz#1d831a3e25cd189eb256c17770a666368762bbce"
   integrity sha512-Z3wpvhPLW4vEScGeIMUckDW7+3hWKOQfAWg/U7PlWBnQmeKQ00gCUsTtWSYulrKNA7ta8hJ+xXc6MHrMuITwEw==
+
+d3-voronoi@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/d3-voronoi/-/d3-voronoi-1.1.4.tgz#dd3c78d7653d2bb359284ae478645d95944c8297"
+  integrity sha512-dArJ32hchFsrQ8uMiTBLq256MpnZjeuBtdHpaDlYuQyjU0CVzCJl/BVW+SkszaAeH95D/8gxqAhgx0ouAWAfRg==
 
 damerau-levenshtein@^1.0.4:
   version "1.0.4"
@@ -4919,7 +4925,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.12, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.9:
+fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.12, fbjs@^0.8.15, fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.npmjs.org/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -7154,7 +7160,7 @@ keyboard-key@^1.0.4:
   resolved "https://registry.npmjs.org/keyboard-key/-/keyboard-key-1.0.4.tgz#52d8fa07b7e17757072aa22a67fb4ae85e4c46b0"
   integrity sha512-my04dE6BCwPpwoe4KYKfPxWiwgDYQOHrVmtzn1CfzmoEsGG/ef4oZGaXCzi1+iFhG7CN5JkOuxmei5OABY8/ag==
 
-keycode@^2.1.2, keycode@^2.1.9, keycode@^2.2.0:
+keycode@^2.1.2, keycode@^2.1.7, keycode@^2.1.9, keycode@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/keycode/-/keycode-2.2.0.tgz#3d0af56dc7b8b8e5cba8d0a97f107204eec22b04"
   integrity sha1-PQr1bce4uOXLqNCpfxByBO7CKwQ=
@@ -10096,6 +10102,17 @@ react-context-toolbox@^2.0.2:
   resolved "https://registry.npmjs.org/react-context-toolbox/-/react-context-toolbox-2.0.2.tgz#35637287cb23f801e6ed802c2bb7a97e1f04e3fb"
   integrity sha512-tY4j0imkYC3n5ZlYSgFkaw7fmlCp3IoQQ6DxpqeNHzcD0hf+6V+/HeJxviLUZ1Rv1Yn3N3xyO2EhkkZwHn0m1A==
 
+react-d3-radar@^1.0.0-rc6:
+  version "1.0.0-rc6"
+  resolved "https://registry.yarnpkg.com/react-d3-radar/-/react-d3-radar-1.0.0-rc6.tgz#bb76e89654242c107473e86e1dae658fda6d3e70"
+  integrity sha512-MSOhgo/zgbufi1NWr552HDB9CXViLFNnTg8kCmVJJ+7V0gr1gYLU7c8ZJtvN6/P+/JyUPljOO4aiyBxytnkggA==
+  dependencies:
+    d3-scale "^2.1.2"
+    d3-scale-chromatic "^1.3.3"
+    d3-shape "^1.2.2"
+    d3-voronoi "^1.1.4"
+    lodash "^4.17.11"
+
 react-dev-utils@^8.0.0:
   version "8.0.0"
   resolved "https://registry.npmjs.org/react-dev-utils/-/react-dev-utils-8.0.0.tgz#7c5b227a45a32ea8ff7fbc318f336cf9e2c6e34c"
@@ -10152,7 +10169,7 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
-react-event-listener@^0.6.2, react-event-listener@^0.6.4:
+react-event-listener@^0.6.0, react-event-listener@^0.6.2, react-event-listener@^0.6.4:
   version "0.6.6"
   resolved "https://registry.npmjs.org/react-event-listener/-/react-event-listener-0.6.6.tgz#758f7b991cad9086dd39fd29fad72127e1d8962a"
   integrity sha512-+hCNqfy7o9wvO6UgjqFmBzARJS7qrNoda0VqzvOuioEpoEXKutiKuv92dSz6kP7rYLmyHPyYNLesi5t/aH1gfw==
@@ -10433,6 +10450,43 @@ react-slick@~0.23.2:
     lodash.debounce "^4.0.8"
     prettier "^1.14.3"
     resize-observer-polyfill "^1.5.0"
+
+react-svg-radar-chart@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-svg-radar-chart/-/react-svg-radar-chart-1.1.3.tgz#01190206fc090f3a61b2c5aacbd842c29a6146f9"
+  integrity sha512-UWR0ku3baiJZgvKJjvtzOBL363qE08x4CcT2Rh+vJKCP5LAUxO3b1f93+htO+9bRGfgkNGTBv009Vn5t2FvKYg==
+
+react-swipeable-views-core@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.13.1.tgz#8829a922462a8bdd701709cd1b385393d38f1527"
+  integrity sha512-EP8sCvvD7VDiZLglPt9icMuMNu8qLRLk0ab/fB1HXv7lX8ClnwF3UMCM0ZrN3sguSY7CsX3LevducGGsT1VcDg==
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    warning "^4.0.1"
+
+react-swipeable-views-utils@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views-utils/-/react-swipeable-views-utils-0.13.1.tgz#8e604af7316d409f22d8c47f841859dc150df30b"
+  integrity sha512-r5eyPIIHnlvILvFHXGnASDXa3RwC6X2YevegA2II5fhzYqwQRpJ81+lnzknNg5hiIN6ucXc5vrkqRRjabAhMpA==
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    fbjs "^0.8.4"
+    keycode "^2.1.7"
+    prop-types "^15.6.0"
+    react-event-listener "^0.6.0"
+    react-swipeable-views-core "^0.13.1"
+
+react-swipeable-views@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-swipeable-views/-/react-swipeable-views-0.13.1.tgz#4f074280b09d2247d284a6e3831fd3763ee0ed39"
+  integrity sha512-zZIRBD+HFO0P5z3TCkDMsSG/Sc3LXGGtojO+dEAGxsPvZjc3ji4Z/oOcLjZ4ozl0xIlLQJZ89o1rR82H/MDBHw==
+  dependencies:
+    "@babel/runtime" "7.0.0"
+    dom-helpers "^3.2.1"
+    prop-types "^15.5.4"
+    react-swipeable-views-core "^0.13.1"
+    react-swipeable-views-utils "^0.13.1"
+    warning "^4.0.1"
 
 react-text-mask@=5.4.1:
   version "5.4.1"

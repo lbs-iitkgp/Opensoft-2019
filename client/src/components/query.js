@@ -45,7 +45,7 @@ class SearchBar extends Component{
         placeholder="Search here..."
         margin="normal"
         variant="outlined"
-        multiline={true}
+        multiline={false}
       />
      </div>  
       );

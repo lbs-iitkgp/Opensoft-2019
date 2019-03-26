@@ -5,7 +5,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import AdvFilter from './advtable.js'
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -29,7 +29,7 @@ const styles = theme => ({
   ].map((ele,ind)=>createSections(ele,ind));
   
 
-  function ActIndiv(props) {
+  function ActsAccord(props) {
     const { classes } = props;
 
       return(
@@ -49,46 +49,11 @@ const styles = theme => ({
             </ExpansionPanel>
 
           ))}
-            <AdvFilter />
-          </div>
+           </div>
       );
-    // return (
-    //   <div className={classes.root}>
-    //     <ExpansionPanel>
-    //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-    //         <Typography className={classes.heading}><h3>sectionx-1</h3></Typography>
-    //       </ExpansionPanelSummary>
-    //       <ExpansionPanelDetails>
-    //         <Typography>
-    //           Act one descriotion   
-    //         </Typography>
-    //       </ExpansionPanelDetails>
-    //     </ExpansionPanel>
-    //     <ExpansionPanel>
-    //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-    //         <Typography className={classes.heading}><h3>sectionx-2</h3></Typography>
-    //       </ExpansionPanelSummary>
-    //       <ExpansionPanelDetails>
-    //         <Typography>
-    //         Acts two decripton
-    //         </Typography>
-    //       </ExpansionPanelDetails>
-    //     </ExpansionPanel>
-    //     <ExpansionPanel>
-    //       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-    //         <Typography className={classes.heading}><h3>sectionx-3</h3></Typography>
-    //       </ExpansionPanelSummary>
-    //       <ExpansionPanelDetails>
-    //         <Typography>
-    //           Act one descriotion   
-    //         </Typography>
-    //       </ExpansionPanelDetails>
-    //     </ExpansionPanel>
-    //     <AdvFilter />
-    //    </div>
-    // );
+    
   }
   
   
-  export default withStyles(styles)(ActIndiv);
+  export default withStyles(styles)(ActsAccord);
   

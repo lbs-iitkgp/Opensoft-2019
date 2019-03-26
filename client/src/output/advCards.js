@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import "../App.css";
 import Chips from '../chips.js'
-import Switches from '../switches.js'
+import 'material-ui-icons'
 
 
 function createData(listData, index) {
@@ -13,13 +13,17 @@ function createData(listData, index) {
   }
 
 var cardsData = [
-  [
-  "Judge",
-  "mahajan",]
+  {
+    keyWord : 'key-1',
+    cardType : 'Judge',
+    cardValue : 'mahjan'
+  }
 ,
-[
-  "Act",
-  "indian stamp act"]
+{
+  keyWord : 'key-1',
+  cardType : 'Judge',
+  cardValue : 'mahjan'
+}
 ].map((ele, ind) => createData(ele, ind) );  
 
 
@@ -27,8 +31,8 @@ class Demo extends Component{
   constructor(...props){
     super(...props);
   this.state = {
-    minWidth  : 240,
-    color : 'green',
+    minWidth  : 300,
+    color : '',
     fontSize: 14,
     marginBottom: 12,
     padding : 10,
@@ -36,6 +40,7 @@ class Demo extends Component{
     cardsColor : ['','']
   }
 this.handleToggle = this.handleToggle.bind(this);
+this.removeCard = this.removeCard.bind(this);
 }
 
 handleToggle(colorDecider, index){
@@ -55,19 +60,29 @@ handleToggle(colorDecider, index){
     cardsColor : localcardsColor
   })  
 }
- 
+
+removeCard(id){
+    let removeC = () => {
+        const localId = id;
+        var content = document.getElementById(localId)
+        content.remove()
+     }
+    return removeC;
+}
+
 render() {
      return (
           <div id="content" className="flex-container">
             {cardsData.map( ele => (
-              <Card  className="card" style={{ color : this.state.cardsColor[ele.index] }} id={ele.index} >
-                <div id="case"><h3 href="#"> {ele.Case}</h3><Switches id={ele.index} OnPassChecked={this.handleToggle}  /></div>
-                <div id="cardType">
+              <Card  className="card" style={{ color : this.state.cardsColor[ele.index],minWidth : this.state.minWidth }} id={ele.index} >
+                <div id='chipCross'><Chips title={ele.Case} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
+                 <div id="cardType">
                   <b><h3>{ele.cardType}:</h3></b> 
                 </div>
                 <div id="cardValue">
                   <b><h3>{ele.cardValue}</h3></b> 
                 </div>
+                
                </Card>
             ))}
           </div>

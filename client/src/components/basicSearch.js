@@ -20,7 +20,7 @@ class BasicSearch extends Component{
 
     getBasicResult(){
       console.log(basicSearched);
-      this.props.history.push("/output");
+      this.props.history.push("/basic/output");
     }
       
     render(){

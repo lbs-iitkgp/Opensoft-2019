@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
-import AdvCards from './advCards.js';
 import AdvFilter from './advtable.js';
 import Navbar from '../navbar.js';
-import Drawer from './drawer.js';
+import BasicCards from './basicCards.js'
 import '../App.css'
 
 class Output extends Component {
@@ -10,10 +9,9 @@ class Output extends Component {
         return(
             <div>
                 <Navbar />
-                <Drawer/>
-                <AdvCards />
-                <br /><br />
-                <div id='tableInOutput'><AdvFilter /></div>
+                <BasicCards />
+                 <br /><br />
+                <AdvFilter />
             </div> 
 
             );
