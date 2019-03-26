@@ -165,8 +165,8 @@ def fetch_acts_from_cases(all_acts):
 			text = ""
 	for case in act_cases:
 		act_cases[case] = list(act_cases[case])
-	with open("acts_from_cases.json", "w") as write_file:
-		json.dump(act_cases, write_file, indent = 4)
+	# with open("acts_from_cases.json", "w") as write_file:
+	# 	json.dump(act_cases, write_file, indent = 4)
 
 	return act_cases
 
@@ -334,15 +334,19 @@ def fetch_section_act_mapping_from_case(all_acts):
 			case_dict[case_id][act]["Location"] = list(case_dict[case_id][act]["Location"])
 			for section in case_dict[case_id][act]["Section"]:
 				case_dict[case_id][act]["Section"][section] = list(case_dict[case_id][act]["Section"][section])
-	with open("section_act_mapping_from_case.json", "w") as write_file:
-		json.dump(case_dict, write_file, indent = 4)
+	# with open("section_act_mapping_from_case.json", "w") as write_file:
+	# 	json.dump(case_dict, write_file, indent = 4)
 	return case_dict
 
-def fetch_mappings_of_given_case(case_id, case_dict):
-	with open("mappings_of_given_case.json", "w") as write_file:
-		json.dump(case_dict[case_id], write_file, indent = 4)
+def fetch_mappings_of_given_case(case_id):
+	case_dict = fetch_section_act_mapping_from_case(fetch_all_acts())
+	# with open("mappings_of_given_case.json", "w") as write_file:
+	# 	json.dump(case_dict[case_id], write_file, indent = 4)
 	return case_dict[case_id]
 
+def fetch_all_acts_in_a_case(case_id):
+	act_cases = fetch_acts_from_cases(fetch_all_acts())
+	return act_cases[case_id]
 
 def fetch_all_acts_from_txt():
 	file = open("./Acts/all_acts_central_state.txt", "r")
@@ -357,10 +361,8 @@ def closest_actual_act(act_str):
 	if len(difflib.get_close_matches(act_str, all_acts, 5)) > 0:
 		possible = difflib.get_close_matches(act_str, all_acts, 5)
 		max_count = 0
-		act_str = possible[0]
-		
+		act_str = possible[0]	
 	return act_str
-
 
 print("################################################################")
 print("Hey There!")
