@@ -3,9 +3,9 @@
     help make the LKG directed graph"""
 
 import networkx as nx
-from Judge_class import Judge
-from Case_class import Case
-from subgraph import graph_query
+from base_class.Judge_class import Judge
+from base_class.Case_class import Case
+from base_class.subgraph import graph_query
 
 class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
     """class with methods to build/help_build

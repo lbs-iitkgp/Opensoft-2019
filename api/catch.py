@@ -2,21 +2,21 @@
         add 'key_word(or subject) to case_id' edges
             and 'catchy_words to case_id' edges in our LKG graph"""
 
+from env import ENV
 CASE_FILE_TO_ID = dict()
-
 
 def add_catch_subject(graf):
     """adds 'key_word(or subject) to case_id' edges
         and 'catchy_words to case_id' edges in the graph"""
 
-    with open('doc_path_ttl_id.txt') as doc_file:
+    with open("{}/doc_path_ttl_id.txt".format(ENV["DATASET_PATH"])) as doc_file:
         for line in doc_file.readlines():
             line = line.strip()
 
             file_name, title, case_id = line.split("-->")
             CASE_FILE_TO_ID[file_name] = case_id
 
-    with open('subject_keywords.txt') as key_word_file:
+    with open("{}/subject_keywords.txt".format(ENV["DATASET_PATH"])) as key_word_file:
         for line in key_word_file.readlines():
             line = line.strip()
             if '-->' in line:
