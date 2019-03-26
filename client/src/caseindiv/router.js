@@ -15,6 +15,8 @@ class Router extends Component {
   num = 2;
   num1=3;
   
+
+  
   render() {
       // tried this interpolation,but couldn't succeed,babel added in  the dependencies
      // <Route exact path=`/act/:${num}/:${num1}` component={ActIndiv}  />      

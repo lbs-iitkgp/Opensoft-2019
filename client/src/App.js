@@ -9,14 +9,15 @@ import Acts from './components/acts.js'
 import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
 
-var Results={
-  query : '',
-  years : [],
-  category : '',
-  judgeName : '',
-  selectedActs :[]
-}
-class App extends Component {
+var Results = {
+  "query" : "",
+  "years" : [],
+  "category" : "",
+  "judgeName" : "",
+  "selectedActs" :[]
+};  
+
+ class App extends Component {
  constructor(props){
    super(props);
   

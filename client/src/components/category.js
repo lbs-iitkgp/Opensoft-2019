@@ -4,8 +4,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import starWarsNames from "starwars-names";
 import MultiChipSelect from "./MultiChipSelect.js";
 
-
-
 class Category extends Component{
   constructor(props){
     super(props);
