@@ -1,116 +1,74 @@
 import json
-import re
 import acts_separated as asd
-import difflib
 from env import ENV
 """makes a dictionary with
     ACT names as keys and the list
         of all its "updated versions with year" tuples as values"""
 
-ACT_TO_ALL_YEARS = dict()
-primary = dict() #temporary funny dictonary
-rem  = dict()
-i = 1
-another_final_new_dict = dict()
-with open('{}/actlist.txt'.format(ENV["DATASET_PATH"])) as f:
+def get_all_versions_of_all_acts():
 
-    for line in f.readlines():
-        line = line.strip()
-        Act_name, year = line[:-4], line[-4:]
-        Act_name = Act_name.strip()
-        removed = ''
-        if "," in Act_name:
-            Act_name = Act_name[:Act_name.index(
-                ",")] + Act_name[Act_name.index(",")+1:]
+    ACT_TO_ALL_YEARS = dict()
+    ACT_MAPPING_TO_FULL_NAME = dict()
+    with open('{}/actlist.txt'.format(ENV["DATASET_PATH"])) as f:
 
-        if 'Act' in Act_name:
-            removed = 'Act'
-            Act_name = Act_name[:Act_name.rindex('Act')]
+        for line in f.readlines():
+            line = line.strip()
+            Act_name, year = line[:-4], line[-4:]
+            Act_name = Act_name.strip()
+            removed = ''
+            if "," in Act_name:
+                Act_name = Act_name[:Act_name.index(
+                    ",")] + Act_name[Act_name.index(",")+1:]
 
-        if 'act' in Act_name:
-            removed = 'act'
-            Act_name = Act_name[:Act_name.rindex('act')]
+            if 'Act' in Act_name:
+                removed = 'Act'
+                Act_name = Act_name[:Act_name.rindex('Act')]
 
-        Act_name = Act_name.strip()
-        another_final_new_dict[Act_name] = line
+            if 'act' in Act_name:
+                removed = 'act'
+                Act_name = Act_name[:Act_name.rindex('act')]
 
-        rem[Act_name] = removed
-        # print(Act_name)
-
-        if Act_name in ACT_TO_ALL_YEARS:
-            ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
-        else:
-            ACT_TO_ALL_YEARS[Act_name] = []
-            ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
-
-        # return rem
-
-ACT_RECENT_YEARS = {}
-
-for act in ACT_TO_ALL_YEARS:
-    ACT_RECENT_YEARS[another_final_new_dict[act]] = []
-    # ACT_RECENT_YEARS[act + ' ' +  rem[act]] = []
-    for another_act in ACT_TO_ALL_YEARS:
-        #print(another_act)
-        if another_act.find(act) == 0:
-         #   print(another_act)
-          #  print(act)
-            [ACT_RECENT_YEARS[another_final_new_dict[act]].append((x[0], another_final_new_dict[x[1]])) for x in ACT_TO_ALL_YEARS[another_act]] 
-           # print(another_act)
-# print(json.dumps(ACT_TO_ALL_YEARS, indent=4, sort_keys=True))
-# print(ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax (Second Amendment)"])
-# print((ACT_RECENT_YEARS["Andhra Pradesh General Sales Tax"]))
-
-STATE_WISE_ACTS = asd.get_acts_by_states()
-
-def which_state_are_you_from(given_act_name):
-    for akt in STATE_WISE_ACTS:
-        for more_akts in STATE_WISE_ACTS[akt]:    
-            if given_act_name == more_akts["act"]:
-                return more_akts["type"]
+            Act_name = Act_name.strip()
+            ACT_MAPPING_TO_FULL_NAME[Act_name] = line
 
 
-# def fetch_all_acts_from_txt():
-#     file = open("{}/Acts/all_acts_central_state.txt".format(ENV["DATASET_PATH"]), "r")
-#     acts_list = []
-#     for line in file:
-#         line = line[:-1]
-#         acts_list.append(line)
-#     return acts_list
+            if Act_name in ACT_TO_ALL_YEARS:
+                ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
+            else:
+                ACT_TO_ALL_YEARS[Act_name] = []
+                ACT_TO_ALL_YEARS[Act_name].append((year, Act_name,))
 
-# def closest_actual_act(act_str):
-#     all_acts = fetch_all_acts_from_txt()
-#     if len(difflib.get_close_matches(act_str, all_acts, 5)) > 0:
-#         possible = difflib.get_close_matches(act_str, all_acts, 5)
-#         act_str = possible[0]
-            
-#     return act_str
+    RECENT_VERSIONS_OF_ACTS = {}
 
+    for act_1 in ACT_TO_ALL_YEARS:
+        RECENT_VERSIONS_OF_ACTS[ACT_MAPPING_TO_FULL_NAME[act_1]] = []
+        for act_2 in ACT_TO_ALL_YEARS:
+            if act_2.find(act_1) == 0:
+                [RECENT_VERSIONS_OF_ACTS[ACT_MAPPING_TO_FULL_NAME[act_1]].append((x[0], ACT_MAPPING_TO_FULL_NAME[x[1]])) for x in ACT_TO_ALL_YEARS[act_2]] 
 
+    STATE_WISE_ACTS = asd.get_acts_by_states()
 
-another_new_dict = dict()
-for _, act_versions in ACT_RECENT_YEARS.items():
-    most_recent_act_year, most_recent_act_name = act_versions[-1]
-    # most_recent_act = most_recent_act_name +", " + most_recent_act_year
-    most_recent_act = most_recent_act_name
-    for (act_year, act_name) in act_versions:
-        # act = act_name + ", " + act_year
-        act = act_name
-        # act = closest_actual_act(act)
-        # most_recent_act = closest_actual_act(most_recent_act)
-        state_of_act = which_state_are_you_from(act)
-        state_of_most_recent_act = which_state_are_you_from(most_recent_act)
-        print(state_of_act)
-        print(state_of_most_recent_act)
-        if act not in another_new_dict and state_of_act == state_of_most_recent_act:
-            another_new_dict[act] = most_recent_act
+    def which_state_are_you_from(given_act_name):
+        for act in STATE_WISE_ACTS:
+            for more_acts in STATE_WISE_ACTS[act]:    
+                if given_act_name == more_acts["act"]:
+                    return more_acts["type"]
 
-    # for every_act in an_act:
-    #     another_new_dict[every_act[1]]=[every_act[0] max(an_act)]
+    MOST_RECENT_VERSION = dict()
+    for _, act_versions in RECENT_VERSIONS_OF_ACTS.items():
+        most_recent_act_year, most_recent_act_name = act_versions[-1]
+        most_recent_act = most_recent_act_name
+        for (act_year, act_name) in act_versions:
+            act = act_name
+            state_of_act = which_state_are_you_from(act)
+            state_of_most_recent_act = which_state_are_you_from(most_recent_act)
+            print(state_of_act)
+            print(state_of_most_recent_act)
+            if act not in MOST_RECENT_VERSION and state_of_act == state_of_most_recent_act:
+                MOST_RECENT_VERSION[act] = most_recent_act
 
+    return MOST_RECENT_VERSION
 
-
-
-
-with open('ACTS_TO_ALL_YEARS_u_u2.json','w') as f:
-    json.dump(another_new_dict,f,indent=4)
+if __name__ == "__main__":
+    with open('ACTS_TO_ALL_YEARS.json','w') as f:
+        json.dump(get_all_versions_of_all_acts(),f,indent=4) 
