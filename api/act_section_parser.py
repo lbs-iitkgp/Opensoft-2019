@@ -25,6 +25,10 @@ BAD_WORDS_TYPE1 = ["the", "The", "that", "That", "This", "this", "under", "Under
 
 BAD_WORDS_TYPE2 = ["Section", "S.", "s.", "u/s.", "section", "Article", "article"]
 
+word_to_replace_dict = {"u/s." : "Section", " s. ":"Section", "S. ":"Section", "section":"Section",\
+						"subSection":"Section", "subsection":"Section"}
+
+act_replacement = ["the Act", "this Act", "that Act", "the said Act", "the act", "this act", "that act", "the said act"]
 def fetch_all_acts():
 	with open("ACTS_BY_STATES.json") as f:
 	 	acts_dict = json.load(f)
@@ -50,40 +54,12 @@ def fetch_acts_from_cases(all_acts):
 		dada_act_name = ""
 		acts_so_far = {}
 		for line in file:
-			if "u/s." in line :
-				line = line.replace("u/s.", "Section")
-			if " s." in line:
-				line = line.replace(" s.", " Section")
-			if "S." in line:
-				line = line.replace("S.", "Section")
-			if "section" in line:
-				line = line.replace("section", "Section")
-			if "the Act" in line:
-				line = line.replace("the Act", prev_act_name)
-			if "this Act" in line:
-				line = line.replace("this Act", prev_act_name)
-			if "that Act" in line:
-				line = line.replace("that Act", prev_act_name)
-			if "subsection" in line:
-				line = line.replace("subsection", "Section")
-			if "subSection" in line:
-				line = line.replace("subSection", "Section")
-			if "the Act" in line:
-				#print("*********", line_num )
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("the Act", prev_act_name)
-			if "this Act" in line:
-				#print("*********", line_num)
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("this Act", prev_act_name)
-			if "that Act" in line:
-				#print("*********", line_num )
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("that Act", prev_act_name)
-			if "the said Act" in line:
-				#print("*********", line_num)
-				#print("&&&&&&&&", prev_act_name)
-				line = line.replace("the said Act", prev_act_name)
+			for wrong in word_to_replace_dict:
+				if wrong in line:
+					line = line.replace(wrong, word_to_replace_dict[wrong])
+			for pronoun in act_replacement:
+				if pronoun in line:
+					line = line.replace(pronoun, prev_act_name)
 			actual_line = line
 			line = re.sub(r"[-()\"#/'@;<>{}`+=~|!?]", '', line)
 			text += line
@@ -93,8 +69,6 @@ def fetch_acts_from_cases(all_acts):
 			for entity in doc.ents:
 				act_bool = 0
 				words = entity.text.split(" ")
-				#if entity.label_ == u"LAW" or entity.label_ == u'ORG':
-					#print("Spacey : ", entity.text)
 				if "Act" in words or "Act," in words or "Act." in words:
 					act_bool = 1
 					if words[0] in BAD_WORDS_TYPE1:
@@ -184,42 +158,7 @@ def fetch_acts_from_cases(all_acts):
 						if each_word in line_words:
 							loc_of_act = line_words.index(each_word)
 
-					# if len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
-					# 	possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-					# 	max_count = 0
-					# 	#print(possible)
-					# 	for i in range(len(possible)):
-					# 		match_count = 0
-					# 		bas = possible[i]
-					# 		w = possible[i].split(" ")
-					# 		for a in w:
-					# 			if a.lower() in [f.lower() for f in line_words]:
-					# 				match_count += 1
-					# 		if match_count >= max_count:
-					# 			max_count = match_count
-					# 			prev_act_name = possible[i]
-					#print(prev_act_name)
 					
-					# ind = 0
-					# sect_num = ""
-					# line_length = len(line)
-					# if "Section" in line:
-					# 	ind = line.index("Section")
-					# 	ind = ind + 7
-					# while(line[ind] == " "):
-					# 	ind = ind + 1
-					# 	if ind >= line_length:
-					# 		break
-					# if ind < line_length:
-					# 	while(line[ind] != " "):
-					# 		sect_num += line[ind]
-					# 		ind += 1
-					# 		if ind >= line_length:
-					# 			break
-					# if prev_act_name not in case_dict[all_cases[j]]:
-					# 	act_cases[all_cases[j]].add(prev_act_name)
-					# if sect_flag and prev_act_name != "":
-					# 	act_cases[all_cases[j]].add(prev_act_name)
 					if prev_act_name != "":
 						act_cases[all_cases[j]].add(prev_act_name)
 								
@@ -237,9 +176,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 	case_dict = {}
 	total_num_cases = len(all_cases)
 	for j in range(total_num_cases):
-		#all_cases[j] = "2003_C_16.txt"
 		file = open("./All_FT/" + all_cases[j], 'r')
-		#file = open("./All_FT/2003_C_16.txt", 'r')
 		text = ""
 		line_num = 0
 		print(all_cases[j])
@@ -250,34 +187,12 @@ def fetch_section_act_mapping_from_case(all_acts):
 		acts_so_far = {}
 		sect_num = {}
 		for line in file:
-			if "u/s." in line :
-				line = line.replace("u/s.", "Section")
-			if " s." in line:
-				line = line.replace(" s.", " Section")
-			if "S." in line:
-				line = line.replace("S.", "Section")
-			if "section" in line:
-				line = line.replace("section", "Section")
-			if "subsection" in line:
-				line = line.replace("subsection", "Section")
-			if "subSection" in line:
-				line = line.replace("subSection", "Section")
-			if "the Act" in line:
-				#print("*********", line_num )
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("the Act", prev_act_name)
-			if "this Act" in line:
-				#print("*********", line_num)
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("this Act", prev_act_name)
-			if "that Act" in line:
-				#print("*********", line_num )
-				#print("&&&&&&&&&&",prev_act_name)
-				line = line.replace("that Act", prev_act_name)
-			if "the said Act" in line:
-				#print("*********", line_num)
-				#print("&&&&&&&&", prev_act_name)
-				line = line.replace("the said Act", prev_act_name)
+			for wrong in word_to_replace_dict:
+				if wrong in line:
+					line = line.replace(wrong, word_to_replace_dict[wrong])
+			for pronoun in act_replacement:
+				if pronoun in line:
+					line = line.replace(pronoun, prev_act_name)
 			actual_line = line
 			line = re.sub(r"[-()\"#/'@;<>{}`+=~|!?]", '', line)
 			text += line
@@ -288,8 +203,6 @@ def fetch_section_act_mapping_from_case(all_acts):
 			for entity in doc.ents:
 				act_bool = 0
 				words = entity.text.split(" ")
-				# if entity.label_ == u"LAW" or entity.label_ == u'ORG':
-					#print("Spacey : ", entity.text)
 				if "Act" in words or "Act," in words or "Act." in words:
 					act_bool = 1
 					if words[0] in BAD_WORDS_TYPE1:
@@ -346,14 +259,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 					if prev_act_name == "":
 						continue
 
-					# if len(difflib.get_close_matches(prev_act_name, all_acts)) > 0:
-					# 	prev_act_name = difflib.get_close_matches(prev_act_name, all_acts)[0]
-					#else:
-					#	print(prev_act_name)
 					parsed_by_spacy = prev_act_name
-					#if "referred" in line_words and ("Act" in line_words or "Act," in line_words or "Act." in line_words):
-
-					#parsed_by_spacy = re.sub('[^A-Za-z0-9]+', '', parsed_by_spacy)
 					if parsed_by_spacy in acts_so_far:
 						prev_act_name = acts_so_far[parsed_by_spacy]
 					elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
@@ -402,28 +308,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 						case_dict[all_cases[j]][prev_act_name]["Location"].add(str(line_num) + ',' + str(loc_of_act))
 					if prev_act_name in case_dict[all_cases[j]]:
 						case_dict[all_cases[j]][prev_act_name]["Location"].add(str(line_num) + ',' + str(loc_of_act))
-
-					# line_length = len(line)
-					# if "Section" in line:
-					# 	ind = line.index("Section")
-					# 	ind = ind + 7
-					# while(line[ind] == " "):
-					# 	ind = ind + 1
-					# 	if ind >= line_length:
-					# 		break
-					# if ind < line_length:
-					# 	while(line[ind] != " "):
-					# 		sect_num += line[ind]
-					# 		ind += 1
-					# 		if ind >= line_length:
-					# 			break
-					# if prev_act_name not in case_dict[all_cases[j]]:
-					# 	case_dict[all_cases[j]][prev_act_name] = {}
-					# 	case_dict[all_cases[j]][prev_act_name]["Section"] = set()
-					# 	case_dict[all_cases[j]][prev_act_name]["Location"] = (line_num, loc_of_act)
-					# if sect_flag and prev_act_name != "":
-					# 	case_dict[all_cases[j]][prev_act_name]["Section"].add(sect_num)
-						
+	
 				if "Section" in words:
 					#t = words.index("Section") + 1
 					e = 0
@@ -457,6 +342,25 @@ def fetch_mappings_of_given_case(case_id, case_dict):
 	with open("mappings_of_given_case.json", "w") as write_file:
 		json.dump(case_dict[case_id], write_file, indent = 4)
 	return case_dict[case_id]
+
+
+def fetch_all_acts_from_txt():
+	file = open("./Acts/all_acts_central_state.txt", "r")
+	acts_list = []
+	for line in file:
+		line = line[:-1]
+		acts_list.append(line)
+	return acts_list
+
+def closest_actual_act(act_str):
+	all_acts = fetch_all_acts_from_txt()
+	if len(difflib.get_close_matches(act_str, all_acts, 5)) > 0:
+		possible = difflib.get_close_matches(act_str, all_acts, 5)
+		max_count = 0
+		act_str = possible[0]
+		
+	return act_str
+
 
 print("################################################################")
 print("Hey There!")
