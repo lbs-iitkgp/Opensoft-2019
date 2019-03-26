@@ -18,6 +18,11 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
         graph.add_edges_from(self.edges())
         return(graph)
 
+    
+    def from_nx(self, graph):
+        self.add_nodes_from(graph.nodes(data=True))
+        self.add_edges_from(graph.edges())
+    
     def add_key_node(self, keyword):
         """method to add keyword type node"""
 
