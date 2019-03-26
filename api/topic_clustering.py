@@ -1,7 +1,7 @@
 import os
 import spacy
 import json
-
+from api.string_matching import find_score
 
 # The threshold limit for two words to consider as similar
 SIMILARITY_THRESHOLD = 0.65
@@ -124,6 +124,16 @@ def process(text):
     return " ".join([word for word in text.split() if not word.isnumeric()])
 
 
+def is_sentence_similar(doc1, doc2, text1, text2):
+    if len(text1.split()) < 2 or len(text2.split()) < 2:
+        return doc1.similarity(doc2) > 0.7
+    return 0.9 * doc1.similarity(doc2) + 0.2 * find_score(text1, text2) / 100 > 0.8
+
+
+def find_match_score(text1, text2):
+    return find_score(text1.replace(' act', ' '), text2.replace(' act', ' '))
+
+
 def get_sentence_clusters(keywords, nlp):
     # make a line out of these words
     keywords = [item for item in keywords if not item.isnumeric()]
@@ -132,22 +142,19 @@ def get_sentence_clusters(keywords, nlp):
     # for testing
     # keywords_line = " ".join(keywords[:100])
 
-    # remove duplicate words and join them
-    keywords_line = keywords
-
     words_used = []
     # make clusters with formed tokens
     clusters = []
-    for text in keywords_line:
+    for text in keywords:
         if text in words_used:
             continue
         doc1 = nlp(process(text))
         cluster = [text]
-        for text2 in keywords_line:
+        for text2 in keywords:
             if text2 == text or text2 in words_used:
                 continue
             doc2 = nlp(process(text2))
-            if doc1.similarity(doc2) > 0.7:
+            if is_sentence_similar(doc1, doc2, text, text2):
                 cluster.append(text2)
                 words_used.append(text2)
         clusters.append(cluster)
@@ -178,16 +185,20 @@ if __name__ == '__main__':
 
     file = open(os.path.join(os.getcwd(), 'api', 'base_class', 'catch.json'), 'r')
 
-    catch_words = [item[0].lower() for item in json.loads(file.read())]
-    clusters = get_topic_clusters(catch_words, nlp)
-    clusters.sort(key=lambda x: len(x), reverse=True)
-
+    # catch_words = [item[0].lower() for item in json.loads(file.read())]
+    # clusters = get_topic_clusters(catch_words, nlp)
+    # clusters.sort(key=lambda x: len(x), reverse=True)
     # catch_words = {item[0].lower(): item[1] for item in json.loads(file.read()) if not item[0].isnumeric()}
     # clusters = get_topic_clusters_with_count(catch_words, nlp)
     # clusters.sort(key=lambda x: len(x[0]), reverse=True)
 
+    catch_words = [item[0].lower() for item in json.loads(file.read())][:500]
+    clusters = get_sentence_clusters(catch_words, nlp)
+    clusters.sort(key=lambda x: len(x), reverse=True)
+
     for cluster in clusters:
         print(cluster)
+    print(len(clusters))
 
     # word1 = input("Enter first word : ")
     # word2 = input("Enter second word : ")
