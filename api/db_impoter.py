@@ -9,12 +9,13 @@
 # ==============================================================================|
 # Cases :serial_id, file name , indlaw , title, date, judgement, Page rank score|DONE
 # ==============================================================================|
-# catch words, key words     , act ka abbreviations                              |##############3
-# ===============================================================================|
+# catch words, key words     , act ka abbreviations (Done)                      |##############3
+# ==============================================================================|
 #IMPORT REQUIRED 
 import json
 import pymongo
 import base64
+import acts_updates
 import acts_separated
 from encode_helper import custom_encode, custom_decode
 import os
@@ -25,6 +26,7 @@ import abbreviation
 #====================================================================================================================================
 #ASSIGNS_MONGO_COLLECTIONS
 acts_collection = "acts_ka_db"
+future_acts_collection = "future_acts_ka_db"
 cases_collection = "cases_ka_db"
 abbreviations_collection = "abbreviations_ka_db"
 
@@ -59,10 +61,12 @@ def process_cases_data():
             final_case_data_dictonaries_list.append(case_dict)
     return final_case_data_dictonaries_list
 
+
 #====================================================================================================================================
-#CALLS_PROCESSING FUNCTIONS
+#CALLS_PROCESSING FUNCTIONS and DOES OTHER PROCESSING if needed
 processed_case_data = process_cases_data()
 processed_abbreviations_data = abbreviation.get_abbreviations()
+
 acts_ka_data = acts_separated.get_acts_by_states()
 
 s_acts_ka_data = []
@@ -71,10 +75,40 @@ for x in acts_ka_data:
     for phew in acts_ka_data[x]:
         s_acts_ka_data.append(phew)
 
-print(json.dumps(s_acts_ka_data, indent=4))
+act_serial_mapping = {act["act"]: act["serial"] for act in s_acts_ka_data}
+
+print(act_serial_mapping)
+# print(json.dumps(s_acts_ka_data, indent=4))
 
 #====================================================================================================================================
 #ADDS_DATA_TO_VARIOUS_COLLECTIONS
-handler.write_all(processed_abbreviations_data, abbreviations_collection)
-handler.write_all(s_acts_ka_data, acts_collection)
-handler.write_all(processed_case_data, cases_collection)
+# handler.write_all(processed_abbreviations_data, abbreviations_collection)
+# handler.write_all(s_acts_ka_data, acts_collection)
+# handler.write_all(processed_case_data, cases_collection)
+
+def process_future_acts_data(act_wise_data_list):
+    temp_list = []
+    mapping = acts_updates.get_all_versions_of_all_acts()   # a dictionary act: newest act
+    
+    for act in act_wise_data_list:
+        temp_dict= {}
+        new_act_name = acts_updates.get_latest_version_of_an_act(act["act"], mapping)
+        if new_act_name:
+            temp_dict[str(act["serial"])] = act_serial_mapping[new_act_name]
+            temp_list.append(temp_dict)
+
+    return temp_list
+
+
+# processed_future_acts_data = process_future_acts_data(s_acts_ka_data)
+# handler.write_all(processed_future_acts_data, future_acts_collection)
+
+
+# lists = handler.read_all(future_acts_collection)
+# print(lists[:100])
+
+list1 = handler.read_all(acts_collection, serial=37)[0]
+list2 = handler.read_all(acts_collection, serial=98)[0]
+
+print(list1)
+print(list2)

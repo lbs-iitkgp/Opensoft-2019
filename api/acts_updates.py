@@ -62,12 +62,19 @@ def get_all_versions_of_all_acts():
             act = act_name
             state_of_act = which_state_are_you_from(act)
             state_of_most_recent_act = which_state_are_you_from(most_recent_act)
-            print(state_of_act)
-            print(state_of_most_recent_act)
+            # print(state_of_act)
+            # print(state_of_most_recent_act)
             if act not in MOST_RECENT_VERSION and state_of_act == state_of_most_recent_act:
                 MOST_RECENT_VERSION[act] = most_recent_act
 
     return MOST_RECENT_VERSION
+
+def get_latest_version_of_an_act(probably_old_act,mapping):
+    for an_act in mapping:
+        if an_act == probably_old_act:
+            return mapping[an_act]
+
+
 
 if __name__ == "__main__":
     with open('ACTS_TO_ALL_YEARS.json','w') as f:

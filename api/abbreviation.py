@@ -2,11 +2,11 @@ import os
 import json
 from abbreviations import schwartz_hearst
 from env import ENV 
-
+import encode_helper
 file = open("data.txt", "w")
 
 all_files = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
-all_cases = list(filter(lambda x: x[-4:] == ".txt", all_files))[:100]
+all_cases = list(filter(lambda x: x[-4:] == ".txt", all_files))[:1000]
 abb = {}
 ignore = {}
 count = 0
@@ -70,6 +70,7 @@ def get_abbreviations():
             ignore[a] = abb[a]
         else:
             actual_abb[a] = abb[a]
+            
     temp_list = []
     for act_short_form in actual_abb:
         temp_dict = {act_short_form : actual_abb[act_short_form]}
