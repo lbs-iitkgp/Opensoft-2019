@@ -6,25 +6,27 @@ import 'material-ui-icons'
 
 
 function createData(listData, index) {
-  var Case = "Topic"
-  var cardType = listData[0];
-  var cardValue = listData[1];
-  return { index, Case, cardType, cardValue } ;
+  
+  var type = listData.type;
+  var name = listData.name;
+  var url = listData.url;
+  return { index, type, name, url } ;
   }
 
 var cardsData = [
   {
-    keyWord : 'key-1',
-    cardType : 'Judge',
-    cardValue : 'mahjan'
+    "type" : 'judge',
+    "name" : 'mahjan',
+    "url" : '#',
+    
   }
 ,
 {
-  keyWord : 'key-1',
-  cardType : 'Judge',
-  cardValue : 'mahjan'
-}
-].map((ele, ind) => createData(ele, ind) );  
+  "type" : 'judge',
+  "name" : 'mahjan',
+  "url" : '#',
+  
+}].map((ele, ind) => createData(ele, ind) );  
 
 
 class Demo extends Component{
@@ -75,15 +77,11 @@ render() {
           <div id="content" className="flex-container">
             {cardsData.map( ele => (
               <Card  className="card" style={{ color : this.state.cardsColor[ele.index],minWidth : this.state.minWidth }} id={ele.index} >
-                <div id='chipCross'><Chips title={ele.keyWord} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
+                <div id='chipCross'><Chips title={ele.type} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
                  <div id="cardType">
-                  <b><h3>{ele.cardType}:</h3></b> 
+                  <a href={ele.url}><b><h3>{ele.name}:</h3></b></a> 
                 </div>
-                <div id="cardValue">
-                  <b><h3>{ele.cardValue}</h3></b> 
-                </div>
-                
-               </Card>
+              </Card>
             ))}
           </div>
            );

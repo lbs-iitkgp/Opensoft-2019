@@ -6,21 +6,24 @@ import Chips from '../chips.js'
 
 
 function createData(listData, index) {
-  var keyWord = listData[0]
-  var cardType = listData[1]
-  var cardValue = listData[2]
-  return { index, keyWord, cardType, cardValue } ;
+  var type = listData.type
+  var name = listData.name
+  var url = listData.url
+  return { index, type,name, url } ;
   }
 
 var cardsData = [
-  ['honorable',
-  "Judge",
-  "mahajan",]
+  {
+    "type" : "judge",
+    "name" : "mahajan",
+    "url"  : "#"
+  }
 ,
-['stamp issue',
-  "Act",
-  "indian stamp act"]
-].map((ele, ind) => createData(ele, ind) );  
+{
+  "type" : "judge",
+  "name" : "mahajan",
+  "url"  : "#"
+}].map((ele, ind) => createData(ele, ind) );  
 
 class Demo extends Component{
   constructor(...props){
@@ -58,16 +61,13 @@ handleToggle(colorDecider, index){
 render() {
      return (
           <div id="content" className="flex-container">
-            {cardsData.map( ele => (
+            {cardsData.map( ele   => (
               <Card  className="card" style={{ color : this.state.cardsColor[ele.index], minWidth: this.state.minWidth }} id={ele.index} >
-                <div id="case"><Chips title={ele.keyWord} /><Switches id={ele.index} OnPassChecked={this.handleToggle}  /></div>
+                <div id="case"><Chips title={ele.type} /><Switches id={ele.index} OnPassChecked={this.handleToggle}  /></div>
                 <div >
-                  <b>{ele.cardType}:</b>
+                  <a href={ele.url}><b>{ele.name}</b></a>
                 </div>
-                <div >
-                  <b>{ele.cardValue}</b>
-                </div>
-               </Card>
+              </Card>
             ))}
           </div>
            );
