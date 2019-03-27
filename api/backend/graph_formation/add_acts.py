@@ -13,13 +13,13 @@ def compute_mapping():
 def map_acts_with_cases(j):
     compute_mapping()
     # i = 0
-    for case in j.fetch_cases():
+    for i, case in enumerate(j.fetch_cases()):
         # if i> 10:
         #     continue
         if case in CASE_ID_TO_FILE:
             # i += 1
             case_file = CASE_ID_TO_FILE[case]
-            # print("Running act-case mapper for {}".format(case_file))
+            print("Running act-case mapper for case {}: {}".format(i+1, case_file))
             acts = act_section_parser.fetch_all_acts_in_a_case(case_file)
             # print(acts)
             for act in acts:
