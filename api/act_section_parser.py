@@ -137,26 +137,28 @@ def fetch_acts_from_cases(all_acts):
 					print("Yo, ", prev_act_name)
 					if prev_act_name == "":
 						continue
+					
 					if parsed_by_spacy in acts_so_far:
 						prev_act_name = acts_so_far[parsed_by_spacy]
-					elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+					else:
 						possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-						max_count = 0
-						#print(possible)
-						for i in range(len(possible)):
-							match_count = 0
-							bas = possible[i]
-							w = possible[i].split(" ")
-							for a in w:
-								if a.lower() in [f.lower() for f in line_words]:
-									match_count += 1
-							if match_count >= max_count:
-								max_count = match_count
-								prev_act_name = possible[i]
-						checker = prev_act_name.split(" ")
-						if checker[0].lower() not in [v.lower() for v in line_words]:
-							if dada_act_name != "":
-								prev_act_name = dada_act_name
+						if len(possible) > 0:
+							max_count = 0
+							#print(possible)
+							for i in range(len(possible)):
+								match_count = 0
+								bas = possible[i]
+								w = possible[i].split(" ")
+								for a in w:
+									if a.lower() in [f.lower() for f in line_words]:
+										match_count += 1
+								if match_count >= max_count:
+									max_count = match_count
+									prev_act_name = possible[i]
+							checker = prev_act_name.split(" ")
+							if checker[0].lower() not in [v.lower() for v in line_words]:
+								if dada_act_name != "":
+									prev_act_name = dada_act_name
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -271,24 +273,25 @@ def fetch_section_act_mapping_from_case(all_acts):
 					parsed_by_spacy = prev_act_name
 					if parsed_by_spacy in acts_so_far:
 						prev_act_name = acts_so_far[parsed_by_spacy]
-					elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+					else:
 						possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-						max_count = 0
-						#print(possible)
-						for i in range(len(possible)):
-							match_count = 0
-							bas = possible[i]
-							w = possible[i].split(" ")
-							for a in w:
-								if a.lower() in [f.lower() for f in line_words]:
-									match_count += 1
-							if match_count >= max_count:
-								max_count = match_count
-								prev_act_name = possible[i]
-						checker = prev_act_name.split(" ")
-						if checker[0].lower() not in [v.lower() for v in line_words]:
-							if dada_act_name != "":
-								prev_act_name = dada_act_name
+						if len(possible) > 0:
+							max_count = 0
+							#print(possible)
+							for i in range(len(possible)):
+								match_count = 0
+								bas = possible[i]
+								w = possible[i].split(" ")
+								for a in w:
+									if a.lower() in [f.lower() for f in line_words]:
+										match_count += 1
+								if match_count >= max_count:
+									max_count = match_count
+									prev_act_name = possible[i]
+							checker = prev_act_name.split(" ")
+							if checker[0].lower() not in [v.lower() for v in line_words]:
+								if dada_act_name != "":
+									prev_act_name = dada_act_name
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -441,24 +444,25 @@ def fetch_mappings_of_given_case(case_id):
 				parsed_by_spacy = prev_act_name
 				if parsed_by_spacy in acts_so_far:
 					prev_act_name = acts_so_far[parsed_by_spacy]
-				elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+				else:
 					possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-					max_count = 0
-					#print(possible)
-					for i in range(len(possible)):
-						match_count = 0
-						bas = possible[i]
-						w = possible[i].split(" ")
-						for a in w:
-							if a.lower() in [f.lower() for f in line_words]:
-								match_count += 1
-						if match_count >= max_count:
-							max_count = match_count
-							prev_act_name = possible[i]
-					checker = prev_act_name.split(" ")
-					if checker[0].lower() not in [v.lower() for v in line_words]:
-						if dada_act_name != "":
-							prev_act_name = dada_act_name
+					if len(possible) > 0:
+						max_count = 0
+						#print(possible)
+						for i in range(len(possible)):
+							match_count = 0
+							bas = possible[i]
+							w = possible[i].split(" ")
+							for a in w:
+								if a.lower() in [f.lower() for f in line_words]:
+									match_count += 1
+							if match_count >= max_count:
+								max_count = match_count
+								prev_act_name = possible[i]
+						checker = prev_act_name.split(" ")
+						if checker[0].lower() not in [v.lower() for v in line_words]:
+							if dada_act_name != "":
+								prev_act_name = dada_act_name
 				print(prev_act_name)
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
@@ -613,24 +617,25 @@ def fetch_all_acts_in_a_case(case_id):
 					continue
 				if parsed_by_spacy in acts_so_far:
 					prev_act_name = acts_so_far[parsed_by_spacy]
-				elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+				else:
 					possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-					max_count = 0
-					#print(possible)
-					for i in range(len(possible)):
-						match_count = 0
-						bas = possible[i]
-						w = possible[i].split(" ")
-						for a in w:
-							if a.lower() in [f.lower() for f in line_words]:
-								match_count += 1
-						if match_count >= max_count:
-							max_count = match_count
-							prev_act_name = possible[i]
-					checker = prev_act_name.split(" ")
-					if checker[0].lower() not in [v.lower() for v in line_words]:
-						if dada_act_name != "":
-							prev_act_name = dada_act_name
+					if len(possible) > 0:
+						max_count = 0
+						#print(possible)
+						for i in range(len(possible)):
+							match_count = 0
+							bas = possible[i]
+							w = possible[i].split(" ")
+							for a in w:
+								if a.lower() in [f.lower() for f in line_words]:
+									match_count += 1
+							if match_count >= max_count:
+								max_count = match_count
+								prev_act_name = possible[i]
+						checker = prev_act_name.split(" ")
+						if checker[0].lower() not in [v.lower() for v in line_words]:
+							if dada_act_name != "":
+								prev_act_name = dada_act_name
 				print(prev_act_name)
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
