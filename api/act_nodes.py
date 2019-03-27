@@ -1,4 +1,4 @@
-from  legal_graph import LegalKnowledgeGraph 
+from  base_class.legal_graph import LegalKnowledgeGraph 
 
 def act_add(j):
     filename = 'actlist.txt'

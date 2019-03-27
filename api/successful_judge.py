@@ -8,7 +8,7 @@ import re
 import nltk
 from env import ENV
 # import json
-CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
+CASE_FILE = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
 
 JUDGES = []
 
@@ -92,9 +92,9 @@ def get_parent(a):
 
 def get_case_id():
     '''
-        Returns the Indlaw SC Id for a case and its name (as in All_FT directory)
+        Returns the Indlaw SC Id for a case and its name (as in CaseDocuments/All_FT directory)
         '''
-    with open('doc_path_ttl_id.txt') as doc_file:   
+    with open("{}/doc_path_ttl_id.txt".format(ENV["DATASET_PATH"])) as doc_file:   
 
         for line in doc_file.readlines():
 
@@ -113,7 +113,7 @@ def judge_to_case(graph):
     immediate_next_line = {}    #   Similar to above, handles some more edge cases
 
     for file_name in CASE_FILE:
-        path = os.path.join('./All_FT', file_name)
+        path = os.path.join('./CaseDocuments/All_FT', file_name)
 
         # Get the key value for CASE_FILE_TO_ID
         idx = re.search(r".txt", file_name)
@@ -133,7 +133,7 @@ def judge_to_case(graph):
             file_key = CASE_FILE_TO_ID[file_key]
 
 
-        with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
+        with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
 
             found_judge = 0         #   Flags to mark name has been found
             found_next_line = 0
@@ -165,7 +165,7 @@ def judge_to_case(graph):
     result = {} # Will store the final mapping of the judge names to cases after a lot of filtering below
     cnt = 0
 
-    print(len(temporary_judges))
+    # print(len(temporary_judges))
 
     for judge_key in temporary_judges:
         cnt += 1
@@ -259,13 +259,13 @@ def judge_to_case(graph):
             #     final_list[name] = []
             #     final_list[name].append(judge_key)
 
-            if judge_key in final_list:
+            if name in final_list:
                 final_list[name].append(judge_key)
             else:
                 final_list[name] = []
                 final_list[name].append(judge_key)
 
-    print(len(final_list))
+    # print(len(final_list))
 
     done = set()
 
@@ -279,6 +279,18 @@ def judge_to_case(graph):
                     done.add((m, n))
                     check = check_match(n, m)
                     if check:
+                        if n.find('.') != -1:
+                            if m.find('.') == -1:
+                                PARENT[m] = n
+                            else:
+                                i1 = n.index('.')
+                                if i1 == 1:
+                                    PARENT[m] = n
+                                else:
+                                    PARENT[n] = m
+
+    done = set()
+    ''' Set the local parent of each name earlier to global parents, 
             such that all n nnumber of variations of a name get the same key in the final result'''
 
     for key in PARENT:  

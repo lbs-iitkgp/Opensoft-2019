@@ -2,12 +2,12 @@
      to Case-ID of case citing them"""
 
 import os
-from legal_graph import LegalKnowledgeGraph
-
+from base_class.legal_graph import LegalKnowledgeGraph
+from env import ENV
 
 LKG = LegalKnowledgeGraph()
 
-ALL_FILES = os.listdir("./All_FT")
+ALL_FILES = os.listdir('{}/CaseDocuments/All_FT'.format(ENV["DATASET_PATH"]))
 ALL_CASES = [filename for filename in ALL_FILES if filename[-4:] == ".txt"]
 
 

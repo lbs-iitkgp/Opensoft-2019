@@ -16,7 +16,7 @@ import networkx as nx
 # from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 from collections import defaultdict
-from graph_io import import_graph, export_graph
+from base_class.graph_io import import_graph, export_graph
 
 
 def merge_graphs_by_intersection(universal_graph, subgraphs):

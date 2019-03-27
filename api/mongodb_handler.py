@@ -34,8 +34,8 @@ def write_all(data, coll_name):
     collection = LEGAL_DATABASES[coll_name]
     ids = []
     for item in data:
-        encoded_dict = encode(item)
-        ids.append(collection.insert_one(encoded_dict))
+        # encoded_dict = encode(item)
+        ids.append(collection.insert_one(item))
 
     return ids
 

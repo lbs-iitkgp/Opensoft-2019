@@ -73,7 +73,7 @@ def get_abbreviations():
             
     temp_list = []
     for act_short_form in actual_abb:
-        temp_dict = {act_short_form : actual_abb[act_short_form]}
+        temp_dict = { "abbrev": act_short_form , "actual" : " ".join(actual_abb[act_short_form])}
         temp_list.append(temp_dict)
 
 
