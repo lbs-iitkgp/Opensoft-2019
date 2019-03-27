@@ -1,46 +1,41 @@
-from endpoints import app, cors
+from endpoints import *
 
 @app.route('/act/<act_id>', methods=['GET'])
 def act_metadata(act_id):
-    # Fetch filename path from mongodb
-    # act name, year, state/central, recent version
-    #
-    # {
-    #     "name": ,
-    #     "year": ,
-    #     "type": ,
-    #     "recent_version": {
-    #         "id": ,
-    #         "name":
-    #     },
-    #     "abbreviation": 
-    # }
-
-    return('Hello')
+    act = mydb.mytable.find({"act_id":act_id})
+    result ={
+        'name': act['name'],
+        'year': act['year'],
+        'type': act['type'],
+        'recent_version': {
+            'id': act['recent_version_id'],
+            'name': act['recent_version_name']
+        },
+        'abbreviation': act['abbreviation'] 
+    }
+    return jsonify(result)
 
 @app.route('/act/<act_id>/sections', methods=['GET'])
 def act_sections(act_id):
-    # Fetch sections for a particular act from file
-    #
-    # [
-    #   {
-    #       "section_id": ,
-    #       "section_text":
-    #   },
-    #   ...
-    # ]    
-
-    return('Hello')
+    result = []
+    for section in mydb.mytable.find({"act_id":act_id}):
+        section = {
+                'section_id': section['section_id'],
+                'section_text': section['section_text']
+            }
+        result.append(section)
+    return jsonify(result)
 
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
 def act_section(act_id, section_id):
-    # Fetch sections for a particular act from file
-    #
-    # {
-    #   "section_id": ,
-    #   "section_text": 
-    # }
-    return('Hello')
+    sections = mydb.mytable.find({"act_id":act_id})
+    section = mydb.sections[section_id].find({"section_id":section_id})
+    result = {
+       'section_id': section_id,
+       'section_text': section['section_text'] 
+    }
+    return jsonify(result)
+
 
 @app.route('/act/<act_id>/plot_line', methods=['GET'])
 def act_line_distribution(act_id):
@@ -50,10 +45,6 @@ def act_line_distribution(act_id):
     # 
     return('Hello')
 
-@app.route('/act/<act_id>/plot_radar', methods=['GET'])
-def act_radar_distribution(act_id):
-    # Fetch cases that cite this act from neo4j, and have a distribution of keywords
-    return('Hello')
 
 @app.route('/act/<act_id>/cases', methods=['GET'])
 def act_citations(act_id):

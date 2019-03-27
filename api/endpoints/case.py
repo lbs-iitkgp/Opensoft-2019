@@ -1,20 +1,18 @@
-from endpoints import app, cors
+from endpoints import *
 
 @app.route('/case/<case_id>', methods=['GET'])
 def case_metadata(case_id):
-    # Read from mongo
-    # judge, judgement, date
-    #
-    #   {
-    #       "case_id": ,
-    #       "case_name": ,
-    #       "case_indlaw_id":
-    #       "case_judges": [],
-    #       "case_judgement": ,
-    #       "case_date": ,
-    #       "case_year":
-    #   }
-    return('Hello '+case_id)
+    case = mydb.mytable.find({"case_id":case_id}) 
+    result =  {
+          "case_id": case_id,
+          "case_name": case['case_name'],
+          "case_indlaw_id": case['case_indlawid'],
+          "case_judges": case['judge'],
+          "case_judgement": case['judgement'],
+          "case_date": case['case_date'],
+          "case_year": case['case_year']
+      }
+    return jsonify(result)
 
 @app.route('/case/<case_id>/plot_line', methods=['GET'])
 def case_line_distribution(case_id):
@@ -22,10 +20,6 @@ def case_line_distribution(case_id):
     #   Find citer's year from mongo
     return('Hello')
 
-@app.route('/case/<case_id>/plot_radar', methods=['GET'])
-def case_radar_distribution(case_id):
-    # Get subjects of particular case, normalize them based on something
-    return('Hello')
 
 @app.route('/case/<case_id>/timeline', methods=['GET'])
 def case_timeline(case_id):
@@ -79,4 +73,6 @@ def case_citations(case_id):
     #       ...
     #   ]
     # }
+
     return('Hello')
+

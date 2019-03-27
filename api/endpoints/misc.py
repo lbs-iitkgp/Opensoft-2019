@@ -1,4 +1,4 @@
-from endpoints import app, cors
+from endpoints import *
 
 @app.route('/suggestions', methods=['GET'])
 def get_suggestions():
