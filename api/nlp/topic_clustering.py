@@ -1,7 +1,7 @@
 import os
 import spacy
 import json
-from api.string_matching import find_score
+from string_matching import find_score
 
 # The threshold limit for two words to consider as similar
 SIMILARITY_THRESHOLD = 0.65
