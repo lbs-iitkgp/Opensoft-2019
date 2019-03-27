@@ -16,7 +16,7 @@ def map_acts_with_cases(j):
 
     all_cases = list(CASE_ID_TO_FILE.keys())
     per_page = 100
-    for page in range(len(all_cases)/per_page):
+    for page in range(int(len(all_cases)/per_page)):
         j_new = j
         low = page*per_page
         high = (page+1)*per_page
