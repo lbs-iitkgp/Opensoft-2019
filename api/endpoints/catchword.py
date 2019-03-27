@@ -1,13 +1,15 @@
 from endpoints import *
 
 @app.route('/catchword/<catchword_id>', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def catchword_metadata(catchword_id):
     # Just return catchword name, # of cases and precentile among catchwords maybe?
-    catchword = mydb.mytable.find({"catchword_id":catchword_id})
+    #catchword = mydb.mytable.find({"catchword_id":catchword_id})
+    catchword = {"name":"Babajan","number_of_cases":-20}
     result ={
         'name': catchword["name"],
         'number_of_cases': catchword["number_of_cases"],
-        'percentile': mydb.mytable.find({"catchword_id":catchword_id}).count()*100.0/mydb.mytable.count()
+        'percentile': 90#mydb.mytable.find({"catchword_id":catchword_id}).count()*100.0/mydb.mytable.count()
     }
     return jsonify(result)
 
@@ -23,7 +25,7 @@ def catchword_cases(catchword_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges=[], subjects=[], keywords=[catchword_id], judgements=[], types=[], year_range=[])
+    subgraph = lkg.query(judges=[], subjects=[catchword_id], keywords=[], judgements=[], types=[], year_range=[])
 
     data = lkg.nodes(data=True)
     such_cases = subgraph[catchword_id]
