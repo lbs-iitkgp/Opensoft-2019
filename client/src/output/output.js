@@ -8,7 +8,9 @@ import ScrollUpButton from "react-scroll-up-button";
 
 
 class Output extends Component {
-    
+    constructor(props){
+      super(props)
+       }
     render(){
           
         return(

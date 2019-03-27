@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
 import Output from './output/output.js'
 
-
 var Results = {
   "query" : "",
   "years" : [],
@@ -72,7 +71,9 @@ printResults(){
   //   }
   // })
     ReactDOM.render(<Output />,document.getElementById('root'))
-}
+    // scrollToComponent(this.refs.OutRef,{align:'bottom'});
+    window.scroll({top: 800, left: 0, behavior: 'smooth' })
+  }
   render() {
     return (
       <div>

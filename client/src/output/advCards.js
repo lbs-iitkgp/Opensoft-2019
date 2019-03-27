@@ -75,7 +75,7 @@ render() {
           <div id="content" className="flex-container">
             {cardsData.map( ele => (
               <Card  className="card" style={{ color : this.state.cardsColor[ele.index],minWidth : this.state.minWidth }} id={ele.index} >
-                <div id='chipCross'><Chips title={ele.Case} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
+                <div id='chipCross'><Chips title={ele.keyWord} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
                  <div id="cardType">
                   <b><h3>{ele.cardType}:</h3></b> 
                 </div>
