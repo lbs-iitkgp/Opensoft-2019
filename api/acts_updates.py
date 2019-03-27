@@ -70,5 +70,5 @@ def get_all_versions_of_all_acts():
     return MOST_RECENT_VERSION
 
 if __name__ == "__main__":
-    with open('ACTS_TO_ALL_YEARS_temp.json','w') as f:
+    with open('ACTS_TO_ALL_YEARS.json','w') as f:
         json.dump(get_all_versions_of_all_acts(),f,indent=4) 
