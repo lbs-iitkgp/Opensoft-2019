@@ -9,8 +9,8 @@ import MUIDataTable from 'mui-datatables';
 var data = {
   filters : '',
   rowsPerPage : 10,
-  pagenumber : 0
-
+  pagenumber : 0,
+  sortColumn : []
 }
 
 class AdvFilter extends React.Component {
@@ -54,6 +54,12 @@ class AdvFilter extends React.Component {
       this.onChangePages = this.onChangePages.bind(this);
       this.onChangeRowsPerPages = this.onChangeRowsPerPages.bind(this);
       this.onFilterChanges = this.onFilterChanges.bind(this);
+      this.onColumnSortChanges = this.onColumnSortChanges.bind(this);
+    }
+
+    onColumnSortChanges(changedColumn,direction){
+      data.sortColumn = {column : changedColumn, order : direction};
+      console.log(data.sortColumn);
     }
 
     onChangePages(number){
@@ -83,6 +89,7 @@ class AdvFilter extends React.Component {
       onChangePage : this.onChangePages,
       onChangeRowsPerPage : this.onChangeRowsPerPages,
       onFilterChange : this.onFilterChanges,
+      onColumnSortChange : this.onColumnSortChanges,
       rowsPerPageOptions : [5,10,15]
     };
     return (

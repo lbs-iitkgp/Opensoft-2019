@@ -11,6 +11,7 @@ import { bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
   
 const stock = appleStock.slice(800);
+console.log(stock)
 
 // util
 const formatDate = timeFormat("%b %d, '%y");
