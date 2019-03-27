@@ -21,7 +21,7 @@ import os
 import case_ka_data_nikal as ckdn
 from env import ENV
 import mongodb_handler as handler
-# import abbreviation
+import abbreviation
 #====================================================================================================================================
 #ASSIGNS_MONGO_COLLECTIONS
 acts_collection = "acts_ka_db"
@@ -62,7 +62,7 @@ def process_cases_data():
 #====================================================================================================================================
 #CALLS_PROCESSING FUNCTIONS
 processed_case_data = process_cases_data()
-
+processed_abbreviations_data = abbreviation.get_abbreviations()
 acts_ka_data = acts_separated.get_acts_by_states()
 
 s_acts_ka_data = []
@@ -75,6 +75,6 @@ print(json.dumps(s_acts_ka_data, indent=4))
 
 #====================================================================================================================================
 #ADDS_DATA_TO_VARIOUS_COLLECTIONS
-
+handler.write_all(processed_abbreviations_data, abbreviations_collection)
 handler.write_all(s_acts_ka_data, acts_collection)
 handler.write_all(processed_case_data, cases_collection)
