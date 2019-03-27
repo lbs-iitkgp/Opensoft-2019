@@ -54,7 +54,7 @@ def nx_to_neo4j(nx_graph=None):
         string_to_instance_mapping[list_node[i][0]] = node_instance
 
     list_edges=list(nx_graph.edges())
-    for i in range(graph.number_of_edges()):
+    for i in range(nx_graph.number_of_edges()):
         source_node_instance = string_to_instance_mapping[list_edges[i][0]]
         target_node_instance = string_to_instance_mapping[list_edges[i][1]]
         b = Relationship(source_node_instance, "MAPS TO", target_node_instance)

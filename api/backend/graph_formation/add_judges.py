@@ -165,7 +165,7 @@ def judge_to_case(graph):
     result = {} # Will store the final mapping of the judge names to cases after a lot of filtering below
     cnt = 0
 
-    print(len(temporary_judges))
+    # print(len(temporary_judges))
 
     for judge_key in temporary_judges:
         cnt += 1
@@ -265,7 +265,7 @@ def judge_to_case(graph):
                 final_list[name] = []
                 final_list[name].append(judge_key)
 
-    print(len(final_list))
+    # print(len(final_list))
 
     done = set()
 

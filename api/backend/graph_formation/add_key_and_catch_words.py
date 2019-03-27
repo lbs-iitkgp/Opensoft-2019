@@ -31,7 +31,8 @@ def add_catch_subject(j):
                     for subject in subjects:
                         j.add_key_word_to_case(subject.strip(), case_id)
                     for catch_word in catch_words:
-                        j.add_catch_to_case(case_id, catch_word.strip())
+                        if catch_word:
+                            j.add_catch_to_case(case_id, catch_word.strip())
     return j
 
 
