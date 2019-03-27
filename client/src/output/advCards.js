@@ -16,7 +16,7 @@ function createData(listData, index) {
 var cardsData = [
   {
     "type" : 'judge',
-    "name" : 'mahjan',
+    "name" : 'papahjan',
     "url" : '#',
     
   }
@@ -24,6 +24,17 @@ var cardsData = [
 {
   "type" : 'judge',
   "name" : 'mahjan',
+  "url" : '#',
+  
+},
+{
+  "type" : 'judge',
+  "name" : 'babahjan',
+  "url" : '#',
+  
+},{
+  "type" : 'judge',
+  "name" : 'kakahjan',
   "url" : '#',
   
 }].map((ele, ind) => createData(ele, ind) );  
@@ -39,36 +50,40 @@ class Demo extends Component{
     marginBottom: 12,
     padding : 10,
     margin :10,
-    cardsColor : ['','']
+    cardsColor :[1,1,1,1]
   }
-this.handleToggle = this.handleToggle.bind(this);
+
 this.removeCard = this.removeCard.bind(this);
+this.printPresentCards = this.printPresentCards.bind(this);
 }
 
-handleToggle(colorDecider, index){
-  var localcardsColor = this.state.cardsColor;
-  if(!colorDecider)
-   {
-       console.log(index);
-       localcardsColor[index] = '';
-       
-   }
-   else if(colorDecider) 
-  {
-    console.log(index);
-      localcardsColor[index] = '#e6e6e6';
-  }
-  this.setState({
-    cardsColor : localcardsColor
-  })  
+printPresentCards(){
+  for(var i=0;i<cardsData.length;i++ ){
+    if(this.state.cardsColor[i] != 0 )
+      console.log(cardsData[i]);
+    else 
+      continue;  
+  } 
+  console.log("printed");
+}
+
+componentDidUpdate()
+{
+  this.printPresentCards();
 }
 
 removeCard(id){
     let removeC = () => {
         const localId = id;
-        var content = document.getElementById(localId)
-        content.remove()
+        var content = document.getElementById(localId);
+        content.remove();
+        var arr = this.state.cardsColor;
+        arr[localId] = 0;
+        this.setState({
+          cardsColor : arr
+        })
      }
+     //this.printPresentCards();
     return removeC;
 }
 
@@ -76,8 +91,8 @@ render() {
      return (
           <div id="content" className="flex-container">
             {cardsData.map( ele => (
-              <Card  className="card" style={{ color : this.state.cardsColor[ele.index],minWidth : this.state.minWidth }} id={ele.index} >
-                <div id='chipCross'><Chips title={ele.type} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
+              <Card  className="card" style={{ minWidth : this.state.minWidth }} id={ele.index} onClick={this.removeCard(ele.index)}  >
+                <div id='chipCross'><Chips title={ele.type} /><i class="material-icons md-48" >highlight_off</i></div>
                  <div id="cardType">
                   <a href={ele.url}><b><h3>{ele.name}:</h3></b></a> 
                 </div>

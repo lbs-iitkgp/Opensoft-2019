@@ -78,7 +78,7 @@ render() {
               <Card  className="card" style={{ color : this.state.cardsColor[ele.index], minWidth: this.state.minWidth }} id={ele.index} >
                 <div id="case"><Chips title={ele.type} /><Switches id={ele.index} OnPassChecked={this.handleToggle}  /></div>
                 <div >
-                  <b>{ele.name}</b>
+                  <a href="#"><b>{ele.name}</b></a>
                 </div>
               </Card>
             ))}

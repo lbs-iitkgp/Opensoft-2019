@@ -13,9 +13,7 @@ class Output extends Component {
       super(props)
        }
 
-    componentWillUnmount(){
-      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-    }   
+     
     render(){
           
         return(

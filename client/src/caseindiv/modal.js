@@ -14,7 +14,6 @@ import ResultCard from './jjd.js'
 import '../App.css'
 import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
-import Radar from './radar.js'
 import CitedCases from './citedCases.js'
 
 const useStyles = makeStyles({
@@ -59,8 +58,7 @@ function FullScreenDialog() {
          <div id='left-indiv'>
             <div id ='resCard'><ResultCard /></div> 
             <div id='graph'>< Area /></div>
-            <div id='graph'><Radar /></div>
-          </div>
+         </div>
           <div id='vtl'>
             <VerticalTimeline />
           </div>

@@ -25,10 +25,11 @@ class ResultCard extends Component{
    super(...props);
  this.state = {
    minWidth  : 400,
+   minHeight : 80,
    color : '',
-   fontSize: 14,
-   marginBottom: 12,
-   padding : 10,
+   fontSize: 30,
+   //marginBottom: 12,
+   //padding : 10,
    margin :10,
    }
 }
@@ -40,7 +41,7 @@ render() {
          <div id='judgeIndivRes'> 
           <div id="judgeLeftCol" >
            
-             <Card  className="cardInJudge" style={{ color : this.state.color }}  >
+             <Card  className="cardInJudge" style={this.state}  >
                <div id="judgement">
                  <b>Name:</b> {cardsData.name}
                </div>
@@ -54,7 +55,6 @@ render() {
              </Card>
           
           <Graph />
-          <Radar />
           </div>
           <AdvTable />
          </div>
