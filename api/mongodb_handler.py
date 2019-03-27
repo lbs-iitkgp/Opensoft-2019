@@ -50,4 +50,7 @@ def read_all(coll_name, **filters):
     for item in collection.find(encoded_filters, {'_id': 0}):
         collections.append(decode(item))
 
-    return collections
+    if len(collections) > 1 or len(collections) == 0:
+        return collections
+    else:
+        return collections[0]
