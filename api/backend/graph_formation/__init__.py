@@ -11,7 +11,7 @@ from env import ENV
 
 def prepare_graph():
     j = LegalKnowledgeGraph()
-    # j = add_cases.citing(j)
+    j = add_cases.citing(j)
     j = add_act_nodes.act_add(j)
     # j = add_key_and_catch_words.add_catch_subject(j)
     # j = add_judges.judge_to_case(j)
