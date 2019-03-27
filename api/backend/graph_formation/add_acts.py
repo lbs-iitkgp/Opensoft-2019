@@ -1,5 +1,6 @@
 from env import ENV
 import act_section_parser
+from backend.graph_io import lkg_to_json
 
 CASE_ID_TO_FILE = dict()
 def compute_mapping():
