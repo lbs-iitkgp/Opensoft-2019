@@ -99,5 +99,5 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
     def fetch_keywords(self):
         return(self.fetch_type('keyword'))
 
-    def query(**query_params):
+    def query(self, **query_params):
         return(graph_query(self, **query_params))

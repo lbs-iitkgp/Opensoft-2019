@@ -1,4 +1,3 @@
-from backend.graph_formation.base.legal_knowledge_graph import LegalKnowledgeGraph
 from env import ENV
 
 import json
@@ -32,9 +31,10 @@ def lkg_to_nx(lkg):
     return(nx_graph)
     
 def nx_to_lkg(nx_graph):
+    from backend.graph_formation.base.legal_knowledge_graph import LegalKnowledgeGraph
     lkg = LegalKnowledgeGraph()
-    lkg.add_nodes_from(graph.nodes(data=True))
-    lkg.add_edges_from(graph.edges())
+    lkg.add_nodes_from(nx_graph.nodes(data=True))
+    lkg.add_edges_from(nx_graph.edges())
     return(lkg)
 
 def nx_to_neo4j(nx_graph=None):
@@ -116,6 +116,8 @@ def neo4j_to_lkg():
     This function reads the NEO4J graph stored in the neo4j browser and converts it into a networkx graph
     """
     node_types = ["judge", "keyword", "case", "catch"]
+    from backend.graph_formation.base.legal_knowledge_graph import LegalKnowledgeGraph
+
     lkg = LegalKnowledgeGraph()
     db = GraphDatabase(ENV["DB_URL"], username=ENV["DB_USERNAME"], password=ENV["DB_PASSWORD"])
     # Authentication for NEO4J Browser
