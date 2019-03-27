@@ -532,8 +532,7 @@ def fetch_all_acts_in_a_case(case_id):
 	text = ""
 	line_num = 1
 	#print(case_id)
-	act_cases = {}
-	act_cases[case_id] = set()
+	act_cases = set()
 	prev_act_name = ""
 	year = ""
 	dada_act_name = ""
@@ -645,15 +644,13 @@ def fetch_all_acts_in_a_case(case_id):
 
 				
 				if prev_act_name != "":
-					act_cases[case_id].add(prev_act_name)
+					act_cases.add(prev_act_name)
 							
 		text = ""
-	for case in act_cases:
-		act_cases[case] = list(act_cases[case])
 	# with open("acts_from_cases.json", "w") as write_file:
 	# 	json.dump(act_cases, write_file, indent = 4)
 
-	return act_cases[case]
+	return act_cases
 
 def closest_actual_act(act_str):
 	all_acts = fetch_all_acts_from_txt()

@@ -2,6 +2,7 @@ from backend.graph_formation import prepare_graph
 from backend.graph_io import lkg_to_json, lkg_to_neo4j, lkg_to_nx
 
 j = prepare_graph()
+j.remove_node("")
 
 print(len(j.fetch_cases()))
 print(len(j.nodes()))
