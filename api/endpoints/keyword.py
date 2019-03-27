@@ -1,4 +1,4 @@
-from endpoints import app, cors
+from endpoints import *
 from base_class.subgraph import fetch_subgraph_with_keywords
 from base_class.neo4j_to_networkx_graph import export_neo4j
 
