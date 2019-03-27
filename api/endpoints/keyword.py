@@ -1,16 +1,17 @@
+
 from endpoints import *
 from base_class.subgraph import fetch_subgraph_with_keywords
 from base_class.neo4j_to_networkx_graph import export_neo4j
 
 @app.route('/keyword/<keyword_id>', methods=['GET'])
 def keyword_metadata(keyword_id):
+    # Just return keyword name, # of cases and precentile among keywords maybe?
     keyword = mydb.mytable.find({"keyword_id":keyword_id})  
     result = {
       "name": keyword['name'],
       "number_of_cases": keyword['number_of_cases'],
       "percentile": mydb.mytable.find({"keyword_id":keyword_id}).count()*100.0/mydb.mytable.count() 
     }
-    return('Hello')
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])
 def keyword_line_distribution(keyword_id):

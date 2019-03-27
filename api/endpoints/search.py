@@ -22,6 +22,7 @@ def advanced_search():
     result = cases[(10*key):(min(10*key+10, len(cases)))]
     return jsonify(result)
 
+
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])
 def basic_search_to_propose_topic_cards():
     # [
@@ -45,4 +46,5 @@ def basic_search_to_get_results_from_cards():
     #   },
     #   ...
     # ]
+
     return('Hello')

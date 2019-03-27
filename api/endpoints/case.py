@@ -18,7 +18,7 @@ def case_metadata(case_id):
 def case_line_distribution(case_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
-    
+    return('Hello')
 
 
 @app.route('/case/<case_id>/timeline', methods=['GET'])
@@ -73,4 +73,6 @@ def case_citations(case_id):
     #       ...
     #   ]
     # }
+
     return('Hello')
+

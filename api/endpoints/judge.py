@@ -1,9 +1,11 @@
+
 from endpoints import *
 from base_class.neo4j_to_networkx_graph import export_neo4j
 from base_class.subgraph import fetch_subgraph_with_judges
 
 @app.route('/judge/<judge_id>', methods=['GET'])
 def judge_metadata(judge_id):
+    # Just return judge name, # of cases, and percentile among judges maybe?
     judge = mydb.mytable.find({"judge_id":judge_id})        
     result =  {
       "name": judge['name'],

@@ -1,8 +1,10 @@
+
 from endpoints import *
 from base_class.subgraph import fetch_subgraph_with_subjects
 
 @app.route('/catchword/<catchword_id>', methods=['GET'])
 def catchword_metadata(catchword_id):
+    # Just return catchword name, # of cases and precentile among catchwords maybe?
     catchword = mydb.mytable.find({"catchword_id":catchword_id})
     result ={
         'name': catchword["name"],
@@ -11,8 +13,9 @@ def catchword_metadata(catchword_id):
     }
     return jsonify(result)
 
+
 @app.route('/catchword/<catchword_id>/plot_line', methods=['GET'])
-def catchword_line_distribution(catchword_id):
+def catchword_cases(catchword_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
     nx_graph = export_neo4j()
@@ -44,3 +47,4 @@ def catchword_cases(catchword_id):
             }
         result.append(point)
     return jsonify(result)
+

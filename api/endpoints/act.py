@@ -36,16 +36,17 @@ def act_section(act_id, section_id):
     }
     return jsonify(result)
 
+
 @app.route('/act/<act_id>/plot_line', methods=['GET'])
 def act_line_distribution(act_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
-
- 
+    #
+    # 
     return('Hello')
 
 
 @app.route('/act/<act_id>/cases', methods=['GET'])
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
-  
+    return('Hello')

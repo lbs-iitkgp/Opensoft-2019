@@ -42,15 +42,5 @@ def year_cases(year):
 
 @app.route('year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
-    PATH = os.path.join('base_class', 'keyword.json')
-    file = open(PATH, 'r')
-    keyword_list = json.loads(file.read())
-    data_points = {}
-    keywords = [keyword_data[0] for keyword_data in keyword_list]
-    for keyword_data in keyword_list:
-        data_points[keyword_data[0]] = 0
-    for case in mydb.mytable.find({"year":year}) :
-        data_points[case['keywords']] = data_points[case['keywords']] +1
-    for i in range (0,64):
-        data_points 
-    return jsonify(result)
+   
+    return jsonify('Hello)

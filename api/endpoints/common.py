@@ -1,3 +1,4 @@
+
 from endpoints import *
 from base_class.subgraph import graph_query
 from base_class.neo4j_to_networkx_graph import export_neo4j
@@ -51,4 +52,4 @@ def provide_metadata(judge,judgement,subject,keyword,year,type,nx_graph):
     # gives union of all the required values
     result = []
     query = mydb.mytable.find({"keyword_id":keyword_id})  
-    
+
