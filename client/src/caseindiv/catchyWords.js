@@ -4,7 +4,7 @@ import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
 import Navbar from '../navbar.js'
-
+import axios from 'axios'
 
 
 var cardsData=  {
@@ -24,6 +24,23 @@ class CatchyWords extends Component{
    padding : 10,
    margin :10,
    }
+}
+
+componentWillMount() {
+  var id = this.props.match.params.id;
+  axios.get(`http://localhost:5000/catchword/${id}/plot_line`)
+    .then(function (response) {
+      // handle success
+      console.log(response);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+
 }
 
 render() {

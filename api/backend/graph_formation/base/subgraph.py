@@ -29,19 +29,19 @@ def merge_graphs_by_intersection(universal_graph, subgraphs):
 
 def fetch_subgraph_from_matching_cases(graph, cases):
     data = graph.nodes(data=True)
-    print(data)
+    # print(data)
     meta_nodes = set()
 
     for case in cases:
         for meta_node in graph.in_edges(case):
             meta_node = meta_node[0]
-            print(meta_node)
-            if meta_node in data:
-                print(data[meta_node]['type'])
+            # print(meta_node)
+            # if meta_node in data:
+            #     print(data[meta_node]['type'])
             if meta_node in data and data[meta_node]['type'] != 'case':
                 meta_nodes.add(meta_node)
 
-    print(meta_nodes)
+    # print(meta_nodes)
     return(graph.subgraph(list(cases.union(meta_nodes))))
 
 def fetch_subgraph_from_meta_nodes(graph, set_of_meta_nodes=set()):
