@@ -5,7 +5,7 @@
 # ==============================================================================|
 # Acts ka updated versions: Serial_id1 to Serial_id2                            |Done
 # ==============================================================================|
-# Judge :serial_id, ka Name, No.of cases, Page rank score                       |Done
+# Judge :serial_id, ka Name, No.of cases, Page rank score (Pagerank left)       |Done
 # ==============================================================================|
 # Cases :serial_id, file name , indlaw , title, date, judgement, Page rank score|DONE
 # ==============================================================================|
@@ -26,7 +26,7 @@ import abbreviation
 from base_class.legal_graph import LegalKnowledgeGraph
 from base_class.subgraph import graph_query
 import Test_file
-
+import networkx as nx
 
 # ====================================================================================================================================
 # ASSIGNS_MONGO_COLLECTIONS
@@ -35,6 +35,7 @@ future_acts_collection = "future_acts_ka_db"
 cases_collection = "cases_ka_db"
 abbreviations_collection = "abbreviations_ka_db"
 judges_collection = "judges_ka_db"
+
 # ====================================================================================================================================
 # DEFINE_FUNCTIONS_TO_PROCESS_VARIOUS_DATAS
 
@@ -88,12 +89,7 @@ def processed_judge_data():
     judge_list = []
     graph = Test_file.get_graph()
     nodes = graph.nodes(data=True)
-    # print(nodes)
-    # judge_list = [node for node in nodes if nodes[node]['type'] == 'judge']
-    # for node in nodes:
-    #     print(node)
     judge_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge'], year_range=[])
-    # print(judge_list.nodes())
     serial = 1
     judge_list = judge_list.nodes()
 
@@ -102,14 +98,36 @@ def processed_judge_data():
     for judge in judge_list:
         serial_to_judge.append({"judge_name": judge, "serial_id": serial})
         serial += 1
-    # judge_list_to_serial = []
-    # for serial in serial_to_judge:
-    #     judge_list_to_serial.append({str(serial):serial_to_judge[serial]})
     return serial_to_judge
+
+
+def update_legal_graph_with_serial_id():
+
+    judge_list = []
+    graph = Test_file.get_graph()
+    nodes = graph.nodes(data=True)
+    judge_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge'], year_range=[])
+    serial = 1
+    judge_list = judge_list.nodes()
+
+    serial_to_judge = []
+    mapping = {}
+    for judge in judge_list:
+        serial_to_judge.append({"judge_name": judge, "serial_id": serial})
+        mapping[judge] = serial
+        serial += 1
+
+    graph_modified = nx.relabel_nodes(graph, mapping) 
+    print(graph_modified.nodes())
+    return graph_modified
 
 
 # ====================================================================================================================================
 # CALLS_PROCESSING FUNCTIONS and DOES OTHER PROCESSING if needed
+
+update_legal_graph_with_serial_id()
+
+
 processed_case_data = process_cases_data()
 processed_abbreviations_data = abbreviation.get_abbreviations()
 # print(processed_abbreviations_data)
@@ -129,8 +147,8 @@ process_judge_data = processed_judge_data()
 # ====================================================================================================================================
 # ADDS_DATA_TO_VARIOUS_COLLECTIONS
 
-handler.write_all(processed_abbreviations_data, abbreviations_collection)
-handler.write_all(s_acts_ka_data, acts_collection)
+# handler.write_all(processed_abbreviations_data, abbreviations_collection)
+# handler.write_all(s_acts_ka_data, acts_collection)
 # handler.write_all(processed_case_data, cases_collection)
 # handler.write_all(processed_future_acts_data, future_acts_collection)
 # handler.write_all(process_judge_data, judges_collection)
