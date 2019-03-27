@@ -1,4 +1,5 @@
 # import os
+from env import ENV
 
 # ALL_FILES = os.listdir("{}/{}".format(ENV["DATASET_PATH"], "All_FT"))
 # ALL_CASES = [filename for filename in ALL_FILES if filename[-4:] == ".txt"]
