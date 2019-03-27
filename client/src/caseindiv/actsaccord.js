@@ -5,10 +5,13 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import '../App.css'
 
 const styles = theme => ({
     root: {
       width: '100%',
+      minWidth: 400,
+      fontSize: 30
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
@@ -23,7 +26,7 @@ const styles = theme => ({
   }
 
   var sectionsData =[
-    ['section-1','this is description of sec-1'],
+    ['section-1','this is description of sec-1this is description of sec-1this is description of sec-1this is description of sec-1this is description of sec-1 '],
     ['section-2','this is description of sec-2'],
     ['section-3','this is description of sec-13']
   ].map((ele,ind)=>createSections(ele,ind));
@@ -42,7 +45,7 @@ const styles = theme => ({
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography>
+                <Typography id='act_sec'>
                   {ele.secDes}   
                  </Typography>
               </ExpansionPanelDetails>

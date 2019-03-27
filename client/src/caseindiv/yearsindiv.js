@@ -1,11 +1,10 @@
 import React,{Component} from 'react'
 import AdvTable from '../caseindiv/advtable.js'
-import Radar from './radar.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
 import Navbar from '../navbar.js'
-
-
+import PieGraph from './pie.js'
+import '../App.css'
 function createData(list, index) {
   var Name = list[0];
   var NumOfCases = list[1];
@@ -51,7 +50,7 @@ render() {
                </div>
                <br /><br />
              </Card>
-            <Radar />
+             <div id='piegraph'><PieGraph /></div>
           </div>
           <AdvTable />
          </div>
