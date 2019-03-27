@@ -26,7 +26,7 @@ BAD_WORDS_TYPE1 = ["the", "The", "that", "That", "This", "this", "under", "Under
 BAD_WORDS_TYPE2 = ["Section", "S.", "s.", "u/s.", "section", "Article", "article"]
 
 word_to_replace_dict = {"u/s." : "Section", " s. ":"Section", "S. ":"Section", "section":"Section",\
-						"subSection":"Section", "subsection":"Section"}
+						"subSection":"Section", "subsection":"Section", "Sections":"Section"}
 
 act_replacement = ["the Act", "this Act", "that Act", "the said Act", "the act", "this act", "that act", "the said act"]
 def fetch_all_acts():
@@ -159,6 +159,8 @@ def fetch_acts_from_cases(all_acts):
 							if checker[0].lower() not in [v.lower() for v in line_words]:
 								if dada_act_name != "":
 									prev_act_name = dada_act_name
+						else:
+							continue
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -292,6 +294,8 @@ def fetch_section_act_mapping_from_case(all_acts):
 							if checker[0].lower() not in [v.lower() for v in line_words]:
 								if dada_act_name != "":
 									prev_act_name = dada_act_name
+						else:
+							continue
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -463,6 +467,8 @@ def fetch_mappings_of_given_case(case_id):
 						if checker[0].lower() not in [v.lower() for v in line_words]:
 							if dada_act_name != "":
 								prev_act_name = dada_act_name
+					else:
+						continue
 				print(prev_act_name)
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
@@ -636,6 +642,8 @@ def fetch_all_acts_in_a_case(case_id):
 						if checker[0].lower() not in [v.lower() for v in line_words]:
 							if dada_act_name != "":
 								prev_act_name = dada_act_name
+					else:
+						continue
 				print(prev_act_name)
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
