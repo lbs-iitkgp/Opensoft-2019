@@ -30,9 +30,9 @@ render() {
     return (
        <div>
          <Navbar />
-         <div id='judgeIndivRes'> 
-          <div id="judgeLeftCol" >
-            <Card  className="cardInJudge" style={{ color : this.state.color }}  >
+         <div id='keyWordsResult'> 
+          <div id="keyWordLeft" >
+            <Card  className="cardInKeyWords" style={{ color : this.state.color }}  >
                <div id="judgement">
                  <b>Name:</b> {cardsData.name}
                </div>

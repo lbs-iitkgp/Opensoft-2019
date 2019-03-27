@@ -47,8 +47,8 @@ class Area extends React.Component {
   }
   render() {
     const {
-      width=350,
-      height=350,
+      width=500,
+      height=500,
       margin= { top: 20, bottom: 20, left: 20, right: 20 },
       hideTooltip,
       tooltipData,

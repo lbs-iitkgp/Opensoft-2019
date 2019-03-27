@@ -89,17 +89,17 @@ function FullWidthTabs() {
       >
         <TabContainer >
           <ul>
-            {citedIn.map(ele => (<li>{ele.data}</li>))}
+            <a href="#">{citedIn.map(ele => (<li>{ele.data}</li>))}</a>
           </ul>
         </TabContainer>
         <TabContainer >
         <ul>
-            {citedOut.map(ele => (<li>{ele.data}</li>))}
+           <a href="#">{citedOut.map(ele => (<li>{ele.data}</li>))}</a>
          </ul>
       </TabContainer>
       <TabContainer >
          <ul>
-            {Acts.map(ele => (<li>{ele.data}</li>))}
+         <a href="#">{Acts.map(ele => (<li>{ele.data}</li>))}</a>
          </ul>
      </TabContainer>
        </SwipeableViews>

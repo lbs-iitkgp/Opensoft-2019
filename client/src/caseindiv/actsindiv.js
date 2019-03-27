@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import Radar from './radar.js'
+
 import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
@@ -32,24 +32,30 @@ class ResultCard extends Component{
    }
 }
 
+componentWillMount(){
+    var url = window.location.href
+   // console.log(url[url.length -1])
+   console.log(this.props.match.params.id)
+}
+
 render() {
     return (
        <div>
         <Navbar />
-            <Grid container spacing={12}>
-                <Grid item xs={3}>
-                    <Card  className="cardInActs" style={{ color : this.state.color }}  >
-                    <div id="ActName">
-                        <b>Act Name :</b> {cardsData.name}
+        <div id='actindiv'>
+            <div id='actleft'>
+            <Card  className="cardInActs" style={{ color : this.state.color }}  >
+                <div id="ActName">
+                 <b>Act Name :</b> {cardsData.name}
                     </div>
                     <div id="Year">
-                        <b>Year:</b> {cardsData.year}
+                        <b>Year:</b> <a href="#">{cardsData.year}</a>
                     </div>
                     <div id="Type">
                         <b>Type :</b> {cardsData.type}
                     </div>
                     <div id="RecentVersion">
-                        <b>Recent Version :</b> {cardsData.recent_version.name}
+                        <b>Recent Version :</b> <a href="#">{cardsData.recent_version.name}</a>
                     </div>
                     <div id="abbr">
                         <b>Abbreviation :</b> {cardsData.abbreviation}
@@ -58,12 +64,9 @@ render() {
                     <br /><br />
                     </Card>
                     <Graph />
-                    <Radar />
-                 </Grid>
-                 <Grid item xs={9}>
+                    </div>
                     <div id='tabsInActs'><Tabs /></div>
-                 </Grid>
-            </Grid>
+                 </div>                 
        </div>
           );
     }
