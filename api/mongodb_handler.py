@@ -6,6 +6,9 @@ LEGAL_DATABASES = LEGAL_CLIENT["LKG_extended_data_base"]
 
 
 def encode(item):
+    """
+    Encodes all dictionary keys
+    """
     encoded_dict = {}
     for key, val in item.items():
         encoded_dict[encoder.custom_encode(key)] = val
@@ -14,6 +17,9 @@ def encode(item):
 
 
 def decode(item):
+    """
+    Decodes all dictionary keys
+    """
     decoded_dict = {}
     for key, val in item.items():
         decoded_dict[encoder.custom_decode(key)] = val
@@ -22,6 +28,9 @@ def decode(item):
 
 
 def write_all(data, coll_name):
+    """
+    Writes all data into the mongodb database
+    """
     collection = LEGAL_DATABASES[coll_name]
     ids = []
     for item in data:
@@ -32,6 +41,9 @@ def write_all(data, coll_name):
 
 
 def read_all(coll_name, **filters):
+    """
+    Reads all data from the mongodb database
+    """
     collection = LEGAL_DATABASES[coll_name]
     encoded_filters = encode(filters)
     collections = []
