@@ -19,7 +19,7 @@ class AdvFilter extends React.Component {
       this.state = {
         columns: ['MyName', 'Title', 'Location', 'Age', 'Salary'],
         data: [
-          ['Gabby George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
+          ['Aadi George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
           ['Aiden Lloyd', 'Business Consultant', 'Dallas', 55, '$200,000'],
           ['Jaden Collins', 'Attorney', 'Santa Ana', 27, '$500,000'],
           ['Franky Rees', 'Business Analyst', 'St. Petersburg', 22, '$50,000'],

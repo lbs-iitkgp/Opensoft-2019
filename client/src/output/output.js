@@ -5,12 +5,17 @@ import Navbar from '../navbar.js';
 import Drawer from './drawer.js';
 import '../App.css'
 import ScrollUpButton from "react-scroll-up-button"; 
+import ReactDOM from 'react-dom';
 
 
 class Output extends Component {
     constructor(props){
       super(props)
        }
+
+    componentWillUnmount(){
+      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    }   
     render(){
           
         return(

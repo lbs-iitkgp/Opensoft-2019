@@ -31,8 +31,6 @@ var Results = {
   this.printResults = this.printResults.bind(this);
 }
 
-
-
 updateResultJudge(JudgeRes){
   Results.judgeName = JudgeRes; 
 }

@@ -5,6 +5,7 @@ import BasicCards from './basicCards.js'
 import '../App.css'
 import SearchBar from '../components/query.js'
 import Button from '@material-ui/core/Button';
+import ReactDOM from 'react-dom';
 
 class Output extends Component {
     
@@ -29,6 +30,10 @@ class Output extends Component {
     getUpdatedResults(){
         console.log(this.state.updatedQuery)
     }
+
+    componentWillMount(){
+        ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+      }
 
     render(){
         return(

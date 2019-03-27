@@ -3,6 +3,7 @@ import Navbar from '../navbar.js'
 import SearchBar from './query.js'
 import Container from 'react-bootstrap/Container';
 import Button from '@material-ui/core/Button';
+import ReactDOM from 'react-dom';
 
 var basicSearched;
       
@@ -34,7 +35,11 @@ class BasicSearch extends Component{
       });
       
     }
-      
+    
+    componentWillMount(){
+      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    }
+
     render(){
         const styles = theme => ({
             container: {
