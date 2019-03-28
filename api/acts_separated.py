@@ -7,100 +7,122 @@ import glob
 import re
 from env import ENV
 
+import json
+DICTIONARY_OF_ACTS = {}
 
 def get_acts_by_states():
     serial = 0
 
-    STATE_FILES = os.listdir("{}/State_Text".format(ENV["DATASET_PATH"]))
-    CENTRAL_FILES = os.listdir("{}/Central_Text".format(ENV["DATASET_PATH"]))
+    STATE_FILES = os.listdir("{}/Acts/State_Text".format(ENV["DATASET_PATH"]))
+    CENTRAL_FILES = os.listdir("{}/Acts/Central_Text".format(ENV["DATASET_PATH"]))
 
-    DICTIONARY_OF_ACTS = {}
+    
     '''
         Finds the acts in the central acts folder
         '''
     for g in CENTRAL_FILES:
+        if not g.startswith("."):
+            curr_files = os.listdir("{}/Acts/Central_Text/{}".format(ENV["DATASET_PATH"], g))
+            for filed in curr_files:
+                if not filed.startswith("."):
+                    serial += 1
+                    with open("{}/Acts/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
-        curr_files = os.listdir("{}/Central_Text/{}".format(ENV["DATASET_PATH"], g))
+                        # Type of these kind of acts is CENTRAL
 
-        for filed in curr_files:
-            serial += 1
-            with open("{}/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
+                        type_f = "Central"
+                        myline = fg.readline()
 
-                # Type of these kind of acts is CENTRAL
+                        # Gets the name of the act by taking all the words before the _Section Keyword
+                        idx = re.search(r"(_Section)", myline)
+                        if idx is not None:
+                            idx = idx.start()
 
-                type_f = "Central"
-                myline = fg.readline()
+                        # Gets the year of the act
+                        i1 = re.search(r"([0-9]{4})", myline)
+                        if i1 is not None:
+                            i1 = i1.start()
+                        i2 = re.search(r"([0-9]{4})", myline)
+                        if i2 is not None:
+                            i2 = i2.end()
 
-                # Gets the name of the act by taking all the words before the _Section Keyword
-                idx = re.search(r"(_Section)", myline)
-                if idx is not None:
-                    idx = idx.start()
+                        yr = myline[i1:i2]
 
-                # Gets the year of the act
-                i1 = re.search(r"([0-9]{4})", myline)
-                if i1 is not None:
-                    i1 = i1.start()
-                i2 = re.search(r"([0-9]{4})", myline)
-                if i2 is not None:
-                    i2 = i2.end()
+                        act = myline[:idx]
+                        act = act.strip()
 
-                yr = myline[i1:i2]
+                        # No. of sections of a act = No. of lines in it's act file
+                        sections = sum(1 for ln in fg)
 
-                act = myline[:idx]
-                act = act.strip()
-
-                # No. of sections of a act = No. of lines in it's act file
-                sections = sum(1 for ln in fg)
-
-                if act == "":
-                    continue
-                try:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
-                except KeyError:
-                    DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                        if act == "":
+                            continue
+                        this_dict = {
+                            "serial": serial,
+                            "act": act,
+                            "year": yr,
+                            "type": type_f,
+                            "file": filed,
+                            "pagerank": "Pagerank score"
+                        }
+                        if act in DICTIONARY_OF_ACTS:
+                            DICTIONARY_OF_ACTS[act].append(this_dict)
+                        else:
+                            DICTIONARY_OF_ACTS[act] = []
+                            DICTIONARY_OF_ACTS[act].append(this_dict)
 
     for g in STATE_FILES:
+        if not g.startswith("."):
+            curr_files = os.listdir("{}/Acts/State_Text/{}".format(ENV["DATASET_PATH"], g))
 
-        curr_files = os.listdir("{}/State_Text/{}".format(ENV["DATASET_PATH"], g))
+            for filed in curr_files:
+                if not filed.startswith("."):
+                    serial += 1
+                    with open("{}/Acts/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
+                        myline = fg.readline()
+                        myline = str(myline)
 
-        for filed in curr_files:
-            serial += 1
-            with open("{}/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
+                        # Type of these acts varies with the state they belong to
+                        type_f = g
 
-                myline = fg.readline()
-                myline = str(myline)
+                        # Gets the name of the act by taking all the words before the _Section Keyword
+                        idx = re.search(r"(_Section)", myline)
+                        if idx is not None:
+                            idx = idx.start()
 
-                # Type of these acts varies with the state they belong to
-                type_f = g
+                        # Gets the year of the act
+                        i1 = re.search(r"([0-9]{4})", myline)
+                        if i1 is not None:
+                            i1 = i1.start()
+                        i2 = re.search(r"([0-9]{4})", myline)
+                        if i2 is not None:
+                            i2 = i2.end()
 
-                # Gets the name of the act by taking all the words before the _Section Keyword
-                idx = re.search(r"(_Section)", myline)
-                if idx is not None:
-                    idx = idx.start()
+                        yr = myline[i1:i2]
 
-                # Gets the year of the act
-                i1 = re.search(r"([0-9]{4})", myline)
-                if i1 is not None:
-                    i1 = i1.start()
-                i2 = re.search(r"([0-9]{4})", myline)
-                if i2 is not None:
-                    i2 = i2.end()
+                        act = myline[:idx]
 
-                yr = myline[i1:i2]
+                        act = act.strip()
+                        # No. of sections of a act = No. of lines in it's act file
 
-                act = myline[:idx]
-
-                act = act.strip()
-                # No. of sections of a act = No. of lines in it's act file
-
-                sections = sum(1 for ln in fg)
-                if act == "":
-                    continue
-                if act in DICTIONARY_OF_ACTS:
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
-                else:
-                    DICTIONARY_OF_ACTS[act] = []
-                    DICTIONARY_OF_ACTS[act].append({serial: [act, yr, type_f, filed, "Space For Page Rank Score"]})
+                        sections = sum(1 for ln in fg)
+                        if act == "":
+                            continue
+                        this_dict = {
+                            "serial": serial,
+                            "act": act,
+                            "year": yr,
+                            "type": type_f,
+                            "file": filed,
+                            "pagerank": "Pagerank score"
+                        }
+                        print(act, type_f)
+                        if act in DICTIONARY_OF_ACTS:
+                            DICTIONARY_OF_ACTS[act].append(this_dict)
+                        else:
+                            DICTIONARY_OF_ACTS[act] = []
+                            DICTIONARY_OF_ACTS[act].append(this_dict)
     # Final dict having the acts as key and their year, type (State/central) and no. of sections as vals
-    return DICTIONARY_OF_ACTS
+        return DICTIONARY_OF_ACTS
+if __name__ == "__main__":
+    with open("funnyjson.json", 'w') as fjs:
+        json.dump(get_acts_by_states(), fjs, indent=4)

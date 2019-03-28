@@ -8,17 +8,23 @@ import Judges from './components/judges.js';
 import Acts from './components/acts.js'
 import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
+import ReactDOM from 'react-dom';
+import Output from './output/output.js'
 
-var Results={
-  query : '',
-  years : [],
-  category : '',
-  judgeName : '',
-  selectedActs :[]
-}
-class App extends Component {
+var Results = {
+  "query" : "",
+  "years" : [],
+  "category" : "",
+  "judgeName" : "",
+  "selectedActs" :[]
+};  
+
+ class App extends Component {
  constructor(props){
    super(props);
+   this.state = {
+     defaultAdvSearch: ''
+   }
   
   this.updateResultCat = this.updateResultCat.bind(this);
   this.updateResultQuery = this.updateResultQuery.bind(this);
@@ -27,8 +33,6 @@ class App extends Component {
   this.updateSliderResult = this.updateSliderResult.bind(this);
   this.printResults = this.printResults.bind(this);
 }
-
-
 
 updateResultJudge(JudgeRes){
   Results.judgeName = JudgeRes; 
@@ -56,9 +60,50 @@ printResults(){
   console.log(Results.category);
   console.log(Results.judgeName);
   console.log(Results.selectedActs);
-  this.props.history.push("/output");
+  //this.props.history.push("/output");
+  // this.props.history.push({
+  //   pathname : "/output" ,
+  //   state : {
+  //     defaultAdvSearch : Results.query,
+  //     defaultYrs : Results.years,
+  //     defaultCategory : Results.category,
+  //     defaultJudge : Results.judgeName,
+  //     defaultActs : Results.selectedActs
+  //   }
+  // })
+    ReactDOM.render(<Output />,document.getElementById('root'))
+    // scrollToComponent(this.refs.OutRef,{align:'bottom'});
+    window.scroll({top: 800, left: 0, behavior: 'smooth' })
+    this.props.history.push({
+      pathname  : `advSearch/${Results.query}`,
+      state :{
+          defaultAdvSearch : Results.query
+      }
+    })
+  }
 
-}
+  componentWillMount(){
+      if(this.props.location.state === undefined){
+        this.setState({
+            defaultAdvSearch : this.props.match.params.id,  
+        })
+        // alert(this.state.defaultAdvSearch);
+    } else {
+        this.setState({
+            defaultAdvSearch : this.props.location.state.defaultAdvSearch,  
+        })
+    }
+    //ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    
+    if(this.props.match.params.id != undefined)
+      ReactDOM.render(<Output />,document.getElementById('root'));
+    else
+      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+  }
+  
+
+   
+
   render() {
     return (
       <div>
@@ -66,7 +111,7 @@ printResults(){
       <br></br>
       <Container id='box_shadow'> 
         <h2>Search</h2>
-        <SearchBar OnQueryPass={this.updateResultQuery}   />
+        <SearchBar OnQueryPass={this.updateResultQuery} defaultSearch={this.state.defaultAdvSearch} />
         <h2>Years</h2>
         <br />
         <YearsSlider onSliderDataPass={this.updateSliderResult}  />

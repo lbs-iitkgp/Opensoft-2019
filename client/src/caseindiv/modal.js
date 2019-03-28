@@ -1,9 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-  import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import ResultCard from './jjd.js'
-import ActChips from './actchips.js'
 import '../App.css'
 import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
-import Radar from './radar.js'
+import CitedCases from './citedCases.js'
+import ScrollUpButton from "react-scroll-up-button"; 
 
 const useStyles = makeStyles({
   appBar: {
@@ -44,10 +40,7 @@ function FullScreenDialog() {
 
   return (
     <div >
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Case URL here
-      </Button>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} setOpen={true}>
+      
         <AppBar className={classes.appBar} id='fixedTitle'>
           <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.flex}>
@@ -62,17 +55,16 @@ function FullScreenDialog() {
          <div id='left-indiv'>
             <div id ='resCard'><ResultCard /></div> 
             <div id='graph'>< Area /></div>
-            <div id='graph'><Radar /></div>
-          </div>
+         </div>
           <div id='vtl'>
             <VerticalTimeline />
           </div>
           <div id='actchips'>
-            <ActChips />
+             <CitedCases />
           </div>
         </div>
-      </Dialog>
-    </div>
+        <ScrollUpButton />
+        </div>
   );
 }
 

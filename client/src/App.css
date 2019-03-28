@@ -20,7 +20,9 @@
  }
 
 #case {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; 
 }
  #content{
   text-align: center;
@@ -31,6 +33,7 @@
   flex-direction: row; 
   padding: 2px;
   margin :10px;
+  justify-content: center;
 } 
 
 .card{
@@ -70,6 +73,7 @@
 }
 
 #contain{
+ padding-top:-7%; 
   display: flex;
   flex-direction: row;
   flex-wrap : wrap;
@@ -81,13 +85,18 @@
  margin-left: 0.7%;
  display: flex;
  flex-direction: column;
- flex: 1;
- justify-content: flex-start;
+ flex: 3;
+ /* justify-content: flex-start; */
+ /* align-content: center; */
+ align-items: center;
 }
-/* 
+
 #resCard{
-  padding-bottom: 10%;
-} */
+  /* padding-bottom: 10%; */
+  width: 100%;
+  font-size:25px; 
+  text-align: center
+}
 
 #graph{
   padding-top: 20px;
@@ -95,14 +104,19 @@
 }
 
 #vtl{
-  flex: 5;
+  flex: 6;
   padding: 10px;
   margin-top: 2.3%;
 }
 
 #actchips{
-  flex: 1;
-  margin-top: 3%;
+  flex: 3;
+  margin-top: 4.2%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: stretch; */
+  /* align-items: flex-start;
+  min-width: -moz-available; */
 }
 
 #searchTypes{
@@ -110,27 +124,23 @@
   flex-direction: row;
   justify-content: flex-end;
   padding: 7px;
+  
  }
 
 #basic{
   font-size : 20px;
-  border: 2px solid white;
   margin-right: 10px;
-  background-color: white;
   font-family: 'Lato';
   font-weight: bolder;
   padding: 4px;
- 
-}
+  }
 
 #adv{
   font-size : 20px;
-  border: 2px solid white;
   margin-left: 10px;
-  background-color: white;
   font-family: 'Lato';
   font-weight: bolder;
-  padding: 4px;  
+  padding: 4px; 
 }
 
 
@@ -145,7 +155,7 @@
 }
 
 .MuiButton-containedPrimary-51 {
-  color: #fff;
+  color: #  fff;
   background-color: #cccccc !important;
 }
 
@@ -158,3 +168,143 @@
 .ant-tooltip-inner {
   font-size: 20px;
 }
+
+#basic .MuiButton-label-40 {
+  color : white
+}
+
+#adv .MuiButton-label-40 {
+  color: white
+}
+
+#line{
+  border-left: 2px solid white;
+  height: 32px;
+  position: relative;
+  top: 4px;
+
+}
+
+#drawer1{
+ padding: 20px;
+}
+
+#tableInOutput{
+  padding: 2%;
+
+}
+
+#chipCross{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+ul{
+  font-size: 20px;
+  margin: 10px;
+}
+li{ 
+  margin : 15px;
+}
+ 
+#tabTitles{
+  font-size: 20px;
+}
+
+.caption{
+  font-size: 20px;
+}
+
+#judgeIndivRes{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2%;
+}
+
+#judgeLeftCol{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+.cardInJudge{
+  font-size: 35px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 1%;
+  border: 2px solid black;
+  min-width: 150%;
+}
+
+#actindiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly
+}
+
+.cardInActs{
+  margin-top: 10%;
+  margin-left:5%;
+  border: 2px solid black;
+  margin-bottom: 5%;
+  font-size: 25px;
+  text-align: center;
+}
+
+#tabsInActs{
+  margin-top: 3.2%;
+  min-width: 400px;
+}
+
+#updatedSearchPart{
+  margin: 2%;
+}
+
+#updateButton{
+  position: relative;
+  left: 45%;
+}
+
+#output-advanced{
+  align-content: center;
+}
+
+a {
+  color: inherit !important; /* blue colors for links too */
+  text-decoration: inherit !important; /* no underline */
+}
+
+a:hover {
+  color: hotpink !important;
+}
+
+#act_sec{
+  font-size: 20px;
+}
+
+#piegraph{
+  margin-left:33%
+}
+
+#keyWordsResult{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2%
+}
+
+#keyWordLeft{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly
+}
+
+.cardInKeyWords{
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 2%;
+}
+

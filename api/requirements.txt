@@ -1,6 +1,10 @@
 networkx
 python-env
 autopep8
+summa
+nltk
+gensim
+knapsack
 regex
 behave
 nose
@@ -9,3 +13,5 @@ python-Levenshtein
 fuzzywuzzy
 py2neo==2.0.8
 neo4jrestclient
+spacy==2.0.13
+editdistance

@@ -4,5 +4,6 @@
 *.pyc
 ___pycache__
 
+.ipynb_checkpoints
 
 **/.DS_Store
