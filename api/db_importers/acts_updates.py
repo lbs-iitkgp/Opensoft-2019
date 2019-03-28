@@ -1,5 +1,5 @@
 import json
-import acts_separated as asd
+import db_importers.acts_separated as asd
 from env import ENV
 """makes a dictionary with
     ACT names as keys and the list

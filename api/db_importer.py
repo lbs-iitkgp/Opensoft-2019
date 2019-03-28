@@ -13,6 +13,6 @@ lkg_to_json(j, "LKG.json")
 print("Finished writing to json")
 
 
-print("Importing lkg to neo4j")
-lkg_to_neo4j(j)
-print("Imported lkg to neo4j")
+# print("Importing lkg to neo4j")
+# lkg_to_neo4j(j)
+# print("Imported lkg to neo4j")

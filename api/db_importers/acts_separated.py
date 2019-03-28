@@ -59,7 +59,8 @@ def get_acts_by_states():
                     "act":act,
                     "type":type_f,
                     "year":yr,
-                    "file":filed
+                    "file":filed,
+                    "sections":sections,
                 }
                 if act in DICTIONARY_OF_ACTS:
                     DICTIONARY_OF_ACTS[act].append(this_dict)
@@ -110,7 +111,7 @@ def get_acts_by_states():
                     "type":type_f,
                     "year":yr,
                     "file":filed,
-                    "pagerank": "Pagerank Score"
+                    "sections":sections,
                 }
                 if act in DICTIONARY_OF_ACTS:
                     DICTIONARY_OF_ACTS[act].append(this_dict)

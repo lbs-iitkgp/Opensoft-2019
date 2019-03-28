@@ -8,7 +8,7 @@ import re
 import nltk
 from env import ENV
 # import json
-CASE_FILE = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
+CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
 JUDGES = []
 
@@ -113,7 +113,7 @@ def judge_to_case(graph):
     immediate_next_line = {}    #   Similar to above, handles some more edge cases
 
     for file_name in CASE_FILE:
-        path = os.path.join('./CaseDocuments/All_FT', file_name)
+        path = os.path.join('./All_FT', file_name)
 
         # Get the key value for CASE_FILE_TO_ID
         idx = re.search(r".txt", file_name)
@@ -133,7 +133,7 @@ def judge_to_case(graph):
             file_key = CASE_FILE_TO_ID[file_key]
 
 
-        with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
+        with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
 
             found_judge = 0         #   Flags to mark name has been found
             found_next_line = 0

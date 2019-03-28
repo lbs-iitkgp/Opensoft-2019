@@ -5,7 +5,7 @@ from env import ENV
 import encode_helper
 file = open("data.txt", "w")
 
-all_files = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
+all_files = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 all_cases = list(filter(lambda x: x[-4:] == ".txt", all_files))[:1000]
 abb = {}
 ignore = {}
@@ -25,7 +25,7 @@ def function(word):
 def get_abbreviations():
 
     for case in all_cases:
-        with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"], case), 'r') as file:
+        with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case), 'r') as file:
             file_content = file.read()
             pairs = schwartz_hearst.extract_abbreviation_definition_pairs(doc_text=file_content)
 
@@ -73,7 +73,7 @@ def get_abbreviations():
             
     temp_list = []
     for act_short_form in actual_abb:
-        temp_dict = { "abbrev": act_short_form , "actual" : " ".join(actual_abb[act_short_form])}
+        temp_dict = { "abbrev": act_short_form , "actual" : actual_abb[act_short_form]}
         temp_list.append(temp_dict)
 
 

@@ -28,7 +28,7 @@ def citing(case):
         in the given graph"""
     # compute_mapping()
         
-    with open("{}/CaseDocuments/All_FT/{}".format(ENV["DATASET_PATH"],case)) as case_file:
+    with open("{}/All_FT/{}".format(ENV["DATASET_PATH"],case)) as case_file:
         if case[:-4] in CASE_FILE_TO_ID:
             curr_case_id = CASE_FILE_TO_ID[case[:-4]][1]
             all_lines = case_file.readlines()
