@@ -102,29 +102,29 @@ def graph_query(G, **query_params):
     d = G.nodes(data=True)
     d = dict(d)
     specific_queries = set()
-    if 'judge' in query_params:
-        gph_with_judges = fetch_subgraph_with_judges(G, query_params['judge'])
+    if 'judges' in query_params:
+        gph_with_judges = fetch_subgraph_with_judges(G, query_params['judges'])
     else:
         gph_with_judges = G
 
-    if 'keyword' in query_params:
-        gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keyword'])
+    if 'keywords' in query_params:
+        gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keywords'])
     else:
         gph_with_keywords = G
 
     if 'catchwords' in query_params:
-        gph_with_catchwords = fetch_subgraph_with_catchwords(G, query_params['catch'])
+        gph_with_catchwords = fetch_subgraph_with_catchwords(G, query_params['catchwords'])
     else:
         gph_with_catchwords = G
 
-    if 'year' in query_params:
-        if len(query_params['year']) >= 2:
-            from_year = min(query_params['year'])
-            to_year = max(query_params['year'])
+    if 'years' in query_params:
+        if len(query_params['years']) >= 2:
+            from_year = min(query_params['years'])
+            to_year = max(query_params['years'])
             year = list(range(from_year, to_year+1))
-        elif len(query_params['year']) == 1:
-            year = [query_params['year']]
-        gph_with_year = fetch_subgraph_with_year(G, query_params['year'])
+        elif len(query_params['years']) == 1:
+            year = [query_params['years']]
+        gph_with_year = fetch_subgraph_with_year(G, query_params['years'])
     else:
         gph_with_year_range = G
 
