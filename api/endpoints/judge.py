@@ -1,9 +1,9 @@
 from endpoints import *
 
 @app.route('/judge/<judge_id>', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_metadata(judge_id):
-    judge = mongo_db.find({"judge_id":judge_id})    
-    # judge ={'name': "Divyang",'number_of_cases':10}    
+    judge = mongo_db.find({"judge_id":judge_id})      
     result =  {
       "name": judge['name'],
       "number_of_cases": judge['number_of_cases'],
@@ -13,6 +13,7 @@ def judge_metadata(judge_id):
     return jsonify(result)
 
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
     #   Find case's year from mongo
@@ -20,7 +21,7 @@ def judge_line_distribution(judge_id):
     result = []
     for i in range (1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[judge_id],subjects=[], keywords=[] , judgements = [], types =[], year_range=[])
+    subgraph = lkg.query(judges =[judge_id],subjects=[], keywords=[] , judgements = [], types =[], year_range=[],acts = [])
     
     data = lkg.nodes(data=True)
     such_cases = subgraph[judge_id]
@@ -33,6 +34,7 @@ def judge_line_distribution(judge_id):
     return jsonify(result)
 
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_cases(judge_id):
 #     # Fetch list of cases that relate to this judge from neo4j,
 #     # and return their details from mongodb as json
@@ -40,7 +42,7 @@ def judge_cases(judge_id):
     result = []
     for i in range (1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[judge_id], subjects=[], keywords=[], judgements = [], types =[], year_range=[])
+    subgraph = lkg.query(judges =[judge_id], subjects=[], keywords=[], judgements = [], types =[], year_range=[],acts =[])
     
     for node in subgraph['nodes']:
         case = mongo_db.find("case_id", node['case_id'])
