@@ -38,9 +38,9 @@ def catchword_line_distribution(catchword_id):
 def catchword_cases(catchword_id):
     result = []
 
-    case_ids = get_metas_from_node(catchword_id, "judge", "case")
+    case_ids = get_metas_from_node(catchword_id, "catch", "case")
     for id in case_ids:
-        case = get_metas_from_node(catchword_id, "judge", "case")
+        case = get_metas_from_node(catchword_id, "catch", "case")
         result.append(case)
 
     return jsonify(result)
