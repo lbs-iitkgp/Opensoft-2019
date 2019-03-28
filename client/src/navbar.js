@@ -34,7 +34,7 @@ function Navbar(props) {
   const { classes } = props;
   return (
     <div className={classes.root} id="homepageNavbar">
-   <AppBar position="static">
+   <AppBar >
     <Toolbar>
       <Typography variant="title" color="inherit">Lawbrarian</Typography>
 

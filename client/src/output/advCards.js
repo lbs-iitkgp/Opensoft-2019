@@ -40,13 +40,14 @@ this.printPresentCards = this.printPresentCards.bind(this);
 }
 
 printPresentCards(){
+  var activeones = []
   for(var i=0;i<cardsData.length;i++ ){
     if(this.state.cardsColor[i] != 0 )
-      console.log(cardsData[i]);
+    activeones.push(cardsData[i].url)
     else 
       continue;  
   } 
-  console.log("printed");
+  console.log(activeones)
 }
 
 componentDidUpdate()

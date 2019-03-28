@@ -95,6 +95,9 @@ def fetch_subgraph_with_judgements(graph, judgements=set()):
 def fetch_subgraph_with_keywords(graph, keywords=set()):
     return(fetch_subgraph_from_meta_nodes(graph, keywords))
 
+def fetch_subgraph_with_acts(graph, acts=set()):
+    return(fetch_subgraph_from_meta_nodes(graph, acts))
+
 # For extracting subgraphs of **only** some particular types like acts & judges etc...
 def fetch_subgraph_with_types(graph, node_types=set()):
     if not node_types:
@@ -120,8 +123,9 @@ def graph_query(G, **query_params):
     gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keywords'])
     gph_with_year_range = fetch_subgraph_with_year_range(G, query_params['year_range'])
     gph_with_types = fetch_subgraph_with_types(G, query_params['types'])    
+    gph_with_acts = fetch_subgraph_with_types(G, query_params['acts'])    
 
-    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_judgements, gph_with_subjects, gph_with_keywords, gph_with_year_range, gph_with_types])
+    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_judgements, gph_with_subjects, gph_with_keywords, gph_with_year_range, gph_with_types, gph_with_acts])
 
     return(result)
 
@@ -154,7 +158,7 @@ if __name__ == "__main__":
     graph_2 = import_graph("{}.json".format(filename))
 
     # result = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'case'], year_range=list(range(2002, 2005)))
-    result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[])
+    result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[], acts=[])
 
     print(result.nodes())
     print("Criminal" in result.nodes())

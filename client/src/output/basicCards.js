@@ -26,6 +26,7 @@ var cardsData = [
   "url"  : "#"
 }].map((ele, ind) => createData(ele, ind) );  
 
+
 class Demo extends Component{
   constructor(...props){
     super(...props);
@@ -43,13 +44,16 @@ this.printActiveCardsInfo = this.printActiveCardsInfo.bind(this)
 }
 
 printActiveCardsInfo(){
+  var acitveOnes = []
   for(var i =0;i<cardsData.length;i++ ){
+
     if(this.state.cardsColor[i]=='')
-     console.log(cardsData[i])
+    acitveOnes.push(cardsData[i].url)
     else
      continue;
-  }
-}
+ }
+  console.log(acitveOnes)
+} 
 
 
 handleToggle(colorDecider, index){
