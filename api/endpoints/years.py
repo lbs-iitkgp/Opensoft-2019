@@ -1,11 +1,8 @@
 from endpoints import *
-from base_class.subgraph import fetch_subgraph_with_year_range
-from base_class.neo4j_to_networkx_graph import export_neo4j
-import os
-import json
-import re
+
 
 @app.route('/year/<year>', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_metadata(year):
 
     result = []
@@ -20,10 +17,11 @@ def year_metadata(year):
 
 
 @app.route('/year/<year>/cases', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_cases(year):
     # Fetch list of cases that relate to this year from neo4j,
     # and return their details from mongodb as json
-    graph = export_neo4j()
+    # graph = export_neo4j()
     result = []
     subgraph = fetch_subgraph_with_year_range(graph , set(year))
     for node in subgraph['nodes']:
@@ -42,5 +40,18 @@ def year_cases(year):
 
 @app.route('year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
-   
-    return jsonify('Hello)
+    result = []
+    subgraph = lkg.query(judges = [], subjects=[], keywords=[], judgements = [], types =[], year_range=[year], acts =[])
+    
+    data = lkg.nodes(data=True)
+    such_cases = subgraph[year]
+    for case in such_cases:
+        all_metas = lkg.in_edges(case)
+        for meta, _ in all_metas:
+            if data[meta]['type'] == 'keyword':
+                keyword = meta
+        if result.has_key(keyword):
+            result[keyword] += 1
+        else:
+            result[keyword] =1
+    return jsonify(result)

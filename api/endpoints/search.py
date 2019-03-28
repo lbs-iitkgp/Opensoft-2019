@@ -1,29 +1,33 @@
 from endpoints import *
+from nlp.topic import subject_extraction
+from elasticsearch_utils import getters
 
 @app.route('/search/advanced', methods=['GET', 'POST']) 
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def advanced_search():      
     subjects = set(request.form['subjects'])
     keywords = set(request.form['keywords'])
     years = set(request.form['years'])
     judges = set(request.form['judges'])
-    judgements = set(request.form['judgements'])
+    # judgements = set(request.form['judgements'])
     types = set(request.form['types'])
+    acts = set(request.form['acts'])
     params = {
         'judges': judges,
-        'judgements' : judgements,
+        # 'judgements' : judgements,
         'year_range' : years,
         'keywords' : keywords,
-        'types' : types,
-        'subjects' : subjects
+        # 'types' : types,
+        'subjects' : subjects,
+        'acts' :acts
     }
-    key = int(request.form.get('page_no','1'))
-    sub = graph_query(graph, params)
-    cases = list(sub.nodes)
-    result = cases[(10*key):(min(10*key+10, len(cases)))]
-    return jsonify(result)
+    subgraph = lkg.query(params)
+    cases = list(subgraph.nodes())
+    return jsonify(cases)
 
 
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def basic_search_to_propose_topic_cards():
     # [
     #   {
@@ -34,9 +38,45 @@ def basic_search_to_propose_topic_cards():
     #   ...
     # ]
     #
-    return('Hello')
+    query = request.args.get('query','')
+
+    year_range = subject_extraction.search_years(query)
+    subjects = subject_extraction.get_subject_matches(query)
+    judge = get_doc_with_maxscore(query, 'judge')
+    act = get_doc_with_maxscore(query, 'act')
+    case = get_doc_with_maxscore(query, 'case')
+
+    if judge is None:
+        judge = ''
+    else:
+        judge = judge['name']
+
+    if act is None:
+        act = ''
+    else:
+        act = act['name']
+
+    if case is None:
+        case = ''
+    else:
+        case = case['name']
+
+    if key == '':
+        return('No query sent')
+    else:
+        params = {
+            'judges': set(judge),
+            'year_range' : set(year_range),
+            'subjects' : set(subjects),
+            'acts' : set(act)
+        }
+        subgraph = lkg.query(params)
+        cases = list(subgraph.nodes())
+        return jsonify(cases)
+        
 
 @app.route('/search/basic/stage_2', methods=['GET', 'POST'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def basic_search_to_get_results_from_cards():
     # [
     #   {
