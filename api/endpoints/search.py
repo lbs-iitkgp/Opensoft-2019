@@ -1,6 +1,7 @@
 from endpoints import *
 
 @app.route('/search/advanced', methods=['GET', 'POST']) 
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def advanced_search():      
     subjects = set(request.form['subjects'])
     keywords = set(request.form['keywords'])
@@ -8,20 +9,23 @@ def advanced_search():
     judges = set(request.form['judges'])
     judgements = set(request.form['judgements'])
     types = set(request.form['types'])
+    acts = set(request.form['acts'])
     params = {
         'judges': judges,
         'judgements' : judgements,
         'year_range' : years,
         'keywords' : keywords,
         'types' : types,
-        'subjects' : subjects
+        'subjects' : subjects,
+        'acts' :acts
     }
-    subgraph = lkg.query(set(judges),set(subjects), set(keywords) , set(judgements), set(types), set(years))
+    subgraph = lkg.query(params)
     cases = list(subgraph.nodes())
     return jsonify(cases)
 
 
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def basic_search_to_propose_topic_cards():
     # [
     #   {
@@ -35,6 +39,7 @@ def basic_search_to_propose_topic_cards():
     return('Hello')
 
 @app.route('/search/basic/stage_2', methods=['GET', 'POST'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def basic_search_to_get_results_from_cards():
     # [
     #   {

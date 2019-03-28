@@ -158,7 +158,7 @@ if __name__ == "__main__":
     graph_2 = import_graph("{}.json".format(filename))
 
     # result = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'case'], year_range=list(range(2002, 2005)))
-    result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[])
+    result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[], acts=[])
 
     print(result.nodes())
     print("Criminal" in result.nodes())

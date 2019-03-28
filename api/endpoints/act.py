@@ -52,7 +52,7 @@ def act_section(act_id, section_id):
 @app.route('/act/<act_id>/plot_line', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_line_distribution(act_id):
-    # Iterate through each citer in neo4j
+    # Iterateacts=[act_id] through each citer in neo4j
     #   Find citer's year from mongo
     result = {}
 
@@ -60,7 +60,7 @@ def act_line_distribution(act_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.acts_query(acts=[act_id])
+    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
     data = lkg.nodes(data=True)
     such_cases = subgraph[act_id]
     for case in such_cases:
@@ -78,7 +78,7 @@ def act_citations(act_id):
     result = []
     for i in range (1947,2020):
         result[i] = 0
-    subgraph = lkg.acts_query(acts=[act_id])
+    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
     
     data = lkg.nodes(data=True)
     such_cases = subgraph[act_id]
