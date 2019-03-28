@@ -29,6 +29,12 @@ class Output extends Component {
 
     getUpdatedResults(){
         console.log(this.state.updatedQuery)
+        this.props.history.push({
+            pathname  : `/basic/output?q=${this.state.updatedQuery}`,
+            state :{
+                defaultSearch : this.state.updatedQuery
+            }
+        })
     }
 
     componentWillMount(){
@@ -40,7 +46,7 @@ class Output extends Component {
             <div>
                 <Navbar />
                 <div id='updatedSearchPart'>
-                    <SearchBar OnQueryPass={this.PassUpdatedQuery} defaultSearch = {this.props.location.state.defaultSearch}  />
+                    <SearchBar OnQueryPass={this.PassUpdatedQuery} defaultSearch = {this.props.location.state.defaultSearch} />
                       <div id='updateButton'>
                         <Button variant="contained" color="primary" onClick={this.getUpdatedResults}  style={{width:'130px',height:'50px'}}>
                          Update

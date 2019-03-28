@@ -28,7 +28,7 @@ class BasicSearch extends Component{
 
     getBasicResult(){
         this.props.history.push({
-        pathname : '/basic/output',
+        pathname : `/basic/output?q=${this.state.basicSearched}`,
         state : {
           defaultSearch : this.state.basicSearched,
         }
