@@ -51,7 +51,7 @@ def get_all_versions_of_all_acts():
     def which_state_are_you_from(given_act_name):
         for act in STATE_WISE_ACTS:
             for more_acts in STATE_WISE_ACTS[act]:    
-                if given_act_name == more_acts["act"]:
+                if given_act_name == more_acts["name"]:
                     return more_acts["type"]
 
     MOST_RECENT_VERSION = dict()

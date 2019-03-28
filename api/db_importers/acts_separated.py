@@ -124,5 +124,5 @@ def get_acts_by_states():
 if __name__ == "__main__":
     D = get_acts_by_states()
     import json 
-    with open('funnyjson.json','w') as f:
+    with open('acts_db.json','w') as f:
         json.dump(D,f,indent=4)

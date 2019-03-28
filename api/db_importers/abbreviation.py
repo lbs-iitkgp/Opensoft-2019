@@ -27,7 +27,7 @@ def get_abbreviations():
     for case in all_cases:
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case), 'r') as file:
             count += 1
-            print(count)
+            # print(count)
             file_content = file.read()
             pairs = schwartz_hearst.extract_abbreviation_definition_pairs(doc_text=file_content)
 
@@ -71,10 +71,7 @@ def get_abbreviations():
         if len(abb[a]) > 10:
             ignore[a] = abb[a]
         else:
-            if a in actual_abb:
-                actual_abb[a] = abb[a]
-            else:
-                actual_abb[a] = abb[a]
+            actual_abb[a] = abb[a]
     temp_list = []
     for act_short_form in actual_abb:
         temp_dict = { "abbrev": act_short_form , "actual" : actual_abb[act_short_form]}
