@@ -24,7 +24,7 @@ class Router extends Component {
               <Route exact path='/advSearch/:id' component={App} />
               <Route exact path='/basic' component={BasicSearch} />
               <Route exact path='/basic/output/:id' component={BasicOutput} />
-              <Route exact path="/judge" component={JudgeIndiv}  />
+              <Route exact path="/judge/:id" component={JudgeIndiv}  />
               <Route exact path="/act/:id" component={ActIndiv}  />
               <Route  exact path='/output' component={Output} />
               <Route exact path='/modal' component={Modal}  />

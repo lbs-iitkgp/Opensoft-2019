@@ -24,6 +24,7 @@
     "@vx/tooltip": "^0.0.184",
     "antd": "^3.15.1",
     "autoscroll-react": "^3.2.0",
+    "axios": "^0.18.0",
     "babel-loader": "^8.0.5",
     "bootstrap": "^4.3.1",
     "canvasjs": "^1.8.1",

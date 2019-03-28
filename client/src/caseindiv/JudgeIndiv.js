@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
 import AdvTable from '../caseindiv/advtable.js'
-import Radar from './radar.js'
 import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
@@ -32,6 +31,10 @@ class ResultCard extends Component{
    //padding : 10,
    margin :10,
    }
+}
+
+componentWillMount(){
+  
 }
 
 render() {
