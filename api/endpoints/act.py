@@ -3,7 +3,8 @@ from endpoints import *
 @app.route('/act/<act_id>', methods=['GET'])
 @cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_metadata(act_id):
-    act = mydb.mytable.find({"act_id":act_id})
+    #act = mydb.mytable.find({"act_id":act_id})
+    act = {"name":"Aadi","year":1990,"type":"Criminal","recent_version_name":"190","recent_version_id":"Aadi05","abbreviation":"CRM"}
     result ={
         'name': act['name'],
         'year': act['year'],

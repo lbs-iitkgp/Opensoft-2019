@@ -5,6 +5,7 @@ import '../App.css'
 import Navbar from '../navbar.js'
 import Tabs from './tabs.js'
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios'
 
 var cardsData = {
     'name' : 'Indian stamp Act',
@@ -28,16 +29,31 @@ class ResultCard extends Component{
    marginBottom: 12,
    padding : 10,
    margin :10,
+   cardsData : {}
    }
 }
 
 componentWillMount(){
-    var url = window.location.href
-   // console.log(url[url.length -1])
-   console.log(this.props.match.params.id)
+    console.log("mount");
+    var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}`)
+        .then(function (response) {
+            self.setState({ cardsData : response.data });
+            console.log("Aadi",response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log('error is ' + error);
+        })
+        .then(function () {
+            // always executed
+        });
+    //console.log(this.state.json_data) 
 }
 
 render() {
+    console.log("render",this.state.cardsData);
     return (
        <div>
         <Navbar />
@@ -48,16 +64,16 @@ render() {
                  <b>Act Name :</b> {cardsData.name}
                     </div>
                     <div id="Year">
-                        <b>Year:</b> <a href="#">{cardsData.year}</a>
+                        <b>Year:</b> <a href="#">{this.state.cardsData.year}</a>
                     </div>
                     <div id="Type">
-                        <b>Type :</b> {cardsData.type}
+                            <b>Type :</b> {this.state.cardsData.type}
                     </div>
                     <div id="RecentVersion">
-                        <b>Recent Version :</b> <a href="#">{cardsData.recent_version.name}</a>
+                            <b>Recent Version :</b> <a href="#">{this.state.cardsData.recent_version.name}</a>
                     </div>
                     <div id="abbr">
-                        <b>Abbreviation :</b> {cardsData.abbreviation}
+                            <b>Abbreviation :</b> {this.state.cardsData.abbreviation}
                     </div>
                    
                     <br /><br />
