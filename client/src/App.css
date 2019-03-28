@@ -273,8 +273,12 @@ li{
 }
 
 a {
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
+  color: inherit !important; /* blue colors for links too */
+  text-decoration: inherit !important; /* no underline */
+}
+
+a:hover {
+  color: hotpink !important;
 }
 
 #act_sec{
@@ -284,3 +288,23 @@ a {
 #piegraph{
   margin-left:33%
 }
+
+#keyWordsResult{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2%
+}
+
+#keyWordLeft{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly
+}
+
+.cardInKeyWords{
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 2%;
+}
+

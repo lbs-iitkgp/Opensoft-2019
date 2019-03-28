@@ -91,10 +91,10 @@ render() {
      return (
           <div id="content" className="flex-container">
             {cardsData.map( ele => (
-              <Card  className="card" style={{ minWidth : this.state.minWidth }} id={ele.index} onClick={this.removeCard(ele.index)}  >
-                <div id='chipCross'><Chips title={ele.type} /><i class="material-icons md-48" >highlight_off</i></div>
+              <Card  className="card" style={{ minWidth : this.state.minWidth }} id={ele.index}  >
+                <div id='chipCross'><Chips title={ele.type} /><i class="material-icons md-48" onClick={this.removeCard(ele.index)} >highlight_off</i></div>
                  <div id="cardType">
-                  <a href={ele.url}><b><h3>{ele.name}:</h3></b></a> 
+                  <b><h3><a href={ele.url}>{ele.name}</a> </h3></b>
                 </div>
               </Card>
             ))}
