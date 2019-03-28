@@ -26,7 +26,7 @@ function Navbar(props) {
           <div id='searchTypes'>
           <NavLink to='/basic' style={{ textDecoration: 'none' }} ><Button  id='basic'>Basic Search</Button></NavLink> 
           <div id='line'></div>
-          <NavLink to='/q' style={{ textDecoration: 'none' }} ><Button  id='adv'>Advanced Search</Button></NavLink>   
+          <NavLink to='/' style={{ textDecoration: 'none' }} ><Button  id='adv'>Advanced Search</Button></NavLink>   
          </div>   
       </AppBar>
     </div>

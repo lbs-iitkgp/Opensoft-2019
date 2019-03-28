@@ -28,13 +28,11 @@ class BasicSearch extends Component{
 
     getBasicResult(){
         this.props.history.push({
-        pathname : `/basic/output?q=${this.state.basicSearched}`,
+        pathname : `/basic/output/${this.state.basicSearched}`,
         state : {
           defaultSearch : this.state.basicSearched,
         }
       });
-     // window.location.href += `${window.location.href}?q=${this.state.basicSearched}`
-      
     }
     
  

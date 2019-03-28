@@ -22,7 +22,7 @@ class Router extends Component {
               <div className="App">
               <Route exact path='/' component={App} />  
               <Route exact path='/basic' component={BasicSearch} />
-              <Route exact path='/basic/output:id' component={BasicOutput} />
+              <Route exact path='/basic/output/:id' component={BasicOutput} />
               <Route exact path="/judge" component={JudgeIndiv}  />
               <Route exact path="/act/:id" component={ActIndiv}  />
               <Route  exact path='/output' component={Output} />
