@@ -1,10 +1,10 @@
 from endpoints import *
 
-# Requires Graph
+
 @app.route('/case/<case_id>', methods=['GET'])
 def case_metadata(case_id):
     case = mgdb_handler.read_all(cases_collection, case_id)
-    judge_ids = get_metas_of_node(case_id, "judge")
+    judge_ids = get_metas_to_node(case_id, "judge")
     judges = []
     for id in judge_ids:
         judges.append(mgdb_handler.read_all(judges_collection, serial=id)[0]["judge_name"])
@@ -30,58 +30,39 @@ def case_line_distribution(case_id):
     return jsonify(result)
 
 
-
 @app.route('/case/<case_id>/timeline', methods=['GET'])
 def case_timeline(case_id):
-    # Timeline function w/ sections parser
-    #  # [
-    #   {
-    #       date_1: {
-    #           "text": ,
-    #           "acts": [
-    #               {
-    #                   "text":
-    #                   "line":
-    #                   "index":
-    #                   "act_id":
-    #                   "sections": [
-    #                       {
-    #                           "section_id": ,
-    #                           "rel_index":
-    #                       },
-    #                       {
-    #                           ...
-    #                       }
-    #                   ]
-    #               },
-    #               {
-    #                   ...
-    #               }
-    #           ]
-    #       },
-    #       ...
-    #   }
-    # ]
-    return('Hello')
+    case_file = mgdb_handler.read_all(cases_collection, serial=case_id)[0]["file"]
+
+    result = {item[0]: item[1] for item in get_timelines(case_file, nlp)}
+
+    return jsonify(result)
 
 
-#TODO: From graph
 @app.route('/case/<case_id>/citations', methods=['GET'])
 def case_citations(case_id):
     # Get citer id's from neo4j, and respective names from mongo
-    #
-    # {
-    #   "cited_acts": [
-    #       { "act_id": , "act_name": },
-    #       ...
-    #   ],
-    #   cited_cases: [
-    #       { "case_id": , "case_name": },
-    #       ...
-    #   ],
-    #   cited_by_cases: [
-    #       { "case_id": , "case_name": },
-    #       ...
-    #   ]
-    # }
-    return('Hello')
+
+    result = {
+        "cited_acts": [],
+        "cited_cases": [],
+        "cited_by_cases": []
+    }
+
+    act_ids = get_metas_to_node(case_id, "act")
+    for id in act_ids:
+        act = mgdb_handler.read_all(acts_collection, serial=id)[0]
+        result["cited_acts"].append({act["serial"]: act["name"]})
+
+    cited_case_ids = get_metas_to_node(case_id, "case")
+    for id in cited_case_ids:
+        cited_case = mgdb_handler.read_all(cases_collection, serial=id)[0]
+        result["cited_cases"].append({cited_case["serial"]: cited_case["title"]})
+
+    cited_by_cases = get_metas_from_node(case_id, "case")
+    for id in cited_by_cases:
+        cited_by_case = mgdb_handler.read_all(cases_collection, serial=id)[0]
+        result["cited_by_cases"].append({cited_by_case["serial"]: cited_by_case["title"]})
+
+    return jsonify(result)
+
