@@ -1,16 +1,5 @@
 from endpoints import *
 
-import mongodb_handler as mgdb_handler
-from section_in_acts import get_sections_in_act, get_text_in_section
-
-acts_collection = "act_db"
-recent_acts_collection = "recent_act_db"
-cases_collection = "case_db"
-abbreviations_collection = "abbreviation_db"
-judges_collection = "judge_db"
-catch_collection = "catch_db"
-keyword_collection = "keyword_db"
-
 
 @app.route('/act/<act_id>', methods=['GET'])
 def act_metadata(act_id):
@@ -25,25 +14,7 @@ def act_metadata(act_id):
     # get its abbreviations
     abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])[0]["abbrev"]
     act["abbreviation"] = abbr
-    # # get
-    # # act = {
-    # #     'name': 'name',
-    # #     'year': 2010,
-    # #     'type': 'idid',
-    # #     'recent_version_id':'2.0',
-    # #     'recent_version_name': 'beta',
-    # #     'abbreviation': 'jefu'
-    # # }
-    # result = {
-    #     # 'name': act['name'],
-    #     # 'year': act['year'],
-    #     # 'type': act['type'],
-    #     'recent_version': {
-    #         'id': act['recent_version_id'],
-    #         'name': act['recent_version_name']
-    #     },
-    #     'abbreviation': act['abbreviation']
-    # }
+
     return jsonify(act)
 
 
@@ -91,21 +62,13 @@ def act_line_distribution(act_id):
     return jsonify(result)
 
 
-# TODO: From graph
-app.route('/act/<act_id>/cases', methods=['GET'])
+@app.route('/act/<act_id>/cases', methods=['GET'])
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
     result = []
-    for i in range(1947, 2020):
-        result[i] = 0
-    subgraph = lkg.acts_query(acts=[act_id])
+    case_ids = get_metas_from_node(act_id, "act", "case")
+    for id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=id)[0]
+        result.append(case)
 
-    data = lkg.nodes(data=True)
-    such_cases = subgraph[act_id]
-    for case in such_cases:
-        all_metas = lkg.in_edges(case)
-        for meta, _ in all_metas:
-            if data[meta]['type'] == 'year':
-                year = meta
-        result[int(year)] += 1
     return jsonify(result)
