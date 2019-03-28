@@ -71,6 +71,9 @@ printResults(){
     ReactDOM.render(<Output />,document.getElementById('root'))
     // scrollToComponent(this.refs.OutRef,{align:'bottom'});
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
+    window.history.pushState({
+      id : `${Results.query}`
+    },'Advance Search',`${window.location.href}q=${Results.query}`)
   }
   render() {
     return (
