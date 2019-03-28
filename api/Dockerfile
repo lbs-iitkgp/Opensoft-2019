@@ -1,5 +1,3 @@
-
-
 FROM ubuntu:latest
 MAINTAINER Your Name "youremail@domain.tld"
 RUN apt-get update -y
