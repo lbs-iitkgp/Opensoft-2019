@@ -60,17 +60,11 @@ printResults(){
   console.log(Results.category);
   console.log(Results.judgeName);
   console.log(Results.selectedActs);
-  //this.props.history.push("/output");
-  // this.props.history.push({
-  //   pathname : "/output" ,
-  //   state : {
-  //     defaultAdvSearch : Results.query,
-  //     defaultYrs : Results.years,
-  //     defaultCategory : Results.category,
-  //     defaultJudge : Results.judgeName,
-  //     defaultActs : Results.selectedActs
-  //   }
-  // })
+  if(Results.query == '')
+    return;
+  else{
+
+
     ReactDOM.render(<Output />,document.getElementById('root'))
     // scrollToComponent(this.refs.OutRef,{align:'bottom'});
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
@@ -81,6 +75,7 @@ printResults(){
       }
     })
   }
+}
 
   componentWillMount(){
       if(this.props.location.state === undefined){

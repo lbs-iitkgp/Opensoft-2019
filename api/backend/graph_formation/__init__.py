@@ -22,5 +22,5 @@ def prepare_graph():
     print("Judges added")
     j = add_years.citing(j)
     print("Years added")
-    # j = add_acts.map_acts_with_cases(j)
+    j = add_acts.map_acts_with_cases(j)
     return(j)
