@@ -32,7 +32,7 @@ def case_line_distribution(case_id):
 
 @app.route('/case/<case_id>/timeline', methods=['GET'])
 def case_timeline(case_id):
-    case_file = mgdb_handler.read_all(cases_collection, serial=case_id)[0]["file"]
+    case_file = mgdb_handler.read_all(cases_collection, serial=case_id)[0]["file_name"]
 
     result = {item[0]: item[1] for item in get_timelines(case_file, nlp)}
 
