@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-
 import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'

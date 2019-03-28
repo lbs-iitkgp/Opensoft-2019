@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles } from '@material-ui/styles';
@@ -56,28 +56,10 @@ var Acts = [
   'case-2',
 ].map((ele, ind) => createData(ele, ind));
 
-function bring_data(myurl){
-  var result = {}
-  // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
-  axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${myurl}`)
-    .then(function (response) {
-      result = response.data;
-      return response.data;
-      console.log("data", result);
-    })
-    .catch(function (error) {
-      // handle error
-      console.log('error is ' + error);
-    })
-    .then(function () {
-      // always executed
-    });
-}
-
-function FullWidthTabs({myurl}) {
-  
+function FullWidthTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const json_data = React.useState({});
 
   function handleChange(event, newValue) {
     setValue(newValue);
@@ -87,17 +69,25 @@ function FullWidthTabs({myurl}) {
     setValue(index);
   }
 
-  function makeCaseUrl(ele){
-    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/modal/${ele}`;
-  }
+  useEffect(() => {
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${props.myurl}`)
+      .then(function (response) {
+        //self.setState({ data: response.data })
+        //json_data(response.data);
+        console.log("Aadi",response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('error is ' + error);
+      })
+      .then(function () {
+        // always executed
+      });
+  });
 
-  function makeActUrl(ele) {
-    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/act/${ele}`;
-  }
-
-  var result = bring_data(myurl);
-  console.log("Got data", result);
-
+  //UNSAFE_componentWillMount();
+  console.log(json_data);
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -120,17 +110,17 @@ function FullWidthTabs({myurl}) {
       >
         <TabContainer >
           <ul>
-            {citedIn.map(ele => (<li><a href={makeCaseUrl(ele)}>{ele.data}</a></li>))}
+            <a href="#">{citedIn.map(ele => (<li>{ele.data}</li>))}</a>
           </ul>
         </TabContainer>
         <TabContainer >
           <ul>
-            {citedOut.map(ele => (<li><a href={makeCaseUrl(ele)}>{ele.data}</a></li>))}
+            <a href="#">{citedOut.map(ele => (<li>{ele.data}</li>))}</a>
           </ul>
         </TabContainer>
         <TabContainer >
           <ul>
-            {Acts.map(ele => (<li><a href={makeActUrl(ele)}>{ele.data}</a></li>))}
+            <a href="#">{Acts.map(ele => (<li>{ele.data}</li>))}</a>
           </ul>
         </TabContainer>
       </SwipeableViews>

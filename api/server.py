@@ -1,7 +1,7 @@
 from endpoints import *
 
-# from endpoints.act import *
-# from endpoints.case import *
+from endpoints.act import *
+from endpoints.case import *
 from endpoints.catchword import *
 from endpoints.judge import *
 from endpoints.keyword import *

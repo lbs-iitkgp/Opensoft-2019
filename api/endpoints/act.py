@@ -1,6 +1,7 @@
 from endpoints import *
 
 @app.route('/act/<act_id>', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_metadata(act_id):
     act = mydb.mytable.find({"act_id":act_id})
     result ={
@@ -16,6 +17,7 @@ def act_metadata(act_id):
     return jsonify(result)
 
 @app.route('/act/<act_id>/sections', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_sections(act_id):
     result = []
     for section in mydb.mytable.find({"act_id":act_id}):
@@ -27,6 +29,7 @@ def act_sections(act_id):
     return jsonify(result)
 
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_section(act_id, section_id):
     sections = mydb.mytable.find({"act_id":act_id})
     section = mydb.sections[section_id].find({"section_id":section_id})
@@ -38,6 +41,7 @@ def act_section(act_id, section_id):
 
 
 @app.route('/act/<act_id>/plot_line', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_line_distribution(act_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
@@ -47,6 +51,7 @@ def act_line_distribution(act_id):
 
 
 @app.route('/act/<act_id>/cases', methods=['GET'])
+@cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
     return('Hello')
