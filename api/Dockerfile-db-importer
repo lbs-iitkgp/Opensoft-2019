@@ -1,0 +1,5 @@
+FROM python:3
+ADD db_importer.py /
+RUN pip3 --proxy=http://server:port install pymongo
+RUN apt install libpython2.7-stdlib
+CMD [ "python", "./db_importer.py" ]
