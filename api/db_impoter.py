@@ -44,8 +44,57 @@ abbreviations_collection = "abbreviation_db"
 judges_collection = "judge_db"
 catch_collection = "catch_db"
 keyword_collection = "keyword_db"
+years_collection = "years_db"
 # ====================================================================================================================================
 # DEFINE_FUNCTIONS_TO_PROCESS_VARIOUS_DATAS
+
+def process_years(graph):
+
+    nodes = graph.nodes(data=True)
+    year_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['year'], year_range=[])
+    serial = 1
+    year_list = year_list.nodes()
+    year_list = list(year_list)
+    year_list.sort()
+
+    serial_to_year = []
+
+    for year in year_list:
+        serial_to_year.append({"year": year, "serial": serial})
+        serial += 1
+    print(len(year_list))
+    return serial_to_year
+
+
+def process_catch(graph):
+    # catch_list = []
+    # graph = Test_file.get_graph()
+    nodes = graph.nodes(data=True)
+    catch_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['catch'], year_range=[])
+    serial = 1
+    catch_list = catch_list.nodes()
+
+    serial_to_catch = []
+
+    for catch in catch_list:
+        serial_to_catch.append({"catch": catch, "serial": serial})
+        serial += 1
+    return serial_to_catch
+
+def process_keyword(graph):
+    # keyword_list = []
+    # graph = Test_file.get_graph()
+    nodes = graph.nodes(data=True)
+    keyword_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['keyword'], year_range=[])
+    serial = 1
+    keyword_list = keyword_list.nodes()
+
+    serial_to_keyword = []
+
+    for keyword in keyword_list:
+        serial_to_keyword.append({"keyword": keyword, "serial": serial})
+        serial += 1
+    return serial_to_keyword
 
 
 def process_cases_data(knowledgeGraph):
@@ -104,10 +153,10 @@ def process_recent_acts_data(act_wise_data_list):
 
     for act in act_wise_data_list:
         temp_dict = {}  
-        new_act_name = acts_updates.get_latest_version_of_an_act(str(act["act"]), mapping)
+        new_act_name = acts_updates.get_latest_version_of_an_act(act, mapping)
         if new_act_name:
             # temp_dict[str(act["serial"])] = act_serial_mapping[new_act_name]
-            temp_list.append({"Serial_id": str(act["serial"]), "new_act_name": str(act_serial_mapping[new_act_name])})
+            temp_list.append({"Old_id": str(act_wise_data_list[act]), "New_id": str(act_wise_data_list[new_act_name])})
 
     return temp_list
 
@@ -116,17 +165,17 @@ def process_judge_data(graph):
     '''
         Serializes the judge names and adds them to the db (mongodb)
     '''
-    judge_list = []
+    # judge_list = []
     # graph = Test_file.get_graph()
     nodes = graph.nodes(data=True)
     judge_list = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge'], year_range=[])
     serial = 1
     judge_list = judge_list.nodes()
-
+    # print(judge_list)
     serial_to_judge = []
 
     for judge in judge_list:
-        serial_to_judge.append({"judge_name": judge, "serial_id": serial})
+        serial_to_judge.append({"judge_name": judge, "serial": serial})
         serial += 1
     return serial_to_judge
 
@@ -142,8 +191,8 @@ def update_legal_graph_with_serial_id(lkg):
     # graph = Test_file.get_graph()
     nodes = lkg.nodes(data=True)
     for node_type in node_types:
-        node_list = lkg.query(judges=[], subjects=[], keywords=[], judgements=[], types=[node_type], year_range=[])
-        node_list = node_list.nodes()
+        # node_list = lkg.query(judges=[], subjects=[], keywords=[], judgements=[], types=[node_type], year_range=[])
+        # node_list = node_list.nodes()
 
         mapping = {}
         serial = 1
@@ -216,7 +265,7 @@ def main(lkg):
 
     # cases_data = process_cases_data(knowledgeGraph)
     # acts_data = process_acts_data(acts_separated.get_acts_by_states())
-    # act_serial_mapping = {act["act"]: act["serial"] for act in acts_data}
+    # act_serial_mapping = {act["name"]: act["serial"] for act in acts_data}
     # judges_data = process_judge_data(knowledgeGraph)
     # acts_mapping = process_recent_acts_data(act_serial_mapping)
 
@@ -226,12 +275,25 @@ def main(lkg):
     # print("Wrote acts")
     # handler.write_all(cases_data, cases_collection)
     # print("Wrote cases")
-    # handler.write_all(act_serial_mapping, recent_acts_collection)
-    # handler.write_all(judges_data, judges_collection)
-    # print("Wrote judge")
     # handler.write_all(acts_mapping, recent_acts_collection)
+    # print("Wrote mappings")
+    # print(judges_data)
+    # handler.write_all(judges_data, judges_collection)
+    print("Wrote judge")
     handler.write_all(abbr_data, abbreviations_collection)
     print("Wrote abbr")
 
+    # keywords = process_keyword(knowledgeGraph)
+    # handler.write_all(keywords, keyword_collection)
+    print("Wrote Keywords")
+
+    # act_serial_mapping = {act["act"]: act["serial"] for act in acts_data}
+    # print(act_serial_mapping)
+
+    # handler.write_all(process_years(knowledgeGraph), years_collection)
+    # print(process_years(knowledgeGraph))
+    print("Wrote years")
+    # handler.write_all(process_catch(knowledgeGraph), catch_collection)
+    # print(process_catch(knowledgeGraph))
 
 main(knowledgeGraph)

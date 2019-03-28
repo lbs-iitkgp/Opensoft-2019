@@ -55,7 +55,4 @@ def read_all(coll_name, **filters):
     for item in collection.find(filters, {'_id': 0}):
         collections.append(item)
 
-    if len(collections) > 1 or len(collections) == 0:
-        return collections
-    else:
-        return collections[0]
+    return collections

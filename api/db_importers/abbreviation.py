@@ -6,7 +6,7 @@ import encode_helper
 file = open("data.txt", "w")
 
 all_files = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
-all_cases = list(filter(lambda x: x[-4:] == ".txt", all_files))[:1000]
+all_cases = list(filter(lambda x: x[-4:] == ".txt", all_files))
 abb = {}
 ignore = {}
 count = 0
@@ -23,9 +23,11 @@ def function(word):
     return upper_case, lower_case
 
 def get_abbreviations():
-
+    count = 1
     for case in all_cases:
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case), 'r') as file:
+            count += 1
+            print(count)
             file_content = file.read()
             pairs = schwartz_hearst.extract_abbreviation_definition_pairs(doc_text=file_content)
 
@@ -69,15 +71,17 @@ def get_abbreviations():
         if len(abb[a]) > 10:
             ignore[a] = abb[a]
         else:
-            actual_abb[a] = abb[a]
-            
+            if a in actual_abb:
+                actual_abb[a] = abb[a]
+            else:
+                actual_abb[a] = abb[a]
     temp_list = []
     for act_short_form in actual_abb:
         temp_dict = { "abbrev": act_short_form , "actual" : actual_abb[act_short_form]}
         temp_list.append(temp_dict)
 
-
-    
+    # print(actual_abb)
+    # print(temp_list)    
     return temp_list
 
 

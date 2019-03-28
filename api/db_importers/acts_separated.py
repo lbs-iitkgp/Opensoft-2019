@@ -56,10 +56,10 @@ def get_acts_by_states():
                     continue
                 this_dict = {
                     "serial": serial,
-                    "act":act,
+                    "name":act,
                     "type":type_f,
                     "year":yr,
-                    "file":filed,
+                    "file":"/Acts/Central_Text/{}/{}".format(g, filed),
                     "sections":sections,
                 }
                 if act in DICTIONARY_OF_ACTS:
@@ -107,10 +107,10 @@ def get_acts_by_states():
                     continue
                 this_dict = {
                     "serial": serial,
-                    "act":act,
+                    "name":act,
                     "type":type_f,
                     "year":yr,
-                    "file":filed,
+                    "file":"/Acts/State_Text/{}/{}".format(g, filed),
                     "sections":sections,
                 }
                 if act in DICTIONARY_OF_ACTS:
