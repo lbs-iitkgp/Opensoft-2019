@@ -23,8 +23,7 @@ def catchword_cases(catchword_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges=[], subjects=[], keywords=[catchword_id], judgements=[], types=[], year_range=[])
-
+    subgraph = lkg.query(judges=[], subjects=[catchword_id], keywords=[], judgements=[], types=[], year_range=[])
     data = lkg.nodes(data=True)
     such_cases = subgraph[catchword_id]
     for case in such_cases:
@@ -39,21 +38,23 @@ def catchword_cases(catchword_id):
 # def catchword_cases(catchword_id):
 # # Fetch list of cases that cite this catchword from neo4j and return their details from mongodb as json
 #     # nx_graph = export_neo4j()
-#     # result = []
-#     # subgraph = fetch_subgraph_with_subjects(nx_graph , set(catchword_id))
+    result = []
+    for i in range (1947,2020):
+        result[i] = 0
+    subgraph = lkg.query(judges =[], subjects=[catchword_id], keywords=[], judgements = [], types =[], year_range=[])
+    
+    for node in subgraph['nodes']:
+        case = mongo_db.find("case_id",node['case_id'])
+        point = {
+            "case_id": case['case_id'],
+            "case_name": case['case_name'],
+            "case_indlaw_id": case['case_indlawid'],
+            "case_judges": case['judge'],
+            "case_judgement": case['judgement'],
+            "case_date": case['case_date'],
+            "case_year": case['case_year']
+            }
+        result.append(point)
+    return jsonify(result)
 
-#     such_cases = subgraph[catchword_id]
-#     for node in subgraph['nodes']:
-#         case = mydb.mytable.find({"keyword":node['keyword']})
-#         point = {
-#             "case_id": case['case_id'],
-#             "case_name": case['case_name'],
-#             "case_indlaw_id": case['case_indlawid'],
-#             "case_judges": case['judge'],
-#             "case_judgement": case['judgement'],
-#             "case_date": case['case_date'],
-#             "case_year": case['case_year']
-#             }
-#         result.append(point)
-#     return jsonify(result)
 

@@ -1,9 +1,8 @@
 
 from endpoints import *
-from base_class.subgraph import graph_query
-from base_class.neo4j_to_networkx_graph import export_neo4j
 
-def provide_line_distribution(judges,judgements,subjects,keywords,years,types,nx_grap):
+
+def provide_line_distribution(judges,judgements,subjects,keywords,years,types,nx_graph):
     params = {
         'judges' : judges,
         'judgements' : judgements,
@@ -17,7 +16,7 @@ def provide_line_distribution(judges,judgements,subjects,keywords,years,types,nx
     for i in range (1947,2020):
         result.append({i: 0})
     for node in subgraph['nodes']:
-        case = mydb.mytable.find({"case_id":node['case_id']})
+        case = mongo_db.find({"case_id":node['case_id']})
         result[int(case['year'])] = result[int(case['year'])]+1
     return jsonify(result)
 
@@ -33,7 +32,7 @@ def provide_cases(judges,judgements,subjects,keywords,years,types,nx_graph):
     subgraph = graph_query(nx_graph, params)
     result = []
     for node in subgraph['nodes']:
-        case = mydb.mytable.find({"keyword":node['keyword']})
+        case = mongo_db.find({"keyword":node['keyword']})
         point = {
             "case_id": case['case_id'],
             "case_name": case['case_name'],
@@ -51,5 +50,5 @@ def provide_cases(judges,judgements,subjects,keywords,years,types,nx_graph):
 def provide_metadata(judge,judgement,subject,keyword,year,type,nx_graph):
     # gives union of all the required values
     result = []
-    query = mydb.mytable.find({"keyword_id":keyword_id})  
+    query = mongo_db.find({"keyword_id":keyword_id})  
 

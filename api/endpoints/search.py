@@ -16,11 +16,9 @@ def advanced_search():
         'types' : types,
         'subjects' : subjects
     }
-    key = int(request.form.get('page_no','1'))
-    sub = graph_query(graph, params)
-    cases = list(sub.nodes)
-    result = cases[(10*key):(min(10*key+10, len(cases)))]
-    return jsonify(result)
+    subgraph = lkg.query(set(judges),set(subjects), set(keywords) , set(judgements), set(types), set(years))
+    cases = list(subgraph.nodes())
+    return jsonify(cases)
 
 
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])

@@ -23,7 +23,7 @@ def year_metadata(year):
 def year_cases(year):
     # Fetch list of cases that relate to this year from neo4j,
     # and return their details from mongodb as json
-    graph = export_neo4j()
+    # graph = export_neo4j()
     result = []
     subgraph = fetch_subgraph_with_year_range(graph , set(year))
     for node in subgraph['nodes']:
