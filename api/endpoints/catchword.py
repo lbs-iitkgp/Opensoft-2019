@@ -24,7 +24,7 @@ def catchword_line_distribution(catchword_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges=[], subjects=[catchword_id], keywords=[], judgements=[], types=[], year_range=[],acts = [])
+    subgraph = lkg.query(judges=[], catch=[catchword_id], keywords=[], judgements=[], types=[], year_range=[],acts = [])
     data = lkg.nodes(data=True)
     such_cases = subgraph[catchword_id]
     for case in such_cases:
@@ -33,6 +33,7 @@ def catchword_line_distribution(catchword_id):
             if data[meta]['type'] == 'year':
                 year = meta
         result[int(year)] += 1
+
     return jsonify(result)
 
 
