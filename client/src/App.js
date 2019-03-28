@@ -22,6 +22,9 @@ var Results = {
  class App extends Component {
  constructor(props){
    super(props);
+   this.state = {
+     defaultAdvSearch: ''
+   }
   
   this.updateResultCat = this.updateResultCat.bind(this);
   this.updateResultQuery = this.updateResultQuery.bind(this);
@@ -71,10 +74,34 @@ printResults(){
     ReactDOM.render(<Output />,document.getElementById('root'))
     // scrollToComponent(this.refs.OutRef,{align:'bottom'});
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
-    window.history.pushState({
-      id : `${Results.query}`
-    },'Advance Search',`${window.location.href}q=${Results.query}`)
+    this.props.history.push({
+      pathname  : `/${Results.query}`,
+      state :{
+          defaultAdvSearch : Results.query
+      }
+    })
   }
+
+  componentWillMount(){
+      if(this.props.location.state === undefined){
+        this.setState({
+            defaultAdvSearch : this.props.match.params.id,  
+        })
+        // alert(this.state.defaultAdvSearch);
+    } else {
+        this.setState({
+            defaultAdvSearch : this.props.location.state.defaultAdvSearch,  
+        })
+    }
+    //ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+    
+    if(this.props.match.params.id != undefined)
+      ReactDOM.render(<Output />,document.getElementById('root'));
+  }
+  
+
+   
+
   render() {
     return (
       <div>
@@ -82,7 +109,7 @@ printResults(){
       <br></br>
       <Container id='box_shadow'> 
         <h2>Search</h2>
-        <SearchBar OnQueryPass={this.updateResultQuery}   />
+        <SearchBar OnQueryPass={this.updateResultQuery} defaultSearch={this.state.defaultAdvSearch} />
         <h2>Years</h2>
         <br />
         <YearsSlider onSliderDataPass={this.updateSliderResult}  />
