@@ -9,6 +9,7 @@ function createData(listData, index) {
   var type = listData.type
   var name = listData.name
   var url = listData.url
+  
   return { index, type,name, url } ;
   }
 
@@ -38,7 +39,18 @@ class Demo extends Component{
     cardsColor : ['','']
   }
 this.handleToggle = this.handleToggle.bind(this);
+this.printActiveCardsInfo = this.printActiveCardsInfo.bind(this)
 }
+
+printActiveCardsInfo(){
+  for(var i =0;i<cardsData.length;i++ ){
+    if(this.state.cardsColor[i]=='')
+     console.log(cardsData[i])
+    else
+     continue;
+  }
+}
+
 
 handleToggle(colorDecider, index){
   var localcardsColor = this.state.cardsColor;
@@ -56,6 +68,7 @@ handleToggle(colorDecider, index){
   this.setState({
     cardsColor : localcardsColor
   })  
+  this.printActiveCardsInfo();
 }
  
 render() {
@@ -65,7 +78,7 @@ render() {
               <Card  className="card" style={{ color : this.state.cardsColor[ele.index], minWidth: this.state.minWidth }} id={ele.index} >
                 <div id="case"><Chips title={ele.type} /><Switches id={ele.index} OnPassChecked={this.handleToggle}  /></div>
                 <div >
-                  <a href={ele.url}><b>{ele.name}</b></a>
+                  <a href="#"><b>{ele.name}</b></a>
                 </div>
               </Card>
             ))}

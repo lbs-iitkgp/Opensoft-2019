@@ -6,7 +6,9 @@ import editdistance
 import difflib
 import regex as re
 
-all_files = os.listdir("./All_FT")
+from env import ENV
+
+all_files = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 all_cases = filter(lambda x: x[-4:] == ".txt", all_files)
 
 # ch = 'A'
@@ -26,7 +28,7 @@ BAD_WORDS_TYPE1 = ["the", "The", "that", "That", "This", "this", "under", "Under
 BAD_WORDS_TYPE2 = ["Section", "S.", "s.", "u/s.", "section", "Article", "article"]
 
 word_to_replace_dict = {"u/s." : "Section", " s. ":"Section", "S. ":"Section", "section":"Section",\
-						"subSection":"Section", "subsection":"Section"}
+						"subSection":"Section", "subsection":"Section", "Sections":"Section"}
 
 act_replacement = ["the Act", "this Act", "that Act", "the said Act", "the act", "this act", "that act", "the said act"]
 def fetch_all_acts():
@@ -38,7 +40,7 @@ def fetch_all_acts():
 
 
 def fetch_all_acts_from_txt():
-	file = open("./Acts/all_acts_central_state.txt", "r")
+	file = open("{}/Acts/all_acts_central_state.txt".format(ENV["DATASET_PATH"]), "r")
 	acts_list = []
 	for line in file:
 		line = line[:-1]
@@ -51,7 +53,7 @@ def fetch_acts_from_cases(all_acts):
 	act_cases = {}
 	total_num_cases = len(all_cases)
 	for j in range(total_num_cases):
-		file = open("./All_FT/" + all_cases[j], 'r')
+		file = open("{}/All_FT/{}".format(ENV["DATASET_PATH"], all_cases[j]), 'r')
 		#file = open("./All_FT/2003_C_16.txt", 'r')
 		text = ""
 		line_num = 1
@@ -137,26 +139,30 @@ def fetch_acts_from_cases(all_acts):
 					print("Yo, ", prev_act_name)
 					if prev_act_name == "":
 						continue
+					
 					if parsed_by_spacy in acts_so_far:
 						prev_act_name = acts_so_far[parsed_by_spacy]
-					elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+					else:
 						possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-						max_count = 0
-						#print(possible)
-						for i in range(len(possible)):
-							match_count = 0
-							bas = possible[i]
-							w = possible[i].split(" ")
-							for a in w:
-								if a.lower() in [f.lower() for f in line_words]:
-									match_count += 1
-							if match_count >= max_count:
-								max_count = match_count
-								prev_act_name = possible[i]
-						checker = prev_act_name.split(" ")
-						if checker[0].lower() not in [v.lower() for v in line_words]:
-							if dada_act_name != "":
-								prev_act_name = dada_act_name
+						if len(possible) > 0:
+							max_count = 0
+							#print(possible)
+							for i in range(len(possible)):
+								match_count = 0
+								bas = possible[i]
+								w = possible[i].split(" ")
+								for a in w:
+									if a.lower() in [f.lower() for f in line_words]:
+										match_count += 1
+								if match_count >= max_count:
+									max_count = match_count
+									prev_act_name = possible[i]
+							checker = prev_act_name.split(" ")
+							if checker[0].lower() not in [v.lower() for v in line_words]:
+								if dada_act_name != "":
+									prev_act_name = dada_act_name
+						else:
+							continue
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -185,7 +191,7 @@ def fetch_section_act_mapping_from_case(all_acts):
 	case_dict = {}
 	total_num_cases = len(all_cases)
 	for j in range(total_num_cases):
-		file = open("./All_FT/" + all_cases[j], 'r')
+		file = open("{}/All_FT/{}".format(ENV["DATASET_PATH"], all_cases[j]), 'r')
 		text = ""
 		line_num = 0
 		print(all_cases[j])
@@ -271,24 +277,27 @@ def fetch_section_act_mapping_from_case(all_acts):
 					parsed_by_spacy = prev_act_name
 					if parsed_by_spacy in acts_so_far:
 						prev_act_name = acts_so_far[parsed_by_spacy]
-					elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+					else:
 						possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-						max_count = 0
-						#print(possible)
-						for i in range(len(possible)):
-							match_count = 0
-							bas = possible[i]
-							w = possible[i].split(" ")
-							for a in w:
-								if a.lower() in [f.lower() for f in line_words]:
-									match_count += 1
-							if match_count >= max_count:
-								max_count = match_count
-								prev_act_name = possible[i]
-						checker = prev_act_name.split(" ")
-						if checker[0].lower() not in [v.lower() for v in line_words]:
-							if dada_act_name != "":
-								prev_act_name = dada_act_name
+						if len(possible) > 0:
+							max_count = 0
+							#print(possible)
+							for i in range(len(possible)):
+								match_count = 0
+								bas = possible[i]
+								w = possible[i].split(" ")
+								for a in w:
+									if a.lower() in [f.lower() for f in line_words]:
+										match_count += 1
+								if match_count >= max_count:
+									max_count = match_count
+									prev_act_name = possible[i]
+							checker = prev_act_name.split(" ")
+							if checker[0].lower() not in [v.lower() for v in line_words]:
+								if dada_act_name != "":
+									prev_act_name = dada_act_name
+						else:
+							continue
 					print(prev_act_name)
 					if parsed_by_spacy not in acts_so_far:
 						acts_so_far[parsed_by_spacy] = prev_act_name
@@ -354,7 +363,7 @@ def fetch_mappings_of_given_case(case_id):
 	# return case_dict[case_id]
 	nlp = spacy.load('en_core_web_sm')
 	case_dict = {}
-	file = open("./All_FT/" + case_id, 'r')
+	file = open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case_id), 'r')
 	all_acts = fetch_all_acts_from_txt()
 	text = ""
 	line_num = 0
@@ -441,24 +450,27 @@ def fetch_mappings_of_given_case(case_id):
 				parsed_by_spacy = prev_act_name
 				if parsed_by_spacy in acts_so_far:
 					prev_act_name = acts_so_far[parsed_by_spacy]
-				elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+				else:
 					possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-					max_count = 0
-					#print(possible)
-					for i in range(len(possible)):
-						match_count = 0
-						bas = possible[i]
-						w = possible[i].split(" ")
-						for a in w:
-							if a.lower() in [f.lower() for f in line_words]:
-								match_count += 1
-						if match_count >= max_count:
-							max_count = match_count
-							prev_act_name = possible[i]
-					checker = prev_act_name.split(" ")
-					if checker[0].lower() not in [v.lower() for v in line_words]:
-						if dada_act_name != "":
-							prev_act_name = dada_act_name
+					if len(possible) > 0:
+						max_count = 0
+						#print(possible)
+						for i in range(len(possible)):
+							match_count = 0
+							bas = possible[i]
+							w = possible[i].split(" ")
+							for a in w:
+								if a.lower() in [f.lower() for f in line_words]:
+									match_count += 1
+							if match_count >= max_count:
+								max_count = match_count
+								prev_act_name = possible[i]
+						checker = prev_act_name.split(" ")
+						if checker[0].lower() not in [v.lower() for v in line_words]:
+							if dada_act_name != "":
+								prev_act_name = dada_act_name
+					else:
+						continue
 				print(prev_act_name)
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
@@ -522,7 +534,7 @@ def fetch_mappings_of_given_case(case_id):
 def fetch_all_acts_in_a_case(case_id):
 	#act_cases = fetch_acts_from_cases(fetch_all_acts())
 	#return act_cases[case_id]
-	file = open("./All_FT/" + case_id, 'r')
+	file = open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case_id), 'r')
 	nlp = spacy.load('en_core_web_sm')
 	case_dict = {}
 	all_acts = fetch_all_acts_from_txt()
@@ -530,8 +542,7 @@ def fetch_all_acts_in_a_case(case_id):
 	text = ""
 	line_num = 1
 	#print(case_id)
-	act_cases = {}
-	act_cases[case_id] = set()
+	act_cases = set()
 	prev_act_name = ""
 	year = ""
 	dada_act_name = ""
@@ -608,30 +619,32 @@ def fetch_all_acts_in_a_case(case_id):
 					prev_act_name = prev_act_name + " " + year
 				parsed_by_spacy = prev_act_name
 
-				print("Yo, ", prev_act_name)
+				# print("Yo, ", prev_act_name)
 				if prev_act_name == "":
 					continue
 				if parsed_by_spacy in acts_so_far:
 					prev_act_name = acts_so_far[parsed_by_spacy]
-				elif len(difflib.get_close_matches(prev_act_name, all_acts, 5)) > 0:
+				else:
 					possible = difflib.get_close_matches(prev_act_name, all_acts, 5)
-					max_count = 0
-					#print(possible)
-					for i in range(len(possible)):
-						match_count = 0
-						bas = possible[i]
-						w = possible[i].split(" ")
-						for a in w:
-							if a.lower() in [f.lower() for f in line_words]:
-								match_count += 1
-						if match_count >= max_count:
-							max_count = match_count
-							prev_act_name = possible[i]
-					checker = prev_act_name.split(" ")
-					if checker[0].lower() not in [v.lower() for v in line_words]:
-						if dada_act_name != "":
-							prev_act_name = dada_act_name
-				print(prev_act_name)
+					if len(possible) > 0:
+						max_count = 0
+						#print(possible)
+						for i in range(len(possible)):
+							match_count = 0
+							bas = possible[i]
+							w = possible[i].split(" ")
+							for a in w:
+								if a.lower() in [f.lower() for f in line_words]:
+									match_count += 1
+							if match_count >= max_count:
+								max_count = match_count
+								prev_act_name = possible[i]
+						checker = prev_act_name.split(" ")
+						if checker[0].lower() not in [v.lower() for v in line_words]:
+							if dada_act_name != "":
+								prev_act_name = dada_act_name
+					else:
+						continue
 				if parsed_by_spacy not in acts_so_far:
 					acts_so_far[parsed_by_spacy] = prev_act_name
 				line_of_act = 0
@@ -643,11 +656,9 @@ def fetch_all_acts_in_a_case(case_id):
 
 				
 				if prev_act_name != "":
-					act_cases[case_id].add(prev_act_name)
+					act_cases.add(prev_act_name)
 							
 		text = ""
-	for case in act_cases:
-		act_cases[case] = list(act_cases[case])
 	# with open("acts_from_cases.json", "w") as write_file:
 	# 	json.dump(act_cases, write_file, indent = 4)
 

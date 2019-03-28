@@ -27,6 +27,11 @@ def decode(item):
     return decoded_dict
 
 
+def write(data, coll_name):
+    collection = LEGAL_DATABASES[coll_name]
+    return collection.insert_one(data)
+
+
 def write_all(data, coll_name):
     """
     Writes all data into the mongodb database
@@ -45,10 +50,10 @@ def read_all(coll_name, **filters):
     Reads all data from the mongodb database
     """
     collection = LEGAL_DATABASES[coll_name]
-    encoded_filters = encode(filters)
+    # encoded_filters = encode(filters)
     collections = []
-    for item in collection.find(encoded_filters, {'_id': 0}):
-        collections.append(decode(item))
+    for item in collection.find(filters, {'_id': 0}):
+        collections.append(item)
 
     if len(collections) > 1 or len(collections) == 0:
         return collections

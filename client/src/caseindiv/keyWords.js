@@ -4,6 +4,7 @@ import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
 import Navbar from '../navbar.js'
+import axios from 'axios'
 
 
 
@@ -23,24 +24,42 @@ class KeyWords extends Component{
    marginBottom: 12,
    padding : 10,
    margin :10,
+   data_json : {}
    }
+}
+
+componentWillMount(){
+    var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`http://localhost:5000/keyword/${id}`)
+    .then(function (response) {
+      self.setState({data_json : response.data})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log('error is '+error);
+    })
+    .then(function () {
+      // always executed
+    });
+    
 }
 
 render() {
     return (
        <div>
          <Navbar />
-         <div id='judgeIndivRes'> 
-          <div id="judgeLeftCol" >
-            <Card  className="cardInJudge" style={{ color : this.state.color }}  >
+         <div id='keyWordsResult'> 
+          <div id="keyWordLeft" >
+            <Card  className="cardInKeyWords" style={{ color : this.state.color }}  >
                <div id="judgement">
-                 <b>Name:</b> {cardsData.name}
+                 <b>Name:</b> {this.state.data_json.name}
                </div>
                <div id="judge">
-                 <b>Number of Cases:</b> {cardsData.number_of_cases}
+                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
                </div>
                <div id="date">
-                  <b>Percentile :</b> {cardsData.percentile}
+                  <b>Percentile :</b> {this.state.data_json.percentile}
                </div>
                <br /><br />
              </Card>

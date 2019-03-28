@@ -10,30 +10,32 @@ import BasicOutput from '../output/basicOutput.js'
 import KeyWords from './keyWords.js'
 import CatchyWords from './catchyWords.js'
 import YearsIndiv from './yearsindiv.js'
+import dotenv from 'dotenv';
+
 
 class Router extends Component {
-  num = 2;
-  num1=3;
-  
-
-  
-  render() {
+    render() {
       // tried this interpolation,but couldn't succeed,babel added in  the dependencies
      // <Route exact path=`/act/:${num}/:${num1}` component={ActIndiv}  />      
+
+      dotenv.config({path: '../.env'});
+      console.log(process.env.BACKEND_ORIGIN);
+
       return (
         <div>
         <BrowserRouter>
             <Switch>
               <div className="App">
-              <Route exact path='/' component={App} />  
+              <Route exact path='/' component={App} />
+              <Route exact path='/advSearch/:id' component={App} />
               <Route exact path='/basic' component={BasicSearch} />
-              <Route exact path='/basic/output' component={BasicOutput} />
-              <Route exact path="/judge" component={JudgeIndiv}  />
-              <Route exact path="/act" component={ActIndiv}  />
-              <Route  exact path='/output' component={Output} />
+              <Route exact path='/basic/output/:id' component={BasicOutput} />
+              <Route exact path="/judge/:id" component={JudgeIndiv}  />
+              <Route exact path="/act/:id" component={ActIndiv}  />
+              <Route exact path='/output' component={Output} />
               <Route exact path='/modal' component={Modal}  />
-              <Route exact path='/keyWords' component={KeyWords} />
-              <Route exact path='/catchyWords' component={CatchyWords} />
+              <Route exact path='/keywords/:id' component={KeyWords} />
+              <Route exact path='/catchwords/:id' component={CatchyWords} />
               <Route exact path='/years' component={YearsIndiv} />
               </div>
             </Switch>

@@ -29,11 +29,12 @@ import case_ka_data_nikal as case_data
 from env import ENV
 import mongodb_handler as handler
 import abbreviation
-from base_class.legal_graph import LegalKnowledgeGraph
-from base_class.subgraph import graph_query
-import Test_file
+# from base_class.legal_graph import LegalKnowledgeGraph
+# from base_class.subgraph import graph_query
+# import Test_file
 import networkx as nx
-# from backend.graph_formation.network_analyser import set_pagerank_scores_for_all_cases 
+from backend.graph_formation.network_analyser import set_pagerank_scores_for_all_cases 
+from nlp.summarizer import nltk
 # Import the above to get the pagerank score for each case
 
 # ====================================================================================================================================
@@ -48,7 +49,7 @@ judges_collection = "judges_ka_db"
 # DEFINE_FUNCTIONS_TO_PROCESS_VARIOUS_DATAS
 
 
-def process_cases_data():
+def process_cases_data(knowledgeGraph):
     '''
         Extracts all data related to all cases
     '''
@@ -57,6 +58,8 @@ def process_cases_data():
     ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:]
                  == ".txt"][:100]  # restricts to first 100 cases for now
     case_data.compute_mapping()
+
+    pagerank_scores = set_pagerank_scores_for_all_cases(knowledgeGraph)
     l = []
     for case in ALL_CASES:
         temp_dict = dict()
@@ -73,10 +76,12 @@ def process_cases_data():
                 "title": cases[case][2],
                 "date": cases[case][3],
                 "judgement": cases[case][4],
-                "pagerank": "Page Rank Score",
+                "pagerank": pagerank_scores[cases[case][1]],
+                "summary": nltk.fetch_summary_for_case(cases[case][0])
             }
 
             final_case_data_dictonaries_list.append(case_dict)
+            
     return final_case_data_dictonaries_list
 
 
@@ -139,6 +144,13 @@ def update_legal_graph_with_serial_id():
     return graph_modified
 
 
+# def update_pagerank_score(knowledgeGraph):
+#     pagerank_scores = set_pagerank_scores_for_all_cases(knowledgeGraph)
+#     for indlaw_id, score in pagerank_scores.items():
+#         case = handler.read_all(cases_collection, indlaw_ID=indlaw_id)
+#         case["pagerank"] = score
+#         handler.write(case, cases_collection)
+
 # ====================================================================================================================================
 # CALLS_PROCESSING FUNCTIONS and DOES OTHER PROCESSING if needed
 
@@ -164,8 +176,8 @@ process_judge_data = processed_judge_data()
 # ADDS_DATA_TO_VARIOUS_COLLECTIONS
 
 # handler.write_all(processed_abbreviations_data, abbreviations_collection)
-# handler.write_all(s_acts_ka_data, acts_collection)
-# handler.write_all(processed_case_data, cases_collection)
+handler.write_all(s_acts_ka_data, acts_collection)
+handler.write_all(processed_case_data, cases_collection)
 # handler.write_all(processed_future_acts_data, future_acts_collection)
 # handler.write_all(process_judge_data, judges_collection)
 # =====================================================================================================================================

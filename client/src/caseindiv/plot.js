@@ -11,9 +11,10 @@ import { bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
   
 const stock = appleStock.slice(800);
+//console.log(stock);
 
 // util
-const formatDate = timeFormat("%b %d, '%y");
+const formatDate = timeFormat(" %y");
 const min = (arr, fn) => Math.min(...arr.map(fn));
 const max = (arr, fn) => Math.max(...arr.map(fn));
 const extent = (arr, fn) => [min(arr, fn), max(arr, fn)];
@@ -22,6 +23,7 @@ const extent = (arr, fn) => [min(arr, fn), max(arr, fn)];
 const xStock = d => new Date(d.date);
 const yStock = d => d.close;
 const bisectDate = bisector(d => new Date(d.date)).left;
+//console.log(xStock);
 
 class Area extends React.Component {
   constructor(props) {
@@ -45,10 +47,14 @@ class Area extends React.Component {
       tooltipTop: yScale(d.close)
     });
   }
+  componentWillMount(){
+      //console.log(this.props.id)      
+    }
+
   render() {
     const {
-      width=350,
-      height=350,
+      width=500,
+      height=500,
       margin= { top: 20, bottom: 20, left: 20, right: 20 },
       hideTooltip,
       tooltipData,
@@ -72,6 +78,7 @@ class Area extends React.Component {
       domain: [0, max(stock, yStock) + yMax / 3],
       nice: true
     });
+
 
     return (
       <div>

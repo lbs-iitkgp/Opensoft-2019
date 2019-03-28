@@ -1,36 +1,44 @@
 import React,{Component} from 'react'
 import AdvTable from '../caseindiv/advtable.js'
-import Radar from './radar.js'
 import Graph from './plot.js'
 import Card from "@material-ui/core/Card"
 import '../App.css'
 import Navbar from '../navbar.js'
+import axios from 'axios'
 
-
-function createData(list, index) {
-  var Name = list[0];
-  var NumOfCases = list[1];
-  var Percentile = list[2];
-   return { index, Name,NumOfCases, Percentile  } ;
- }
-
-var cardsData={
-  'name' : 'mahajan',
-  'number_of_cases' : '1500',
-  'percentile' : '99'
-}
 
 class ResultCard extends Component{
  constructor(...props){
    super(...props);
- this.state = {
+   this.state = {
    minWidth  : 400,
+   minHeight : 80,
    color : '',
-   fontSize: 14,
-   marginBottom: 12,
-   padding : 10,
+   fontSize: 30,
+   //marginBottom: 12,
+   //padding : 10,
    margin :10,
+   data_json : {}, 
    }
+}
+
+
+
+componentWillMount(){
+    var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`http://localhost:5000/judge/${id}`)
+    .then(function (response) {
+      self.setState({data_json : response.data})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log('error is '+error);
+    })
+    .then(function () {
+      // always executed
+    });
+    
 }
 
 render() {
@@ -40,21 +48,20 @@ render() {
          <div id='judgeIndivRes'> 
           <div id="judgeLeftCol" >
            
-             <Card  className="cardInJudge" style={{ color : this.state.color }}  >
+             <Card  className="cardInJudge" style={this.state}  >
                <div id="judgement">
-                 <b>Name:</b> {cardsData.name}
+                 <b>Name:</b> {this.state.data_json.name}
                </div>
                <div id="judge">
-                 <b>Number of Cases:</b> {cardsData.number_of_cases}
+                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
                </div>
                <div id="date">
-                  <b>Percentile :</b> {cardsData.percentile}
+                  <b>Percentile :</b> {this.state.data_json.percentile}
                </div>
                <br /><br />
              </Card>
           
-          <Graph />
-          <Radar />
+          <Graph  id="1" />
           </div>
           <AdvTable />
          </div>
