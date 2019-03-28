@@ -95,6 +95,9 @@ def fetch_subgraph_with_judgements(graph, judgements=set()):
 def fetch_subgraph_with_keywords(graph, keywords=set()):
     return(fetch_subgraph_from_meta_nodes(graph, keywords))
 
+def fetch_subgraph_with_acts(graph, acts=set()):
+    return(fetch_subgraph_from_meta_nodes(graph, acts))
+
 # For extracting subgraphs of **only** some particular types like acts & judges etc...
 def fetch_subgraph_with_types(graph, node_types=set()):
     if not node_types:
