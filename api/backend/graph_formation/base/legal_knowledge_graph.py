@@ -6,7 +6,6 @@ import networkx as nx
 from backend.graph_formation.base.judge import Judge
 from backend.graph_formation.base.case import Case
 from backend.graph_formation.base.subgraph import graph_query
-from backend.graph_formation.base.subgraph import fetch_subgraph_with_acts
 
 class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
     """class with methods to build/help_build
@@ -102,6 +101,3 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
 
     def query(self, **query_params):
         return(graph_query(self, **query_params))
-
-    def acts_query(self, acts=set()):
-        return(fetch_subgraph_with_acts(self, acts))

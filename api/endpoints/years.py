@@ -6,6 +6,7 @@ import json
 import re
 
 @app.route('/year/<year>', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_metadata(year):
 
     result = []
@@ -20,6 +21,7 @@ def year_metadata(year):
 
 
 @app.route('/year/<year>/cases', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_cases(year):
     # Fetch list of cases that relate to this year from neo4j,
     # and return their details from mongodb as json
