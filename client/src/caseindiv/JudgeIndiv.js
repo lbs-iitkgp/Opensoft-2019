@@ -1,64 +1,75 @@
-import React from 'react';
-import MUIDataTable from 'mui-datatables';
-/*
-  It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
-  Checkout full documentation here :
-  https://github.com/gregnb/mui-datatables/blob/master/README.md
-*/
-class AdvFilter extends React.Component {
-  state = {
-    columns: ['Name', 'Title', 'Location', 'Age', 'Salary'],
-    data: [
-      ['Gabby George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
-      ['Aiden Lloyd', 'Business Consultant', 'Dallas', 55, '$200,000'],
-      ['Jaden Collins', 'Attorney', 'Santa Ana', 27, '$500,000'],
-      ['Franky Rees', 'Business Analyst', 'St. Petersburg', 22, '$50,000'],
-      ['Aaren Rose', 'Business Consultant', 'Toledo', 28, '$75,000'],
-      ['Blake Duncan', 'Business Management Analyst', 'San Diego', 65, '$94,000'],
-      ['Frankie Parry', 'Agency Legal Counsel', 'Jacksonville', 71, '$210,000'],
-      ['Lane Wilson', 'Commercial Specialist', 'Omaha', 19, '$65,000'],
-      ['Robin Duncan', 'Business Analyst', 'Los Angeles', 20, '$77,000'],
-      ['Mel Brooks', 'Business Consultant', 'Oklahoma City', 37, '$135,000'],
-      ['Harper White', 'Attorney', 'Pittsburgh', 52, '$420,000'],
-      ['Kris Humphrey', 'Agency Legal Counsel', 'Laredo', 30, '$150,000'],
-      ['Frankie Long', 'Industrial Analyst', 'Austin', 31, '$170,000'],
-      ['Brynn Robbins', 'Business Analyst', 'Norfolk', 22, '$90,000'],
-      ['Justice Mann', 'Business Consultant', 'Chicago', 24, '$133,000'],
-      ['Addison Navarro', 'Business Management Analyst', 'New York', 50, '$295,000'],
-      ['Jesse Welch', 'Agency Legal Counsel', 'Seattle', 28, '$200,000'],
-      ['Eli Mejia', 'Commercial Specialist', 'Long Beach', 65, '$400,000'],
-      ['Gene Leblanc', 'Industrial Analyst', 'Hartford', 34, '$110,000'],
-      ['Danny Leon', 'Computer Scientist', 'Newark', 60, '$220,000'],
-      ['Lane Lee', 'Corporate Counselor', 'Cincinnati', 52, '$180,000'],
-      ['Jesse Hall', 'Business Analyst', 'Baltimore', 44, '$99,000'],
-      ['Danni Hudson', 'Agency Legal Counsel', 'Tampa', 37, '$90,000'],
-      ['Terry Macdonald', 'Commercial Specialist', 'Miami', 39, '$140,000'],
-      ['Justice Mccarthy', 'Attorney', 'Tucson', 26, '$330,000'],
-      ['Silver Carey', 'Computer Scientist', 'Memphis', 47, '$250,000'],
-      ['Franky Miles', 'Industrial Analyst', 'Buffalo', 49, '$190,000'],
-      ['Glen Nixon', 'Corporate Counselor', 'Arlington', 44, '$80,000'],
-      ['Gabby Strickland', 'Business Process Consultant', 'Scottsdale', 26, '$45,000'],
-      ['Mason Ray', 'Computer Scientist', 'San Francisco', 39, '$142,000']
-    ]
-  }
-  render() {
-    const { columns, data } = this.state;
-    const options = {
-      filterType: 'multiselect',
-      responsive: 'stacked',
-      print: true,
-      rowsPerPage: 10,
-      page: 1
-    };
-    return (
-      <MUIDataTable
-        title="Employee list"
-        data={data}
-        columns={columns}
-        options={options}
-      />
-    );
-  }
+import React,{Component} from 'react'
+import AdvTable from '../caseindiv/advtable.js'
+import Graph from './plot.js'
+import Card from "@material-ui/core/Card"
+import '../App.css'
+import Navbar from '../navbar.js'
+import axios from 'axios'
+
+
+class ResultCard extends Component{
+ constructor(...props){
+   super(...props);
+   this.state = {
+   minWidth  : 400,
+   minHeight : 80,
+   color : '',
+   fontSize: 30,
+   //marginBottom: 12,
+   //padding : 10,
+   margin :10,
+   data_json : {}, 
+   }
 }
 
-export default AdvFilter;
+
+
+componentWillMount(){
+    var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`http://localhost:5000/judge/${id}`)
+    .then(function (response) {
+      self.setState({data_json : response.data})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log('error is '+error);
+    })
+    .then(function () {
+      // always executed
+    });
+    
+}
+
+render() {
+    return (
+       <div>
+         <Navbar />
+         <div id='judgeIndivRes'> 
+          <div id="judgeLeftCol" >
+           
+             <Card  className="cardInJudge" style={this.state}  >
+               <div id="judgement">
+                 <b>Name:</b> {this.state.data_json.name}
+               </div>
+               <div id="judge">
+                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
+               </div>
+               <div id="date">
+                  <b>Percentile :</b> {this.state.data_json.percentile}
+               </div>
+               <br /><br />
+             </Card>
+          
+          <Graph  id="1" />
+          </div>
+          <AdvTable />
+         </div>
+       </div>
+          );
+    }
+    
+
+   }
+
+   export default ResultCard;

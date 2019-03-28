@@ -4,15 +4,21 @@ import "../App.css";
 
 
 function createData(list, index) {
-   var Judgement = list[0];
-   var Judge = list[1];
-   var Date = list[2];
-    return { index, Judgement,Judge, Date  } ;
+   var Judgement = list.Judgement;
+   var Judge = list.Judge;
+   var Date = list.Date;
+   var url = list.url;
+    return { index, Judgement,Judge, Date,url } ;
   }
 
 var cardsData = [
-    ['appeal','mahajan','12-12-12'],
-   
+  {
+    "Judgement" : "appeal",
+    "Judge"     : "mahajan",
+    "Date"      : "12-12-12",
+    "url"       : "#"
+  }
+       
 ].map((ele, ind) => createData(ele, ind) );  
 
 class ResultCard extends Component{
@@ -37,7 +43,7 @@ render() {
                   <b>Judgement:</b> {ele.Judgement}
                 </div>
                 <div id="judge">
-                  <b>Judge:</b> {ele.Judge}
+                 <b>Judge:</b> <a href={ele.url}>{ele.Judge}</a> 
                 </div>
                 <div id="date">
                   <b>Date :</b> {ele.Date}
