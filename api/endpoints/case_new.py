@@ -4,7 +4,7 @@ from endpoints import *
 @app.route('/case/<case_id>', methods=['GET'])
 def case_metadata(case_id):
     case = mgdb_handler.read_all(cases_collection, case_id)
-    judge_ids = get_metas_to_node(case_id, "judge")
+    judge_ids = get_metas_to_node(case_id, "case", "judge")
     judges = []
     for id in judge_ids:
         judges.append(mgdb_handler.read_all(judges_collection, serial=id)[0]["judge_name"])
@@ -49,17 +49,17 @@ def case_citations(case_id):
         "cited_by_cases": []
     }
 
-    act_ids = get_metas_to_node(case_id, "act")
+    act_ids = get_metas_to_node(case_id, "case", "act")
     for id in act_ids:
         act = mgdb_handler.read_all(acts_collection, serial=id)[0]
         result["cited_acts"].append({act["serial"]: act["name"]})
 
-    cited_case_ids = get_metas_to_node(case_id, "case")
+    cited_case_ids = get_metas_to_node(case_id, "case", "case")
     for id in cited_case_ids:
         cited_case = mgdb_handler.read_all(cases_collection, serial=id)[0]
         result["cited_cases"].append({cited_case["serial"]: cited_case["title"]})
 
-    cited_by_cases = get_metas_from_node(case_id, "case")
+    cited_by_cases = get_metas_from_node(case_id, "case", "case")
     for id in cited_by_cases:
         cited_by_case = mgdb_handler.read_all(cases_collection, serial=id)[0]
         result["cited_by_cases"].append({cited_by_case["serial"]: cited_by_case["title"]})
