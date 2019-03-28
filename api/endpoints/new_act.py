@@ -1,6 +1,7 @@
 from endpoints import *
 
 import mongodb_handler as mgdb_handler
+from section_in_acts import get_sections_in_act, get_text_in_section
 
 acts_collection = "act_db"
 recent_acts_collection = "recent_act_db"
@@ -14,15 +15,15 @@ keyword_collection = "keyword_db"
 @app.route('/act/<act_id>', methods=['GET'])
 def act_metadata(act_id):
     # get the act
-    act = mgdb_handler.read_all(acts_collection, serial=act_id)
+    act = mgdb_handler.read_all(acts_collection, serial=act_id)[0]
 
     # get its recent version
-    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=act_id)["New_id"]
-    new_act_name = mgdb_handler.read_all(acts_collection, serial=new_act_id)["name"]
+    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=act_id)[0]["New_id"]
+    new_act_name = mgdb_handler.read_all(acts_collection, serial=new_act_id)[0]["name"]
     act["recent_version"] = {"id": new_act_id, "name": new_act_name}
 
     # get its abbreviations
-    abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])["abbrev"]
+    abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])[0]["abbrev"]
     act["abbreviation"] = abbr
     # # get
     # # act = {
@@ -48,25 +49,22 @@ def act_metadata(act_id):
 
 @app.route('/act/<act_id>/sections', methods=['GET'])
 def act_sections(act_id):
-    result = []
-    for section in mongo_db.find("act_id", act_id):
-        section = {
-            'section_id': section['section_id'],
-            'section_text': section['section_text']
-        }
-        result.append(section)
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    result = get_sections_in_act(act_file_path)
+
     return jsonify(result)
 
 
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
 def act_section(act_id, section_id):
-    sections = mongo_db.find("act_id", act_id)
-    section = mongo_db.find("section_id", section_id)
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    text = get_text_in_section(act_file_path, section_id)
+
     result = {
         'section_id': section_id,
-        'section_text': section['section_text']
-        # 'section_text': "hiya"
+        'section_text': text
     }
+
     return jsonify(result)
 
 
