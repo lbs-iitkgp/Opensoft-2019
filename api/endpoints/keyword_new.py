@@ -3,11 +3,11 @@ from endpoints import *
 
 @app.route('/keyword/<keyword_id>', methods=['GET'])
 def keyword_metadata(keyword_id):
-    catch_word = mgdb_handler.read_all(keyword_collection, serial=keyword_id)[0]
+    key_word = mgdb_handler.read_all(keyword_collection, serial=keyword_id)[0]
     number_of_cases = len(get_metas_from_node(keyword_id, "keyword", "case"))
-    catch_word["number_of_cases"] = number_of_cases
+    key_word["number_of_cases"] = number_of_cases
 
-    return jsonify(catch_word)
+    return jsonify(key_word)
 
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])
