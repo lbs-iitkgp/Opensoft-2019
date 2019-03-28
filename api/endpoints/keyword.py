@@ -20,7 +20,7 @@ def keyword_line_distribution(keyword_id):
     result=[]
     for i in range (1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[],acts =[])
+    subgraph = lkg.query(judges =[],catch=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[],acts =[])
     
     data = lkg.nodes(data=True)
     such_cases = subgraph[keyword_id]
