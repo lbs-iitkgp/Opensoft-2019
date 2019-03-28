@@ -35,6 +35,7 @@ from nlp.summarizer import nltk
 from backend.graph_io import *
 from backend.graph_formation.base.subgraph import graph_query
 from backend.graph_formation import prepare_graph
+from elasticsearch_utils.populate_ES import populate_ES, create_indices
 
 # ====================================================================================================================================
 
@@ -308,6 +309,7 @@ def write_everything_to_mongo_first(lkg):
     # collections = set()
 
 def populate_elasticsearch():
+    create_indices()
     collections = ['judge', 'case', 'act']
     for coll in collections:
         results = handler.read_all(coll+"_db")
@@ -324,5 +326,7 @@ def main(lkg):
     lkg_to_neo4j(lkg_new)
     populate_elasticsearch()
 
-lkg = prepare_graph()
-main(lkg)
+if __name__ == "__main__":
+    # lkg = prepare_graph()
+    lkg = json_to_lkg("main_lkg.json")
+    main(lkg)

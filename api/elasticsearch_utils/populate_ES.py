@@ -3,8 +3,8 @@ import json
 
 p = lambda x: print(json.dumps(x, indent=4, sort_keys=False))
 
-with open('name.json','r') as f:
-	judges = json.load(f)
+# with open('name.json','r') as f:
+# 	judges = json.load(f)
 
 ES_URL = "http://localhost:9200/"
 
