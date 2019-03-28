@@ -76,11 +76,8 @@ def case_timeline(case_id):
     return jsonify(result)
 
 @app.route('/case/<case_id>/citations', methods=['GET'])
-<<<<<<< HEAD
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
-=======
+
 @cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
->>>>>>> 86b73ef8d5f522213f8d552f2691ff7c5fa029c4
 def case_citations(case_id):
     # Get citer id's from neo4j, and respective names from mongo
     #
@@ -98,9 +95,7 @@ def case_citations(case_id):
     #       ...
     #   ]
     # }
-<<<<<<< HEAD
-    return('Hello')
-=======
     result = { "cited_acts": [{'name':"Criminal"},{'name':"Land"}], "cited_cases": [{'name':"Criminal"},{'name':"Land"}], "cited_by_cases": [{'name':"Criminal"},{'name':"Land"}]  }
     return jsonify(result)
->>>>>>> 86b73ef8d5f522213f8d552f2691ff7c5fa029c4
+    result = { "cited_acts": [{'1':"Criminal"},{'2':"Land"}], "cited_cases": [{'1':"Criminal"},{'2':"Land"}], "cited_by_cases": [{'1':"Criminal"},{'2':"Land"}]  }
+    return jsonify(result)

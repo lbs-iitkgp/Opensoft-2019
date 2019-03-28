@@ -47,7 +47,11 @@ def act_section(act_id, section_id):
 def act_line_distribution(act_id):
     # Iterateacts=[act_id] through each citer in neo4j
     #   Find citer's year from mongo
-    result = {}
+    #
+    # 
+    result = { 1934: 19,1936: 7,1940: 42,1943: 5, 1935: 19,1937: 7,1941: 42,1944: 5}
+    return jsonify(result)
+
 
     # catchword = fetch_from_mongo(catchword_id)
 

@@ -6,6 +6,7 @@ import '../App.css'
 import Navbar from '../navbar.js'
 import axios from 'axios'
 
+var dummy = { "name": "Aadi", "number_of_cases": 20,"percentile":90};
 
 class ResultCard extends Component{
  constructor(...props){
@@ -18,7 +19,7 @@ class ResultCard extends Component{
    //marginBottom: 12,
    //padding : 10,
    margin :10,
-   data_json : {}
+   data_json : dummy
    }
 }
 
@@ -42,7 +43,8 @@ componentWillMount(){
 }
 
 render() {
-    var url = `/judge/${this.props.match.params.id}/cases`
+    var urlTable = `/judge/${this.props.match.params.id}/cases`
+    var urlPlot = `/judge/${this.props.match.params.id}/plot_line`
     //alert(url);
     return (
        <div>
@@ -63,9 +65,9 @@ render() {
                <br /><br />
              </Card>
           
-          <Graph  id="1" />
+          <Graph myurl={urlPlot}/>
           </div>
-          <AdvTable myurl={url} />
+          <AdvTable myurl={urlTable} />
          </div>
        </div>
           );
