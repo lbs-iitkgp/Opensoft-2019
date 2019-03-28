@@ -55,9 +55,9 @@ class FullScreenDialog extends Component {
   componentWillMount(){
    var id = this.props.match.params.id;
     var self = this;
-    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/modal/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/case/${id}`)
     .then(function (response) {
-      self.setState({data_json : response.result})
+      self.setState({json_data : response.data})
     })
     .catch(function (error) {
       // handle error
@@ -73,6 +73,11 @@ class FullScreenDialog extends Component {
     
 
   render(){
+    //console.log("Aadi",this.state.json_data);
+    var urlPlot = `/case/${this.props.match.params.id}/plot_line`
+    var urlTimeline = `/case/${this.props.match.params.id}/timeline`
+    var urlCase = `/case/${this.props.match.params.id}/citations`
+    //console.log("URL",url);
     return(
      <div >
        <AppBar  id='fixedTitle'>
@@ -85,13 +90,13 @@ class FullScreenDialog extends Component {
           <div id='contain'>
             <div id='left-indiv'>
               <div id ='resCard'><ResultCard  judgement={this.state.json_data.case_judgement} judge={this.state.json_data.case_judge} date={this.state.json_data.case_date}/></div> 
-              <div id='graph'>< Area /></div>
+              <div id='graph'>< Area myurl={urlPlot}/></div>
             </div>
             <div id='vtl'>
-              <VerticalTimeline />
+              <VerticalTimeline myurl={urlTimeline}/>
             </div>
             <div id='actchips'>
-              <CitedCases />
+              <CitedCases myurl={urlCase}/>
             </div>
           </div>
         <ScrollUpButton />

@@ -3,34 +3,48 @@ import 'react-vertical-timeline-component/style.min.css';
 import React, { Component } from 'react';
 import '../App.css';
 import ReadMoreAndLess from 'react-read-more-less';
+import axios from 'axios'
 
-function createTimelineElement(TimelineELe,index){
-  var date = TimelineELe[0];
-  var description = TimelineELe[1];
-  return{index,date,description} 
-}
-
-var timelineData = [
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management,Creative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Direction, User Experience, Visual Design, Project ManagementCreative Creative Direction, User Experience, Visual Design, Project Management, User Experience, Visual Design, Project Management Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-  ['12-12-12',' Creative Direction, User Experience, Visual Design, Project Management, Team Leading'],
-].map((ele,ind) => createTimelineElement(ele,ind));
+// function createTimelineElement(TimelineELe,index){
+//   var date = TimelineELe[0];
+//   var description = TimelineELe[1];
+//   return{index,date,description} 
+// }
 
 class VerticalTimeline2 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      data : {}
+    }
+  }
+
+  componentWillMount(){
+    var self = this;
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${self.props.myurl}`)
+      .then(function (response) {
+        self.setState({ data: response.data })
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('error is ' + error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
  render(){
    return(
    <div className='timeline'>
     <VerticalTimeline layout='1-column' >
-    {timelineData.map(ele => (
+    {Object.keys(this.state.data).map(ele => (
       <VerticalTimelineElement
       className="vertical-timeline-element--work"
       iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
     >
-    <h3 className="vertical-timeline-element-title">{ele.date}</h3>
+    <h3 className="vertical-timeline-element-title">{ele}</h3>
     <p> 
       <ReadMoreAndLess
           ref={this.ReadMore}
@@ -39,7 +53,7 @@ class VerticalTimeline2 extends React.Component{
           readMoreText="Read more"
           readLessText="Read less"
           >
-            {ele.description}
+            {this.state.data[ele]}
       </ReadMoreAndLess>
      </p>
     </VerticalTimelineElement>

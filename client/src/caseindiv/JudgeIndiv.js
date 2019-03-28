@@ -27,6 +27,7 @@ class ResultCard extends Component{
 componentWillMount(){
    var id = this.props.match.params.id;
     var self = this;
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
     axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
     .then(function (response) {
       self.setState({data_json : response.data})

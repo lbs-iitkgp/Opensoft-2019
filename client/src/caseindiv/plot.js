@@ -9,6 +9,7 @@ import { withTooltip, Tooltip } from '@vx/tooltip';
 import { localPoint } from '@vx/event';
 import { bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
+import axios from 'axios'
   
 // const stock = appleStock.slice(800);
 var stock = {
@@ -37,9 +38,9 @@ function convertToProperData(stock){
     ({ "date": k, "close": stock[k]})
   )
 }
-stock = convertToProperData(stock)
+//stock = convertToProperData(stock)
 
-console.log(convertToProperData(stock));
+//console.log(convertToProperData("AadiOutside",stock));
 
 // function xStock (d){
 //   console.log()
@@ -52,6 +53,9 @@ const bisectDate = bisector(d => d.date).left;
 class Area extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      stock : convertToProperData(stock)
+    }
     this.handleTooltip = this.handleTooltip.bind(this);
   }
   handleTooltip({ event, data, xStock, xScale, yScale }) {
@@ -72,6 +76,21 @@ class Area extends React.Component {
     });
   }
   
+  componentWillMount(){
+    var self = this;
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${self.props.myurl}`)
+      .then(function (response) {
+        self.setState({ stock: convertToProperData(response.data) })
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('error is ' + error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
 
   render() {
     const {
@@ -87,22 +106,22 @@ class Area extends React.Component {
     if (width < 10) return null;
 
     // bounds
-    const xMax = width - margin.left - margin.right;
-    const yMax = height - margin.top - margin.bottom;
+    const xMax = width ;//- margin.left - margin.right;
+    const yMax = height ;//- margin.top - margin.bottom;
 
 
     // scales
     const xScale = scaleTime({
       range: [0, xMax],        
-      domain: extent(stock, xStock)
+      domain: extent(this.state.stock, xStock)
     });
     const yScale = scaleLinear({
       range: [yMax, 0],
-      domain: [0, max(stock, yStock) + yMax / 3],
+      domain: [0, max(this.state.stock, yStock) ],
       nice: true
     });
  
-    console.log('x axis is')
+    //console.log('x axis is')
 
     return (
       <div>
@@ -129,7 +148,7 @@ class Area extends React.Component {
             stroke="rgba(255,255,255,0.3)"
           />
           <AreaClosed
-            data={stock}
+            data={this.state.stock}
             x={d => xScale(xStock(d))}
             y={d => yScale(yStock(d))}
             yScale={yScale}
@@ -145,14 +164,14 @@ class Area extends React.Component {
             height={height}
             fill="transparent"
             rx={14}
-            data={stock}
+            data={this.state.stock}
             onTouchStart={event =>
               this.handleTooltip({
                 event,
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onTouchMove={event =>
@@ -161,7 +180,7 @@ class Area extends React.Component {
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onMouseMove={event =>
@@ -170,7 +189,7 @@ class Area extends React.Component {
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onMouseLeave={event => hideTooltip()}

@@ -83,7 +83,7 @@ class AdvFilter extends React.Component {
       //var id = this.props.match.params.id;
       var self = this;
       console.log(self.props);
-      axios.get(`http://localhost:5000`+self.props.myurl)
+      axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}`+self.props.myurl)
         .then(function (response) {
           // handle success
           self.setState({
