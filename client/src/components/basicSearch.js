@@ -33,12 +33,11 @@ class BasicSearch extends Component{
           defaultSearch : this.state.basicSearched,
         }
       });
+     // window.location.href += `${window.location.href}?q=${this.state.basicSearched}`
       
     }
     
-    componentWillMount(){
-      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-    }
+ 
 
     render(){
         const styles = theme => ({
