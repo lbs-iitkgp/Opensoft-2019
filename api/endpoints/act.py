@@ -1,51 +1,44 @@
 from endpoints import *
 
+
 @app.route('/act/<act_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_metadata(act_id):
-    act = mongo_db.find("act_id",act_id)
-    # act = {
-    #     'name': 'name',
-    #     'year': 2010,
-    #     'type': 'idid',
-    #     'recent_version_id':'2.0',
-    #     'recent_version_name': 'beta',
-    #     'abbreviation': 'jefu' 
-    # }
-    result = {
-        'name': act['name'],
-        'year': act['year'],
-        'type': act['type'],
-        'recent_version': {
-            'id': act['recent_version_id'],
-            'name': act['recent_version_name']
-        },
-        'abbreviation': act['abbreviation'] 
-    }
-    return jsonify(result)
+    # get the act
+    act = mgdb_handler.read_all(acts_collection, serial=act_id)[0]
+
+    # get its recent version
+    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=act_id)[0]["New_id"]
+    new_act_name = mgdb_handler.read_all(acts_collection, serial=new_act_id)[0]["name"]
+    act["recent_version"] = {"id": new_act_id, "name": new_act_name}
+
+    # get its abbreviations
+    abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])[0]["abbrev"]
+    act["abbreviation"] = abbr
+
+    return jsonify(act)
+
 
 @app.route('/act/<act_id>/sections', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_sections(act_id):
-    result = []
-    for section in mongo_db.find("act_id",act_id):
-        section = {
-                'section_id': section['section_id'],
-                'section_text': section['section_text']
-            }
-        result.append(section)
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    result = get_sections_in_act(act_file_path)
+
     return jsonify(result)
+
 
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_section(act_id, section_id):
-    sections = mongo_db.find("act_id", act_id)
-    section = mongo_db.find("section_id", section_id)
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    text = get_text_in_section(act_file_path, section_id)
+
     result = {
         'section_id': section_id,
-        'section_text': section['section_text'] 
-        # 'section_text': "hiya"
+        'section_text': text
     }
+
     return jsonify(result)
 
 
@@ -71,21 +64,15 @@ def act_line_distribution(act_id):
         result[int(year)] += 1
     return jsonify(result)
 
+
 @app.route('/act/<act_id>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
     result = []
-    for i in range (1947,2020):
-        result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
-    
-    data = lkg.nodes(data=True)
-    such_cases = subgraph[act_id]
-    for case in such_cases:
-        all_metas = lkg.in_edges(case)
-        for meta, _ in all_metas:
-            if data[meta]['type'] == 'year':
-                year = meta
-        result[int(year)] += 1
+    case_ids = get_metas_from_node(act_id, "act", "case")
+    for id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=id)[0]
+        result.append(case)
+
     return jsonify(result)
