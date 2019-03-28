@@ -36,8 +36,8 @@ def get_text_in_section(act_path, section_num):
 		if sect_num in line:
 			return line
 # Sample usage of the functions.
-sect_list = get_sections_in_act("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt")
-line = get_text_in_section("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt","10(c)")
-print(sect_list)
-print("*********")
-print(line)
+# sect_list = get_sections_in_act("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt")
+# line = get_text_in_section("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt","10(")
+# print(sect_list)
+# print("*********")
+# print(line)
