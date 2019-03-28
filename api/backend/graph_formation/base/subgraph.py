@@ -123,8 +123,9 @@ def graph_query(G, **query_params):
     gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keywords'])
     gph_with_year_range = fetch_subgraph_with_year_range(G, query_params['year_range'])
     gph_with_types = fetch_subgraph_with_types(G, query_params['types'])    
+    gph_with_acts = fetch_subgraph_with_types(G, query_params['acts'])    
 
-    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_judgements, gph_with_subjects, gph_with_keywords, gph_with_year_range, gph_with_types])
+    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_judgements, gph_with_subjects, gph_with_keywords, gph_with_year_range, gph_with_types, gph_with_acts])
 
     return(result)
 
