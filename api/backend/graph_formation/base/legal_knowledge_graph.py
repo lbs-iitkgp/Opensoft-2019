@@ -7,6 +7,7 @@ from backend.graph_formation.base.judge import Judge
 from backend.graph_formation.base.case import Case
 from backend.graph_formation.base.subgraph import graph_query
 
+
 class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
     """class with methods to build/help_build
         the Legal_Knowledge_Graph which inherits nx.DiGraph
@@ -101,3 +102,16 @@ class LegalKnowledgeGraph(nx.DiGraph):  # LKG class
 
     def query(self, **query_params):
         return(graph_query(self, **query_params))
+
+    def get_percentile(self, node_type):
+        nodes = self.query(types=[node_type])
+        distribution = dict()
+        percentiles = dict()
+        for node in nodes:
+            distribution[node] = len(self[node])
+        scores = list(distribution.values())
+        sorted_scores = sorted(scores)
+        for node in distribution:
+            rank = sorted_scores.index(distribution[node])
+            percentiles[node] = float(rank)/len(scores)
+        return(percentiles)

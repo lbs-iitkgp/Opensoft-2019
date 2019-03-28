@@ -1,5 +1,5 @@
 # Makes subgraph of intersection of subgraphs of different query_params
-# Also makes subgraph for a given query_param for all valcase values of it ex. subgraph of judges and cases w/out keywords etc
+# Also makes subgraph for a given query_param for all valcase values of it ex. subgraph of judges and cases w/out catchwords etc
 
 '''
 todo : 
@@ -16,7 +16,7 @@ import networkx as nx
 # from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 from collections import defaultdict
-# from base_class.graph_io import import_graph, export_graph
+# from backend.graph_io import import_graph, export_graph
 
 
 def merge_graphs_by_intersection(universal_graph, subgraphs):
@@ -74,29 +74,16 @@ def fetch_subgraph_with_year_range(graph, years=set()):
 def fetch_subgraph_with_judges(graph, judges=set()):
     return(fetch_subgraph_from_meta_nodes(graph, judges))
 
-def fetch_subgraph_with_subjects(graph, subjects=set()):
-    return(fetch_subgraph_from_meta_nodes(graph, subjects))
-
-# How exactly is judgement stored in graph?
-def fetch_subgraph_with_judgements(graph, judgements=set()):
-    # if not judgements:
-    #     return graph
-
-    # data = graph.nodes(data=True)
-    # matching_cases = set()
-
-    # for judgement in judgements:
-    #     for case in graph[judgements]:
-    #         matching_cases.add(case)
-
-    # return(fetch_subgraph_from_matching_cases(matching_cases))
-    return(fetch_subgraph_from_meta_nodes(graph, judgements))
-
 def fetch_subgraph_with_keywords(graph, keywords=set()):
     return(fetch_subgraph_from_meta_nodes(graph, keywords))
 
+
+def fetch_subgraph_with_catchwords(graph, catchwords=set()):
+    return(fetch_subgraph_from_meta_nodes(graph, catchwords))
+
 def fetch_subgraph_with_acts(graph, acts=set()):
     return(fetch_subgraph_from_meta_nodes(graph, acts))
+
 
 # For extracting subgraphs of **only** some particular types like acts & judges etc...
 def fetch_subgraph_with_types(graph, node_types=set()):
@@ -109,23 +96,46 @@ def fetch_subgraph_with_types(graph, node_types=set()):
     for node, data in graph.nodes(data=True):
         if data['type'] in node_types:
             matching_nodes.add(node)
-
     return(graph.subgraph(list(matching_nodes)))
 
 def graph_query(G, **query_params):
     d = G.nodes(data=True)
     d = dict(d)
     specific_queries = set()
+    if 'judge' in query_params:
+        gph_with_judges = fetch_subgraph_with_judges(G, query_params['judge'])
+    else:
+        gph_with_judges = G
 
-    gph_with_judges = fetch_subgraph_with_judges(G, query_params['judges'])
-    gph_with_judgements = fetch_subgraph_with_judgements(G, query_params['judgements'])
-    gph_with_subjects = fetch_subgraph_with_subjects(G, query_params['subjects'])
-    gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keywords'])
-    gph_with_year_range = fetch_subgraph_with_year_range(G, query_params['year_range'])
-    gph_with_types = fetch_subgraph_with_types(G, query_params['types'])    
-    gph_with_acts = fetch_subgraph_with_types(G, query_params['acts'])    
+    if 'keyword' in query_params:
+        gph_with_keywords = fetch_subgraph_with_keywords(G, query_params['keyword'])
+    else:
+        gph_with_keywords = G
 
-    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_judgements, gph_with_subjects, gph_with_keywords, gph_with_year_range, gph_with_types, gph_with_acts])
+    if 'catchwords' in query_params:
+        gph_with_catchwords = fetch_subgraph_with_catchwords(G, query_params['catch'])
+    else:
+        gph_with_catchwords = G
+
+    if 'year' in query_params:
+        if len(query_params['year']) >= 2:
+            from_year = min(query_params['year'])
+            to_year = max(query_params['year'])
+            year = list(range(from_year, to_year+1))
+        elif len(query_params['year']) == 1:
+            year = [query_params['year']]
+        gph_with_year = fetch_subgraph_with_year(G, query_params['year'])
+    else:
+        gph_with_year_range = G
+
+    print('types' in query_params)
+    if 'types' in query_params:
+        gph_with_types = fetch_subgraph_with_types(G, query_params['types'])    
+    else:
+        gph_with_types = G
+
+    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_keywords, gph_with_catchwords, gph_with_year_range, gph_with_types])
+
 
     return(result)
 
@@ -157,13 +167,14 @@ if __name__ == "__main__":
     export_graph(graph.to_nx(), "{}.json".format(filename))
     graph_2 = import_graph("{}.json".format(filename))
 
+
     # result = graph_query(graph, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'case'], year_range=list(range(2002, 2005)))
     result = graph_query(graph_2, judges=[], subjects=[], keywords=[], judgements=[], types=['judge', 'keyword'], year_range=[], acts=[])
 
     print(result.nodes())
     print("Criminal" in result.nodes())
     prepare_corpus_dist_file(graph_2, 'judge')
-    prepare_corpus_dist_file(graph_2, 'keyword')
+    prepare_corpus_dist_file(graph_2, 'catchword')
     prepare_corpus_dist_file(graph_2, 'act')
     prepare_corpus_dist_file(graph_2, 'catch')
 
@@ -172,8 +183,8 @@ if __name__ == "__main__":
     # query_params = defaultdict(set)
     # # query_params['judge'].add('gNn')
     # # query_params['judgement'].add('guilty')
-    # # query_params['keyword'].add('3')
-    # # query_params['subject'].add('KVJ')
+    # # query_params['catchword'].add('3')
+    # # query_params['keyword'].add('KVJ')
     # # query_params['year'].add('2003')
 
     # result = graph_query(graph, query_params)

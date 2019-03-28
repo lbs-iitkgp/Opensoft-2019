@@ -9,7 +9,6 @@ import nltk
 from env import ENV
 # import json
 CASE_FILE = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
-CASE_FILE = filter(lambda x: x[-4:] == ".txt" and x[0]!=".", CASE_FILE)
 
 JUDGES = []
 
@@ -93,7 +92,7 @@ def get_parent(a):
 
 def get_case_id():
     '''
-        Returns the Indlaw SC Id for a case and its name (as in All_FT directory)
+        Returns the Indlaw SC Id for a case and its name (as in CaseDocuments/All_FT directory)
         '''
     with open("{}/doc_path_ttl_id.txt".format(ENV["DATASET_PATH"])) as doc_file:   
 
@@ -114,7 +113,7 @@ def judge_to_case(graph):
     immediate_next_line = {}    #   Similar to above, handles some more edge cases
 
     for file_name in CASE_FILE:
-        path = os.path.join("{}/All_FT".format(ENV["DATASET_PATH"]), file_name)
+        path = os.path.join('./All_FT', file_name)
 
         # Get the key value for CASE_FILE_TO_ID
         idx = re.search(r".txt", file_name)
@@ -135,6 +134,7 @@ def judge_to_case(graph):
 
 
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], file_name)) as curr_file:
+
             found_judge = 0         #   Flags to mark name has been found
             found_next_line = 0
 
@@ -259,7 +259,7 @@ def judge_to_case(graph):
             #     final_list[name] = []
             #     final_list[name].append(judge_key)
 
-            if judge_key in final_list:
+            if name in final_list:
                 final_list[name].append(judge_key)
             else:
                 final_list[name] = []

@@ -17,7 +17,7 @@ def fetch_summary_for_case(case_filename):
     article_text = ""
     l = 0
 
-    with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case_filename)) as f:
+    with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case_filename + '.txt')) as f:
         for line in f.readlines():
             paragraphs.append(line)
             l += 1
