@@ -53,7 +53,7 @@ def act_line_distribution(act_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
+    subgraph = lkg.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
     data = lkg.nodes(data=True)
     such_cases = subgraph[act_id]
     for case in such_cases:
