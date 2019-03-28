@@ -12,12 +12,7 @@ import CatchyWords from './catchyWords.js'
 import YearsIndiv from './yearsindiv.js'
 
 class Router extends Component {
-  num = 2;
-  num1=3;
-  
-
-  
-  render() {
+    render() {
       // tried this interpolation,but couldn't succeed,babel added in  the dependencies
      // <Route exact path=`/act/:${num}/:${num1}` component={ActIndiv}  />      
       return (
@@ -29,7 +24,7 @@ class Router extends Component {
               <Route exact path='/basic' component={BasicSearch} />
               <Route exact path='/basic/output:id' component={BasicOutput} />
               <Route exact path="/judge" component={JudgeIndiv}  />
-              <Route exact path="/act" component={ActIndiv}  />
+              <Route exact path="/act/:id" component={ActIndiv}  />
               <Route  exact path='/output' component={Output} />
               <Route exact path='/modal' component={Modal}  />
               <Route exact path='/keyWords' component={KeyWords} />

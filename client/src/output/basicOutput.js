@@ -39,7 +39,11 @@ class Output extends Component {
 
     componentWillMount(){
         ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-      }
+    }
+
+    
+
+            
 
     render(){
         return(

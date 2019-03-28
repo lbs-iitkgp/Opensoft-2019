@@ -32,6 +32,12 @@ class ResultCard extends Component{
    }
 }
 
+componentWillMount(){
+    var url = window.location.href
+   // console.log(url[url.length -1])
+   console.log(this.props.match.params.id)
+}
+
 render() {
     return (
        <div>
