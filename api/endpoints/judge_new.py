@@ -1,7 +1,6 @@
 from endpoints import *
 
 
-# TODO: from graph
 @app.route('/judge/<judge_id>', methods=['GET'])
 def judge_metadata(judge_id):
     judge = mgdb_handler.read_all(judges_collection, serial=judge_id)[0]
@@ -12,7 +11,6 @@ def judge_metadata(judge_id):
     return jsonify(judge)
 
 
-# TODO: From graph
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])
 def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
@@ -34,7 +32,6 @@ def judge_line_distribution(judge_id):
     return jsonify(result)
 
 
-# TODO: From graph
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
 def judge_cases(judge_id):
     result = []
