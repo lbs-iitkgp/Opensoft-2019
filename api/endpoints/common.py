@@ -20,6 +20,7 @@ def provide_line_distribution(judges,judgements,subjects,keywords,years,types,nx
         result[int(case['year'])] = result[int(case['year'])]+1
     return jsonify(result)
 
+
 def provide_cases(judges,judgements,subjects,keywords,years,types,nx_graph):
     params = {
         'judges' : judges,
@@ -47,8 +48,29 @@ def provide_cases(judges,judgements,subjects,keywords,years,types,nx_graph):
         result.append(point)
     return jsonify(result)
 
+
 def provide_metadata(judge,judgement,subject,keyword,year,type,nx_graph):
     # gives union of all the required values
     result = []
     query = mongo_db.find({"keyword_id":keyword_id})  
+
+
+def get_metas_to_node(id, node_type, meta_type):
+    nodes = lkg.nodes(data=True)
+    ids = []
+    for meta,_ in lkg.in_edges("{}_{}".format(node_type, id)):
+        if nodes[meta]["type"] == meta_type:
+            ids.append(meta.split('_')[1])
+
+    return ids
+
+
+def get_metas_from_node(id, node_type, meta_type):
+    nodes = lkg.nodes(data=True)
+    ids = []
+    for meta,_ in lkg.out_edges("{}_{}".format(node_type, id)):
+        if nodes[meta]["type"] == meta_type:
+            ids.append(meta.split('_')[1])
+
+    return ids
 
