@@ -75,7 +75,7 @@ printResults(){
     // scrollToComponent(this.refs.OutRef,{align:'bottom'});
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
     this.props.history.push({
-      pathname  : `/${Results.query}`,
+      pathname  : `advSearch/${Results.query}`,
       state :{
           defaultAdvSearch : Results.query
       }
@@ -97,6 +97,8 @@ printResults(){
     
     if(this.props.match.params.id != undefined)
       ReactDOM.render(<Output />,document.getElementById('root'));
+    else
+      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
   }
   
 
