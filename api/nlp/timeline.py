@@ -85,7 +85,7 @@ def get_timelines(file_path, nlp=None):
     :param nlp: the nlp vocabulary using spacy (default is None)
     :return: a list of tuple (each element has a date and the section)
     '''
-    file = open(file_path, 'r')
+    file = open(os.path.join('All_FT', file_path), 'r')
     # Section - Paragraph starting with numbered bullets
     # Extracts a list of sections from the case
     # section_list - Stores list of sections of cases

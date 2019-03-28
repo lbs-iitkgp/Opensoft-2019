@@ -2,7 +2,6 @@ from endpoints import *
 
 
 @app.route('/keyword/<keyword_id>', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_metadata(keyword_id):
     key_word = mgdb_handler.read_all(keyword_collection, serial=keyword_id)[0]
     number_of_cases = len(get_metas_from_node(keyword_id, "keyword", "case"))
@@ -12,16 +11,15 @@ def keyword_metadata(keyword_id):
 
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_line_distribution(keyword_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
     # nx_graph = export_neo4j()
-    result=[]
-    for i in range (1947,2020):
+    result = []
+    for i in range(1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[],acts =[])
-    
+    subgraph = lkg.query(judges=[], subjects=[], keywords=[keyword_id], judgements=[], types=[], year_range=[])
+
     data = lkg.nodes(data=True)
     such_cases = subgraph[keyword_id]
     for case in such_cases:
@@ -34,7 +32,6 @@ def keyword_line_distribution(keyword_id):
 
 
 @app.route('/keyword/<keyword_id>/cases', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_cases(keyword_id):
     result = []
 

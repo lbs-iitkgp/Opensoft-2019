@@ -2,7 +2,6 @@ from endpoints import *
 
 
 @app.route('/case/<case_id>', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_metadata(case_id):
     case = mgdb_handler.read_all(cases_collection, case_id)
     judge_ids = get_metas_to_node(case_id, "case", "judge")
@@ -16,17 +15,15 @@ def case_metadata(case_id):
 
 
 @app.route('/case/<case_id>/plot_line', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_line_distribution(case_id):
     result = {}
-    for i in range (1947 ,2020):
+    for i in range (1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[]) 
+    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =['case'], year_range=[])
     data = lkg.nodes(data=True)
-    such_cases = subgraph[case_id]
+    such_cases = subgraph.in_edges(case_id)
     for case in such_cases:
-        all_metas = lkg.in_edges(case)
-        for meta, _ in all_metas:
+        for meta, _ in lkg.in_edges(case):
             if data[meta]['type'] == 'year':
                 year = meta
         result[int(year)] += 1
@@ -34,7 +31,6 @@ def case_line_distribution(case_id):
 
 
 @app.route('/case/<case_id>/timeline', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_timeline(case_id):
     case_file = mgdb_handler.read_all(cases_collection, serial=case_id)[0]["file_name"]
 
@@ -44,7 +40,6 @@ def case_timeline(case_id):
 
 
 @app.route('/case/<case_id>/citations', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_citations(case_id):
     # Get citer id's from neo4j, and respective names from mongo
 
@@ -70,3 +65,4 @@ def case_citations(case_id):
         result["cited_by_cases"].append({cited_by_case["serial"]: cited_by_case["title"]})
 
     return jsonify(result)
+

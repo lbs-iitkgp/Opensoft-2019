@@ -2,7 +2,6 @@ from endpoints import *
 
 
 @app.route('/judge/<judge_id>', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_metadata(judge_id):
     judge = mgdb_handler.read_all(judges_collection, serial=judge_id)[0]
 
@@ -13,16 +12,15 @@ def judge_metadata(judge_id):
 
 
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
     #   Find case's year from mongo
     # nx_graph = export_neo4j()
     result = []
-    for i in range (1947, 2020):
+    for i in range(1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[judge_id],subjects=[], keywords=[] , judgements = [], types =[], year_range=[],acts = [])
-    
+    subgraph = lkg.query(judges=[judge_id], subjects=[], keywords=[], judgements=[], types=[], year_range=[])
+
     data = lkg.nodes(data=True)
     such_cases = subgraph[judge_id]
     for case in such_cases:
@@ -35,7 +33,6 @@ def judge_line_distribution(judge_id):
 
 
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_cases(judge_id):
     result = []
 

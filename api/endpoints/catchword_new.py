@@ -2,7 +2,6 @@ from endpoints import *
 
 
 @app.route('/catchword/<catchword_id>', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_metadata(catchword_id):
     # Just return catchword name, # of cases and precentile among catchwords maybe?
     catch_word = mgdb_handler.read_all(catch_collection, serial=catchword_id)[0]
@@ -13,18 +12,17 @@ def catchword_metadata(catchword_id):
 
 
 @app.route('/catchword/<catchword_id>/plot_line', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_line_distribution(catchword_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
     # nx_graph = export_neo4j()
-    result={}
+    result = {}
 
     # catchword = fetch_from_mongo(catchword_id)
 
-    for i in range(1947,2020):
+    for i in range(1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges=[], subjects=[catchword_id], keywords=[], judgements=[], types=[], year_range=[],acts = [])
+    subgraph = lkg.query(judges=[], subjects=[catchword_id], keywords=[], judgements=[], types=[], year_range=[])
     data = lkg.nodes(data=True)
     such_cases = subgraph[catchword_id]
     for case in such_cases:
@@ -37,7 +35,6 @@ def catchword_line_distribution(catchword_id):
 
 
 @app.route('/catchword/<catchword_id>/cases', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_cases(catchword_id):
     result = []
 
@@ -47,5 +44,3 @@ def catchword_cases(catchword_id):
         result.append(case)
 
     return jsonify(result)
-
-
