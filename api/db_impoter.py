@@ -1,3 +1,8 @@
+'''
+    This script exports data to the two databases used mongo and neo4j (if needed).
+        Different functions handle exporting different categories of data
+    '''
+
 # ==============================================================================|
 #                               TO DO                                           |
 # ==============================================================================|
@@ -12,6 +17,7 @@
 # catch words, key words (Clustering is very slow!), act ka abbreviations (Done)|
 # ==============================================================================|
 # IMPORT REQUIRED
+
 import json
 import pymongo
 import base64
@@ -19,7 +25,7 @@ import acts_updates
 import acts_separated
 from encode_helper import custom_encode, custom_decode
 import os
-import case_ka_data_nikal as ckdn
+import case_ka_data_nikal as case_data
 from env import ENV
 import mongodb_handler as handler
 import abbreviation
@@ -27,6 +33,8 @@ from base_class.legal_graph import LegalKnowledgeGraph
 from base_class.subgraph import graph_query
 import Test_file
 import networkx as nx
+# from backend.graph_formation.network_analyser import set_pagerank_scores_for_all_cases 
+# Import the above to get the pagerank score for each case
 
 # ====================================================================================================================================
 # ASSIGNS_MONGO_COLLECTIONS
@@ -41,18 +49,19 @@ judges_collection = "judges_ka_db"
 
 
 def process_cases_data():
-
+    '''
+        Extracts all data related to all cases
+    '''
     ALL_CASE_FILES = os.listdir("{}/CaseDocuments/All_FT".format(ENV["DATASET_PATH"]))
 
     ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:]
                  == ".txt"][:100]  # restricts to first 100 cases for now
-    ckdn.compute_mapping()
+    case_data.compute_mapping()
     l = []
-    # l_encoded = []
     for case in ALL_CASES:
         temp_dict = dict()
-        ckdn.serial_id += 1
-        temp_dict[str(ckdn.serial_id)] = ckdn.citing(case)
+        case_data.serial_id += 1
+        temp_dict[str(case_data.serial_id)] = case_data.citing(case)
         l.append(temp_dict)
     final_case_data_dictonaries_list = []
     for cases in l:
@@ -72,6 +81,10 @@ def process_cases_data():
 
 
 def process_future_acts_data(act_wise_data_list):
+    '''
+        Gets the serial ids for all acts and maps an act id 
+            with the id of the most recent amendment of it (if any)
+    '''
     temp_list = []
     mapping = acts_updates.get_all_versions_of_all_acts()   # a dictionary act: newest act
 
@@ -86,6 +99,9 @@ def process_future_acts_data(act_wise_data_list):
 
 
 def processed_judge_data():
+    '''
+        Serializes the judge names and adds them to the db (mongodb)
+    '''
     judge_list = []
     graph = Test_file.get_graph()
     nodes = graph.nodes(data=True)
@@ -102,7 +118,10 @@ def processed_judge_data():
 
 
 def update_legal_graph_with_serial_id():
-
+    '''
+        Updates the legalKnowledgeGraph generated after exporting to mongodb 
+            with the names of judges as their serial ids
+    '''
     judge_list = []
     graph = Test_file.get_graph()
     nodes = graph.nodes(data=True)
@@ -110,10 +129,8 @@ def update_legal_graph_with_serial_id():
     serial = 1
     judge_list = judge_list.nodes()
 
-    serial_to_judge = []
     mapping = {}
     for judge in judge_list:
-        serial_to_judge.append({"judge_name": judge, "serial_id": serial})
         mapping[judge] = serial
         serial += 1
 
@@ -130,14 +147,13 @@ update_legal_graph_with_serial_id()
 
 processed_case_data = process_cases_data()
 processed_abbreviations_data = abbreviation.get_abbreviations()
-# print(processed_abbreviations_data)
 acts_ka_data = acts_separated.get_acts_by_states()
 
 s_acts_ka_data = []
 
 for x in acts_ka_data:
-    for phew in acts_ka_data[x]:
-        s_acts_ka_data.append(phew)
+    for y in acts_ka_data[x]:
+        s_acts_ka_data.append(y)
 
 act_serial_mapping = {act["act"]: act["serial"] for act in s_acts_ka_data}
 processed_future_acts_data = process_future_acts_data(s_acts_ka_data)
