@@ -10,8 +10,15 @@ import { localPoint } from '@vx/event';
 import { bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
   
-const stock = appleStock.slice(800);
+// const stock = appleStock.slice(800);
+var stock = {
+  1934: 19,
+  1936: 7,
+  1940: 42,
+  1943: 5
+}
 //console.log(stock);
+//console.log('stock minimize' + stock.slice(10))
 
 // util
 const formatDate = timeFormat(" %y");
@@ -19,11 +26,28 @@ const min = (arr, fn) => Math.min(...arr.map(fn));
 const max = (arr, fn) => Math.max(...arr.map(fn));
 const extent = (arr, fn) => [min(arr, fn), max(arr, fn)];
 
-// accessors
-const xStock = d => new Date(d.date);
+// var data = []
+
+// for (var i = 100 - 1; i >= 0; i--) {
+//   data.push({ "index": i, "val": i*2})
+// }
+
+function convertToProperData(stock){
+  return Object.keys(stock).map((k) =>
+    ({ "date": k, "close": stock[k]})
+  )
+}
+stock = convertToProperData(stock)
+
+console.log(convertToProperData(stock));
+
+// function xStock (d){
+//   console.log()
+//   return d.index
+// }
+const xStock = d => d.date;
 const yStock = d => d.close;
-const bisectDate = bisector(d => new Date(d.date)).left;
-//console.log(xStock);
+const bisectDate = bisector(d => d.date).left;
 
 class Area extends React.Component {
   constructor(props) {
@@ -47,9 +71,7 @@ class Area extends React.Component {
       tooltipTop: yScale(d.close)
     });
   }
-  componentWillMount(){
-      //console.log(this.props.id)      
-    }
+  
 
   render() {
     const {
@@ -68,9 +90,10 @@ class Area extends React.Component {
     const xMax = width - margin.left - margin.right;
     const yMax = height - margin.top - margin.bottom;
 
+
     // scales
     const xScale = scaleTime({
-      range: [0, xMax],
+      range: [0, xMax],        
       domain: extent(stock, xStock)
     });
     const yScale = scaleLinear({
@@ -78,7 +101,8 @@ class Area extends React.Component {
       domain: [0, max(stock, yStock) + yMax / 3],
       nice: true
     });
-
+ 
+    console.log('x axis is')
 
     return (
       <div>
@@ -194,7 +218,7 @@ class Area extends React.Component {
                 color: 'white'
               }}
             >
-              {`$${yStock(tooltipData)}`}
+              {`${yStock(tooltipData)}`}
             </Tooltip>
             <Tooltip
               top={yMax - 14}
@@ -203,7 +227,7 @@ class Area extends React.Component {
                 transform: 'translateX(-50%)'
               }}
             >
-              {formatDate(xStock(tooltipData))}
+              {xStock(tooltipData)}
             </Tooltip>
           </div>
         )}

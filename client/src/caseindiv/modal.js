@@ -12,6 +12,13 @@ import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
 import CitedCases from './citedCases.js'
 import ScrollUpButton from "react-scroll-up-button"; 
+import {Component} from 'react'
+import axios from 'axios'
+
+
+function Transition(props) {
+  return (<Slide direction="up" {...props} />)
+}
 
 const useStyles = makeStyles({
   appBar: {
@@ -22,51 +29,79 @@ const useStyles = makeStyles({
   },
 });
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
+  
+class FullScreenDialog extends Component {
+ 
+ constructor(props){
+  super(props)
+  this.state={
+    json_data : {},
+   }
+  // this.handleClickOpen = this.handleClickOpen.bind(this)
+  // this.handleClose = this.handleClose.bind(this)
+ }
+ 
+  //const classes = useStyles();
+  //const [open, setOpen] = React.useState(false);
+  
+  //  handleClickOpen() {
+  //   setOpen(true);
+  // }
+
+  //  handleClose() {
+  //   setOpen(false);
+  // }
+
+  componentWillMount(){
+   var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/modal/${id}`)
+    .then(function (response) {
+      self.setState({data_json : response.result})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log('error is '+error);
+    })
+    .then(function () {
+      // always executed
+    }); 
+    console.log(this.state.json_data)  
 }
 
-function FullScreenDialog() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  
+    
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setOpen(false);
-  }
-
-  return (
-    <div >
-      
-        <AppBar className={classes.appBar} id='fixedTitle'>
+  render(){
+    return(
+     <div >
+       <AppBar  id='fixedTitle'>
           <Toolbar>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-              Title of the Case
-              </Typography>
-            <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-              <CloseIcon />
-            </IconButton>
+            <Typography variant="h6" color="inherit" >
+              {this.state.json_data.case_name}
+            </Typography>
           </Toolbar>
-        </AppBar>
-         <div id='contain'>
-         <div id='left-indiv'>
-            <div id ='resCard'><ResultCard /></div> 
-            <div id='graph'>< Area /></div>
-         </div>
-          <div id='vtl'>
-            <VerticalTimeline />
+         </AppBar>
+          <div id='contain'>
+            <div id='left-indiv'>
+              <div id ='resCard'><ResultCard  judgement={this.state.json_data.case_judgement} judge={this.state.json_data.case_judge} date={this.state.json_data.case_date}/></div> 
+              <div id='graph'>< Area /></div>
+            </div>
+            <div id='vtl'>
+              <VerticalTimeline />
+            </div>
+            <div id='actchips'>
+              <CitedCases />
+            </div>
           </div>
-          <div id='actchips'>
-             <CitedCases />
-          </div>
-        </div>
         <ScrollUpButton />
-        </div>
-  );
+     </div>
+      );
+  }
+
+
 }
+
 
 export default FullScreenDialog;
 

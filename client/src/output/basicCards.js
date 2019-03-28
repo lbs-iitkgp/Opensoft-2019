@@ -15,14 +15,14 @@ function createData(listData, index) {
 
 var cardsData = [
   {
-    "type" : "judge",
-    "name" : "mahajan",
+    "type" : "JUDGE",
+    "name" : "H. R. Khanna",
     "url"  : "#"
   }
 ,
 {
-  "type" : "judge",
-  "name" : "mahajan",
+  "type" : "KEYWORD",
+  "name" : "Criminal",
   "url"  : "#"
 }].map((ele, ind) => createData(ele, ind) );  
 
