@@ -88,30 +88,30 @@ def basic_search_to_propose_topic_cards():
     case = get_doc_with_maxscore(query, 'case')
 
     if judge is None:
-        judge = ''
+        judge = []
     else:
-        judge = judge['name']
+        judge = [judge['name']]
 
     if act is None:
-        act = ''
+        act = []
     else:
-        act = act['name']
+        act = [act['name']]
 
     if case is None:
-        case = ''
+        case = []
     else:
-        case = case['name']
+        case = [case['name']]
 
     if key == '':
         return('No query sent')
     else:
         params = {
             'judges': set(judge),
-            'year_range' : set(year_range),
+            'years' : set(year_range),
             'subjects' : set(subjects),
             'acts' : set(act)
         }
-        subgraph = LKG.query(params)
+        subgraph = LKG.query(**params)
         cases = list(subgraph.nodes())
         return jsonify(cases)
         
