@@ -5,11 +5,11 @@ from endpoints import *
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_metadata(act_id):
     # get the act
-    act = mgdb_handler.read_all(acts_collection, serial=act_id)[0]
+    act = mgdb_handler.read_all(acts_collection, serial=int(act_id))[0]
 
     # get its recent version
-    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=act_id)[0]["New_id"]
-    new_act_name = mgdb_handler.read_all(acts_collection, serial=new_act_id)[0]["name"]
+    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=str(act_id))[0]["New_id"]
+    new_act_name = mgdb_handler.read_all(acts_collection, serial=int(new_act_id))[0]["name"]
     act["recent_version"] = {"id": new_act_id, "name": new_act_name}
 
     # get its abbreviations
@@ -22,7 +22,7 @@ def act_metadata(act_id):
 @app.route('/act/<act_id>/sections', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_sections(act_id):
-    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=int(act_id))[0]["file"]
     result = get_sections_in_act(act_file_path)
 
     return jsonify(result)
@@ -31,7 +31,7 @@ def act_sections(act_id):
 @app.route('/act/<act_id>/section/<section_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_section(act_id, section_id):
-    act_file_path = mgdb_handler.read_all(acts_collection, serial=act_id)[0]["file"]
+    act_file_path = mgdb_handler.read_all(acts_collection, serial=int(act_id))[0]["file"]
     text = get_text_in_section(act_file_path, section_id)
 
     result = {
@@ -53,9 +53,9 @@ def act_line_distribution(act_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[act_id])
+    subgraph = lkg.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =["act_"+str(act_id)])
     data = lkg.nodes(data=True)
-    such_cases = subgraph[act_id]
+    such_cases = subgraph["act_"+str(act_id)]
     for case in such_cases:
         all_metas = lkg.in_edges(case)
         for meta, _ in all_metas:
@@ -70,9 +70,11 @@ def act_line_distribution(act_id):
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
     result = []
-    case_ids = get_metas_from_node(act_id, "act", "case")
+    case_ids = get_metas_from_node(act_id, "act", "case", split=False)
     for id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=id)[0]
-        result.append(case)
+        if id.startswith("case_"):
+            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+            result.append(case)
+
 
     return jsonify(result)
