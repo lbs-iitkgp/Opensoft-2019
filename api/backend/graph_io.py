@@ -44,8 +44,8 @@ def nx_to_neo4j(nx_graph=None):
 
     if not nx_graph:
         nx_graph = json_to_nx("LegalKnowledgeGraph.json")
-    authenticate(ENV["DB_URL"], ENV["DB_USERNAME"],ENV["DB_PASSWORD"]) # Accessing the NEO4J server
-    neo4j_graph = Graph()
+    authenticate(ENV["DB_URL"].replace("http://", ""), ENV["DB_USERNAME"],ENV["DB_PASSWORD"]) # Accessing the NEO4J server
+    neo4j_graph = Graph(ENV["DB_URL"]+"/db/data/")
     string_to_instance_mapping = dict()
 
     list_node = list(nx_graph.nodes(data=True))
