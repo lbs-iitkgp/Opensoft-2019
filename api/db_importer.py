@@ -107,7 +107,7 @@ def process_cases_data(knowledgeGraph):
     ALL_CASE_FILES = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
     ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:]
-                 == ".txt" and filename[0] != "."][:100]  # restricts to first 100 cases for now
+                 == ".txt" and filename[0] != "."]  # restricts to first 100 cases for now
     case_data.compute_mapping()
 
     pagerank_scores = set_pagerank_scores_for_all_cases(knowledgeGraph)
