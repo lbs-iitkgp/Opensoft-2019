@@ -116,6 +116,8 @@ def graph_query(G, **query_params):
             years = list(range(from_year, to_year+1))
         elif len(query_params['years']) == 1:
             years = query_params['years']
+        else:
+            years = []
 
         years = ["year_{}".format(y-1952) for y in years]
         gph_with_years = fetch_subgraph_with_years(G, years)
