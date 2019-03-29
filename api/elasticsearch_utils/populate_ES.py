@@ -34,8 +34,8 @@ def create_indices():
 	print("Succesfully done")
 
 def populate_ES(index,list_data):
-	index_url = ES_URL + index + "/_doc/" + str(list_data['serial'])
 	for item in list_data:
+		index_url = ES_URL + index + "/_doc/" + str(item['serial'])
 		p(req.put(index_url, json=data, headers=headers).json())
 
 
