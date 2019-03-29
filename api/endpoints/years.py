@@ -45,5 +45,5 @@ def year_piechart(year):
     new_result = dict()
     for keyword in result:
         keyword_name = mgdb_handler.read_all(keyword_collection, serial=int(keyword.split("_")[1]))[0]["name"]
-        new_results[keyword_name] = result[keyword]
+        new_result[keyword_name] = result[keyword]
     return jsonify(new_result)
