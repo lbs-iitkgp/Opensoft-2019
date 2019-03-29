@@ -46,18 +46,18 @@ def fetch_cards():
 @app.route('/search/advanced', methods=['GET', 'POST']) 
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def advanced_search():      
-    subjects = set(request.form['subjects'])
-    keywords = set(request.form['keywords'])
-    years = set(request.form['years'])
-    judges = set(request.form['judges'])
+    subjects = set(request.form.get('subjects',''))
+    # keywords = set(request.form.get('keywords','')
+    years = set(request.form.get('years','')
+    judges = set(request.form.get('judges','')
     # judgements = set(request.form['judgements'])
-    types = set(request.form['types'])
-    acts = set(request.form['acts'])
+    types = set(request.form.get('types','')
+    acts = set(request.form.get('acts','')
     params = {
         'judges': judges,
         # 'judgements' : judgements,
         'year_range' : years,
-        'keywords' : keywords,
+        # 'keywords' : keywords,
         # 'types' : types,
         'subjects' : subjects,
         'acts' :acts
