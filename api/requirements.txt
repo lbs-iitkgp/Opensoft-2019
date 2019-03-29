@@ -17,3 +17,4 @@ spacy==2.0.13
 editdistance
 pymongo
 abbreviations
+bs4
