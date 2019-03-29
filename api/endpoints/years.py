@@ -4,7 +4,7 @@ from endpoints import *
 @app.route('/year/<year>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_metadata(year):
-    year = mgdb_handler.read_all(keyword_collection, name=year)[0]
+    year = mgdb_handler.read_all(keyword_collection, name=str(year))[0]
     return jsonify(year)
 
 
@@ -12,7 +12,7 @@ def year_metadata(year):
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_cases(year):
     result = []
-    year = mgdb_handler.read_all(keyword_collection, name=year)[0]
+    year = mgdb_handler.read_all(keyword_collection, name=str(year))[0]
     case_ids = get_metas_from_node(year["serial"], "year", "case", split=False)
     for id in case_ids:
         case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
