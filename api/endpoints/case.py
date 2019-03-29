@@ -29,7 +29,7 @@ def case_line_distribution(case_id):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
-        result[int(year.split("_")[1])+1947] += 1
+        result[int(year.split("_")[1])+1946] += 1
     return jsonify(result)
 
 
