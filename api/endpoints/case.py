@@ -4,7 +4,7 @@ from endpoints import *
 @app.route('/case/<case_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_metadata(case_id):
-    case = mgdb_handler.read_all(cases_collection, serial=str(case_id))
+    case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
     judge_ids = get_metas_to_node(case_id, "case", "judge")
     judges = []
     for id in judge_ids:
