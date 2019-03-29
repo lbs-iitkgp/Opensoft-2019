@@ -58,7 +58,7 @@ def fetch_subgraph_from_meta_nodes(graph, set_of_meta_nodes=set()):
     return(fetch_subgraph_from_matching_cases(graph, matching_cases))
 
 # How exactly are case years stored in graph?
-def fetch_subgraph_with_year_range(graph, years=set()):
+def fetch_subgraph_with_years(graph, years=set()):
     if not years:
         return graph
 
