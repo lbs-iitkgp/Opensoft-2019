@@ -135,7 +135,7 @@ def get_timelines(file_path, nlp=None):
             # new date is the first date of that section
             final_date = dates[0][0]
             # update last date
-            last_date = dates[len(dates)-1][0]
+            last_date = final_date
 
         final_list.append((final_date, section))
 
