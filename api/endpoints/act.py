@@ -8,8 +8,13 @@ def act_metadata(act_id):
     act = mgdb_handler.read_all(acts_collection, serial=int(act_id))[0]
 
     # get its recent version
-    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=str(act_id))[0]["New_id"]
-    new_act_name = mgdb_handler.read_all(acts_collection, serial=int(new_act_id))[0]["name"]
+    new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=str(act_id))
+    if new_act_id:
+        new_act_id = new_act_id[0]["New_id"]
+
+    new_act_name = mgdb_handler.read_all(acts_collection, serial=int(new_act_id))
+    if new_act_name:
+        new_act_name = new_act_name[0]["name"]
     act["recent_version"] = {"id": new_act_id, "name": new_act_name}
 
     # get its abbreviations
