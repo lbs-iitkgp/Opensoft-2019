@@ -138,14 +138,29 @@ def basic_search_to_propose_topic_cards():
     if query == '':
         return('No query sent')
     else:
-        judge = ["judge_"+str(mgdb_handler.read_all(judges_collection, name=j)[0]["serial"]) for j in judge]
-        act = ["act_"+str(mgdb_handler.read_all(acts_collection, name=a)[0]["serial"]) for a in act]
-        keywords = ["keyword_"+str(mgdb_handler.read_all(keyword_collection, name=k[0])[0]["serial"]) for k in subjects]
+        new_judge = []
+        for j in judge:
+            mongo_j = "judge_"+str(mgdb_handler.read_all(judges_collection, name=j))
+            if mongo_j:
+                new_judge.append(mongo_j[0]["serial"])
+
+        new_act = []
+        for a in act:
+            mongo_a = "act_"+str(mgdb_handler.read_all(acts_collection, name=a))
+            if mongo_a:
+                new_act.append(mongo_a[0]['serial'])
+
+        new_subjects = []
+        for k in subjects:
+            mongo_k = "keyword_"+str(mgdb_handler.read_all(keyword_collection, name=k[0]))
+            if mongo_k:
+                new_subjects.append(mongo_k[0]["serial"])
+
         params = {
-            'judges': set(judge),
+            'judges': set(new_judge),
             'years' : set(year_range),
-            'keywords' : set(keywords),
-            'acts' : set(act)
+            'keywords' : set(new_subjects),
+            'acts' : set(new_act)
         }
 
         subgraph = LKG.query(**params)
