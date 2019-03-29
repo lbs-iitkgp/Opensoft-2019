@@ -323,6 +323,7 @@ def populate_elasticsearch():
             data_dict = {}
             data_dict["name"] = result["name"]
             data_dict["serial"] = int(result["serial"])
+            data_list.append(data_dict)
         populate_ES(coll, data_list)
 
 def main(lkg):
