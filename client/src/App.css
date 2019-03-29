@@ -308,7 +308,6 @@ a:hover {
   margin-bottom: 2%;
 }
 
-.logo{
-  position: relative;
-  top: 2%;
+#homepageNavbar{
+  margin-top: 0%;
 }

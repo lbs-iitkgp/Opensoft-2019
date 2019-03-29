@@ -15,29 +15,11 @@ function createData(listData, index) {
 
 var cardsData = [
   {
-    "type" : 'judge',
-    "name" : 'papahjan',
+    "type" : 'KEYWORD',
+    "name" : 'Criminal',
     "url" : '#',
     
-  }
-,
-{
-  "type" : 'judge',
-  "name" : 'mahjan',
-  "url" : '#',
-  
-},
-{
-  "type" : 'judge',
-  "name" : 'babahjan',
-  "url" : '#',
-  
-},{
-  "type" : 'judge',
-  "name" : 'kakahjan',
-  "url" : '#',
-  
-}].map((ele, ind) => createData(ele, ind) );  
+  }].map((ele, ind) => createData(ele, ind) );  
 
 
 class Demo extends Component{

@@ -1,5 +1,6 @@
 import React from 'react';
 import MUIDataTable from 'mui-datatables';
+import axios from  'axios';
 /*
   It uses npm mui-datatables. It's easy to use, you just describe columns and data collection.
   Checkout full documentation here :
@@ -76,6 +77,30 @@ class AdvFilter extends React.Component {
     {
       data.filters = filterList;
       console.log("Filters Changed", data, changedColumn);
+    }
+
+    componentWillMount() {
+      //var id = this.props.match.params.id;
+      var self = this;
+      console.log(self.props);
+      axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}`+self.props.myurl)
+        .then(function (response) {
+          // handle success
+          self.setState({
+            data: response.data,
+            columns : Object.keys(response.data[0])
+          })
+          console.log(self.state.data);
+          console.log(self.state.columns);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
+
     }
 
   render() {

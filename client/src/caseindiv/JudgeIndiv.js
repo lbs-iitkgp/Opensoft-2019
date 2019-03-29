@@ -18,16 +18,17 @@ class ResultCard extends Component{
    //marginBottom: 12,
    //padding : 10,
    margin :10,
-   data_json : {}, 
+   data_json : {}
    }
 }
 
 
 
 componentWillMount(){
-    var id = this.props.match.params.id;
+   var id = this.props.match.params.id;
     var self = this;
-    axios.get(`http://localhost:5000/judge/${id}`)
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
     .then(function (response) {
       self.setState({data_json : response.data})
     })
@@ -37,11 +38,12 @@ componentWillMount(){
     })
     .then(function () {
       // always executed
-    });
-    
+    });   
 }
 
 render() {
+    var url = `/judge/${this.props.match.params.id}/cases`
+    //alert(url);
     return (
        <div>
          <Navbar />
@@ -63,7 +65,7 @@ render() {
           
           <Graph  id="1" />
           </div>
-          <AdvTable />
+          <AdvTable myurl={url} />
          </div>
        </div>
           );

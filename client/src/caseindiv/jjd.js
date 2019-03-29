@@ -40,13 +40,13 @@ render() {
             {cardsData.map( ele => (
               <Card  className="card" style={{ color : this.state.color }}  >
                 <div id="judgement">
-                  <b>Judgement:</b> {ele.Judgement}
+                  <b>Judgement:</b> {this.props.judgement}
                 </div>
                 <div id="judge">
-                 <b>Judge:</b> <a href={ele.url}>{ele.Judge}</a> 
+                 <b>Judge:</b> <a href={ele.url}>{this.props.judge}</a> 
                 </div>
                 <div id="date">
-                  <b>Date :</b> {ele.Date}
+                  <b>Date :</b> {this.props.date}
                 </div>
                 <br /><br />
               </Card>

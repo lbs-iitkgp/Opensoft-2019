@@ -9,9 +9,17 @@ import { withTooltip, Tooltip } from '@vx/tooltip';
 import { localPoint } from '@vx/event';
 import { bisector } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
+import axios from 'axios'
   
-const stock = appleStock.slice(800);
+// const stock = appleStock.slice(800);
+var stock = {
+  1934: 19,
+  1936: 7,
+  1940: 42,
+  1943: 5
+}
 //console.log(stock);
+//console.log('stock minimize' + stock.slice(10))
 
 // util
 const formatDate = timeFormat(" %y");
@@ -19,15 +27,35 @@ const min = (arr, fn) => Math.min(...arr.map(fn));
 const max = (arr, fn) => Math.max(...arr.map(fn));
 const extent = (arr, fn) => [min(arr, fn), max(arr, fn)];
 
-// accessors
-const xStock = d => new Date(d.date);
+// var data = []
+
+// for (var i = 100 - 1; i >= 0; i--) {
+//   data.push({ "index": i, "val": i*2})
+// }
+
+function convertToProperData(stock){
+  return Object.keys(stock).map((k) =>
+    ({ "date": k, "close": stock[k]})
+  )
+}
+//stock = convertToProperData(stock)
+
+//console.log(convertToProperData("AadiOutside",stock));
+
+// function xStock (d){
+//   console.log()
+//   return d.index
+// }
+const xStock = d => d.date;
 const yStock = d => d.close;
-const bisectDate = bisector(d => new Date(d.date)).left;
-//console.log(xStock);
+const bisectDate = bisector(d => d.date).left;
 
 class Area extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      stock : convertToProperData(stock)
+    }
     this.handleTooltip = this.handleTooltip.bind(this);
   }
   handleTooltip({ event, data, xStock, xScale, yScale }) {
@@ -47,9 +75,22 @@ class Area extends React.Component {
       tooltipTop: yScale(d.close)
     });
   }
+  
   componentWillMount(){
-      //console.log(this.props.id)      
-    }
+    var self = this;
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${self.props.myurl}`)
+      .then(function (response) {
+        self.setState({ stock: convertToProperData(response.data) })
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('error is ' + error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
 
   render() {
     const {
@@ -65,20 +106,22 @@ class Area extends React.Component {
     if (width < 10) return null;
 
     // bounds
-    const xMax = width - margin.left - margin.right;
-    const yMax = height - margin.top - margin.bottom;
+    const xMax = width ;//- margin.left - margin.right;
+    const yMax = height ;//- margin.top - margin.bottom;
+
 
     // scales
     const xScale = scaleTime({
-      range: [0, xMax],
-      domain: extent(stock, xStock)
+      range: [0, xMax],        
+      domain: extent(this.state.stock, xStock)
     });
     const yScale = scaleLinear({
       range: [yMax, 0],
-      domain: [0, max(stock, yStock) + yMax / 3],
+      domain: [0, max(this.state.stock, yStock) ],
       nice: true
     });
-
+ 
+    //console.log('x axis is')
 
     return (
       <div>
@@ -105,7 +148,7 @@ class Area extends React.Component {
             stroke="rgba(255,255,255,0.3)"
           />
           <AreaClosed
-            data={stock}
+            data={this.state.stock}
             x={d => xScale(xStock(d))}
             y={d => yScale(yStock(d))}
             yScale={yScale}
@@ -121,14 +164,14 @@ class Area extends React.Component {
             height={height}
             fill="transparent"
             rx={14}
-            data={stock}
+            data={this.state.stock}
             onTouchStart={event =>
               this.handleTooltip({
                 event,
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onTouchMove={event =>
@@ -137,7 +180,7 @@ class Area extends React.Component {
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onMouseMove={event =>
@@ -146,7 +189,7 @@ class Area extends React.Component {
                 xStock,
                 xScale,
                 yScale,
-                data: stock
+                data: this.state.stock
               })
             }
             onMouseLeave={event => hideTooltip()}
@@ -194,7 +237,7 @@ class Area extends React.Component {
                 color: 'white'
               }}
             >
-              {`$${yStock(tooltipData)}`}
+              {`${yStock(tooltipData)}`}
             </Tooltip>
             <Tooltip
               top={yMax - 14}
@@ -203,7 +246,7 @@ class Area extends React.Component {
                 transform: 'translateX(-50%)'
               }}
             >
-              {formatDate(xStock(tooltipData))}
+              {xStock(tooltipData)}
             </Tooltip>
           </div>
         )}

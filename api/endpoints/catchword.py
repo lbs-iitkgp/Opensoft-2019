@@ -4,11 +4,12 @@ from endpoints import *
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_metadata(catchword_id):
     # Just return catchword name, # of cases and precentile among catchwords maybe?
-    catchword = mydb.mytable.find({"catchword_id":catchword_id})
+    #catchword = mydb.mytable.find({"catchword_id":catchword_id})
+    catchword = {"name":"Babajan","number_of_cases":-20}
     result ={
         'name': catchword["name"],
         'number_of_cases': catchword["number_of_cases"],
-        'percentile': mydb.mytable.find({"catchword_id":catchword_id}).count()*100.0/mydb.mytable.count()
+        'percentile': 90#mydb.mytable.find({"catchword_id":catchword_id}).count()*100.0/mydb.mytable.count()
     }
     return jsonify(result)
 
