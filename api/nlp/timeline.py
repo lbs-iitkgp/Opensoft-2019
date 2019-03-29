@@ -24,7 +24,7 @@ def validate(date):
     # true if two hifens and last four are digits
     # else month name should be included
     # remove 'the' if present
-    if date.count('-') == 2 and date[-4:].isnumeric():
+    if (date.count('-') == 2 or date.count('.')) and date[-4:].isnumeric():
         return date, True
 
     month_found = False
@@ -48,12 +48,14 @@ def find_dates_spacy(section, nlp):
     :param section: the section of the case
     :return: A list of tuple (each element has the date extracted and its strat position)
     '''
+    allowed_tags = ['DATE', 'TIME', 'CARDINAL']
     if not nlp:
       return []
     dates = []
     doc = nlp(section)
     for ent in doc.ents:
-        if ent.label_ == "DATE" or ent.label_ == "TIME":
+        # print(ent.text, ent.label_)
+        if ent.label_ in allowed_tags:
             date, is_valid = validate(ent.text.strip())
             if is_valid:
                 dates.append((date.strip(), ent.start_char))
@@ -136,8 +138,25 @@ def get_timelines(file_path, nlp=None):
 
         final_list.append((final_date, section))
 
-    return final_list
+    prev_date = None
+    merged_sections = []
+    truncated_list = []
+    for date, text in final_list:
+        if not prev_date:
+            prev_date = date
+            merged_sections = [text]
+            continue
+        if date == prev_date:
+            merged_sections.append(text)
+        else:
+            truncated_list.append((prev_date, "\n".join(merged_sections)))
+            merged_sections = [text]
+            prev_date = date
 
+    truncated_list.append((prev_date, "\n".join(merged_sections)))
+
+    return truncated_list
+  
 # Uncomment to test script
 # file_path = os.path.join(os.getcwd(), 'All_FT', '1953_A_7.txt')
 # print(get_timelines(file_path, spacy.load('en')))
