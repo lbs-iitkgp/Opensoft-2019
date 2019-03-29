@@ -4,7 +4,7 @@ from endpoints import *
 @app.route('/judge/<judge_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_metadata(judge_id):
-    judge = mgdb_handler.read_all(judges_collection, serial=judge_id)[0]
+    judge = mgdb_handler.read_all(judges_collection, serial=int(judge_id))[0]
 
     cases_count = len(get_metas_from_node(judge_id, "judge", "case"))
     judge["number_of_cases"] = cases_count
@@ -21,10 +21,9 @@ def judge_line_distribution(judge_id):
     result = []
     for i in range (1947, 2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[judge_id], catch=[], keywords=[] , judgements = [], types =[], year_range=[],acts = [])
     
     data = lkg.nodes(data=True)
-    such_cases = subgraph[judge_id]
+    such_cases = lkg["judge_"+judge_id]
     for case in such_cases:
         all_metas = lkg.in_edges(case)
         for meta, _ in all_metas:
@@ -39,9 +38,9 @@ def judge_line_distribution(judge_id):
 def judge_cases(judge_id):
     result = []
 
-    case_ids = get_metas_from_node(judge_id, "judge", "case")
+    case_ids = get_metas_from_node(judge_id, "judge", "case", split=False)
     for id in case_ids:
-        case = get_metas_from_node(judge_id, "judge", "case")
-        result.append(case)
-
+        if id.startswith("case_"):
+            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+            result.append(case)
     return jsonify(result)
