@@ -55,7 +55,7 @@ def fetch_cards():
 
         for y in year:
             try:
-                cards.append(mgdb_handler.read_all(year_collection, name=y)[0])
+                cards.append(mgdb_handler.read_all(years_collection, name=y)[0])
             except IndexError:
                 pass
 
