@@ -140,21 +140,21 @@ def basic_search_to_propose_topic_cards():
     else:
         new_judge = []
         for j in judge:
-            mongo_j = "judge_"+str(mgdb_handler.read_all(judges_collection, name=j))
+            mongo_j = mgdb_handler.read_all(judges_collection, name=j)
             if mongo_j:
-                new_judge.append(mongo_j[0]["serial"])
+                new_judge.append("judge_"+str(mongo_j[0]["serial"]))
 
         new_act = []
         for a in act:
-            mongo_a = "act_"+str(mgdb_handler.read_all(acts_collection, name=a))
+            mongo_a = mgdb_handler.read_all(acts_collection, name=a)
             if mongo_a:
-                new_act.append(mongo_a[0]['serial'])
+                new_act.append("act_"+str(mongo_a[0]['serial']))
 
         new_subjects = []
         for k in subjects:
-            mongo_k = "keyword_"+str(mgdb_handler.read_all(keyword_collection, name=k[0]))
+            mongo_k = mgdb_handler.read_all(keyword_collection, name=k[0])
             if mongo_k:
-                new_subjects.append(mongo_k[0]["serial"])
+                new_subjects.append("keyword_"+str(mongo_k[0]["serial"]))
 
         params = {
             'judges': set(new_judge),
