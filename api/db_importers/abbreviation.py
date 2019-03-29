@@ -25,6 +25,8 @@ def function(word):
 def get_abbreviations():
     count = 1
     for case in all_cases:
+        if case[0] == ".":
+            continue
         with open("{}/All_FT/{}".format(ENV["DATASET_PATH"], case), 'r') as file:
             count += 1
             # print(count)

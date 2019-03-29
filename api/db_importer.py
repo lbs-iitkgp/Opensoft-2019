@@ -107,7 +107,7 @@ def process_cases_data(knowledgeGraph):
     ALL_CASE_FILES = os.listdir("{}/All_FT".format(ENV["DATASET_PATH"]))
 
     ALL_CASES = [filename for filename in ALL_CASE_FILES if filename[-4:]
-                 == ".txt"][:100]  # restricts to first 100 cases for now
+                 == ".txt" and filename[0] != "."][:100]  # restricts to first 100 cases for now
     case_data.compute_mapping()
 
     pagerank_scores = set_pagerank_scores_for_all_cases(knowledgeGraph)
@@ -119,7 +119,9 @@ def process_cases_data(knowledgeGraph):
         l.append(temp_dict)
     final_case_data_dictonaries_list = []
     for cases in l:
+        # print(cases)
         for case in cases:
+            # print(case)
             case_dict = {
                 "serial": case,
                 "file_name": cases[case][0],
@@ -269,47 +271,50 @@ def update_legal_graph_with_serial_id(lkg):
 
 def write_everything_to_mongo_first(lkg):
     cases_data = process_cases_data(lkg)
-    # print("Got cases")
+    print("1")
     acts_data = process_acts_data(acts_separated.get_acts_by_states())
-    # print("Got cases")
+    print("2")
     act_serial_mapping = {act["name"]: act["serial"] for act in acts_data}
-    # print("Got cases")
+    print("3")
     judges_data = process_judge_data(lkg)
-    # print("Got cases")
+    print("4")
     acts_mapping = process_recent_acts_data(act_serial_mapping)
-    # print("Got cases")
+    print("5")
 
     abbr_data = abbreviation.get_abbreviations()
 
     handler.write_all(acts_data, acts_collection)
-    # print("Wrote acts")
+    print("6")
     handler.write_all(cases_data, cases_collection)
-    # print("Wrote cases")
+    print("Wrote cases")
     handler.write_all(acts_mapping, recent_acts_collection)
-    # print("Wrote mappings")
+    print("Wrote mappings")
     # print(judges_data)
     handler.write_all(judges_data, judges_collection)
-    # print("Wrote judge")
+    print("Wrote judge")
     handler.write_all(abbr_data, abbreviations_collection)
-    # print("Wrote abbr")
+    print("Wrote abbr")
 
     keywords = process_keyword(lkg)
     handler.write_all(keywords, keyword_collection)
-    # print("Wrote Keywords")
+    print("Wrote Keywords")
 
     # act_serial_mapping = {act["act"]: act["serial"] for act in acts_data}
     # print(act_serial_mapping)
 
     handler.write_all(process_years(lkg), years_collection)
     # print(process_years(knowledgeGraph))
-    # print("Wrote years")
+    print("Wrote years")
     handler.write_all(process_catch(lkg), catch_collection)
     # print(process_catch(knowledgeGraph))
-    # print("Wrote catch")
+    print("Wrote catch")
     # collections = set()
 
 def populate_elasticsearch():
-    create_indices()
+    try:
+        create_indices()
+    except:
+        pass
     collections = ['judge', 'case', 'act']
     for coll in collections:
         results = handler.read_all(coll+"_db")
@@ -322,9 +327,13 @@ def populate_elasticsearch():
 
 def main(lkg):
     write_everything_to_mongo_first(lkg)
+    print("Updating lkg")
     lkg_new = update_legal_graph_with_serial_id(lkg)
+    print("Updated lkg")
     lkg_to_neo4j(lkg_new)
+    print("Written to neo4j")
     populate_elasticsearch()
+    print("ES done")
 
 if __name__ == "__main__":
     # lkg = prepare_graph()

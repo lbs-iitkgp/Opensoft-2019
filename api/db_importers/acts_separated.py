@@ -19,10 +19,14 @@ def get_acts_by_states():
         Finds the acts in the central acts folder
         '''
     for g in CENTRAL_FILES:
+        if g[0] == ".":
+            continue
 
         curr_files = os.listdir("{}/Acts/Central_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
+            if filed[0] == ".":
+                continue
             serial += 1
             with open("{}/Acts/Central_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 
@@ -69,10 +73,14 @@ def get_acts_by_states():
                     DICTIONARY_OF_ACTS[act].append(this_dict)
 
     for g in STATE_FILES:
+        if g[0] == ".":
+            continue
 
         curr_files = os.listdir("{}/Acts/State_Text/{}".format(ENV["DATASET_PATH"], g))
 
         for filed in curr_files:
+            if filed[0] == ".":
+                continue
             serial += 1
             with open("{}/Acts/State_Text/{}/{}".format(ENV["DATASET_PATH"], g, filed)) as fg:
 

@@ -1,12 +1,13 @@
 import requests as req
 import json
+from env import ENV
 
 p = lambda x: print(json.dumps(x, indent=4, sort_keys=False))
 
 # with open('name.json','r') as f:
 # 	judges = json.load(f)
 
-ES_URL = "http://localhost:9200/"
+ES_URL = ENV["ELASTICSEARCH_URL"]
 
 headers = {
 		'Content-Type': 'application/json'
@@ -43,16 +44,17 @@ def put_data(data, index):
 	return req.put(index_url, json=data, headers=headers).json()
 
 
-for index, judge in enumerate(judges):
-	temp = {
-		"serial" : None,
-		"judge_name" : None
-	}
-	temp['serial'] = int(index)
-	temp['judge_name'] = judge
-	try:
-		p(put_data(temp, index))
-	except Exception as e:
-		print(e)
-		print(judge, index)
+if __name__ == "__main__":
+	for index, judge in enumerate(judges):
+		temp = {
+			"serial" : None,
+			"judge_name" : None
+		}
+		temp['serial'] = int(index)
+		temp['judge_name'] = judge
+		try:
+			p(put_data(temp, index))
+		except Exception as e:
+			print(e)
+			print(judge, index)
 
