@@ -18,7 +18,7 @@ depunctuate = lambda x: x.translate(str.maketrans('', '', string.punctuation))
 ################################################################################################
 
 nlp = spacy.load('en_core_web_lg')
-with open("subjects_to_cases.json", 'r') as f:
+with open("nlp/topic/subjects_to_cases.json", 'r') as f:
 	SUBJECTS_TO_CASE = json.load(f)
 
 subjects = list(SUBJECTS_TO_CASE.keys())
