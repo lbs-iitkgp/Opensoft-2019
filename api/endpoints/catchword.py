@@ -29,7 +29,7 @@ def catchword_line_distribution(catchword_id):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
-        result[int(year)] += 1
+        result[int(year.split("_")[1])+1947] += 1
 
     return jsonify(result)
 

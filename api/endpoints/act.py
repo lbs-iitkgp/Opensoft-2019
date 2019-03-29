@@ -11,11 +11,12 @@ def act_metadata(act_id):
     new_act_id = mgdb_handler.read_all(recent_acts_collection, Old_id=str(act_id))
     if new_act_id:
         new_act_id = new_act_id[0]["New_id"]
-
-    new_act_name = mgdb_handler.read_all(acts_collection, serial=int(new_act_id))
-    if new_act_name:
-        new_act_name = new_act_name[0]["name"]
-    act["recent_version"] = {"id": new_act_id, "name": new_act_name}
+        new_act_name = mgdb_handler.read_all(acts_collection, serial=int(new_act_id))
+        if new_act_name:
+            new_act_name = new_act_name[0]["name"]
+        act["recent_version"] = {"id": new_act_id, "name": new_act_name}
+    else:
+        act["recent_version"] = {}
 
     # get its abbreviations
     abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])
@@ -68,7 +69,7 @@ def act_line_distribution(act_id):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
-        result[int(year)] += 1
+        result[int(year.split("_")[1])+1947] += 1
     return jsonify(result)
 
 

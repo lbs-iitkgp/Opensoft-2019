@@ -6,9 +6,6 @@ from endpoints import *
 def judge_metadata(judge_id):
     judge = mgdb_handler.read_all(judges_collection, serial=int(judge_id))[0]
 
-    cases_count = len(get_metas_from_node(judge_id, "judge", "case"))
-    judge["number_of_cases"] = cases_count
-
     return jsonify(judge)
 
 
@@ -29,7 +26,7 @@ def judge_line_distribution(judge_id):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
-        result[int(year)] += 1
+        result[int(year.split("_")[1])+1947] += 1
     return jsonify(result)
 
 

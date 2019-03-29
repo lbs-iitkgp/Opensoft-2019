@@ -35,7 +35,8 @@ def get_text_in_section(act_path, section_num):
 	file = open(ENV['DATASET_PATH']+act_path)
 	for line in file:
 		if sect_num in line:
-			return line
+			return line.split('-->')[1]
+
 # Sample usage of the functions.
 # sect_list = get_sections_in_act("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt")
 # line = get_text_in_section("/home/manjunath/Downloads/OpenSoft-Data/Acts/State_Text/gujrat/8_1.txt","10(")

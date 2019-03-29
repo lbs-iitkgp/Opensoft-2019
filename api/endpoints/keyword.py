@@ -6,7 +6,6 @@ from endpoints import *
 def keyword_metadata(keyword_id):
     key_word = mgdb_handler.read_all(keyword_collection, serial=int(keyword_id))[0]
     number_of_cases = len(get_metas_from_node(keyword_id, "keyword", "case"))
-    key_word["number_of_cases"] = number_of_cases
 
     return jsonify(key_word)
 
@@ -28,7 +27,7 @@ def keyword_line_distribution(keyword_id):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
-        result[int(year)] += 1
+        result[int(year.split("_")[1])+1947] += 1
     return jsonify(result)
 
 

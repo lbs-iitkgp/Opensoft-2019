@@ -3,10 +3,25 @@ import json
 
 ES_URL = "http://localhost:9200/"
 # ES_URL = "http://88234f03.ngrok.io/"
+# 
+
+headers = {
+	'Content-Type' : 'application/json'
+}
 
 def get_doc_with_maxscore(inp, index):
-	doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
+	# doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
 	
+	data = {
+			    "query": {
+			        "match_phrase" : {
+			            "name" : inp
+			        }
+			    }
+			}
+			
+	doc_data = req.post(ES_URL + "{}/_search".format(index), json=data, headers=headers)
+
 	max_score = doc_data["hits"]['max_score']
 	if max_score is None or max_score is []:
 		return ''
