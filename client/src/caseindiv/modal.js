@@ -10,7 +10,7 @@ import ResultCard from './jjd.js'
 import '../App.css'
 import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
-import CitedCases from './citedCases.js'
+import CitedCases from './citedcases1.js'
 import ScrollUpButton from "react-scroll-up-button"; 
 import {Component} from 'react'
 import axios from 'axios'

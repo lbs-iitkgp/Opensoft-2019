@@ -3,16 +3,9 @@ from endpoints import *
 @app.route('/act/<act_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_metadata(act_id):
-    act = mongo_db.find("act_id",act_id)
-    # act = {
-    #     'name': 'name',
-    #     'year': 2010,
-    #     'type': 'idid',
-    #     'recent_version_id':'2.0',
-    #     'recent_version_name': 'beta',
-    #     'abbreviation': 'jefu' 
-    # }
-    result = {
+    #act = mydb.mytable.find({"act_id":act_id})
+    act = {"name":"Aadi","year":1990,"type":"Criminal","recent_version_name":"190","recent_version_id":"Aadi05","abbreviation":"CRM"}
+    result ={
         'name': act['name'],
         'year': act['year'],
         'type': act['type'],
