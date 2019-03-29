@@ -1,6 +1,6 @@
 from endpoints import *
 from nlp.topic import subject_extraction
-from elasticsearch_utils import getters
+from elasticsearch_utils.getters import *
 
 @app.route('/search/cards', methods=['GET', 'POST']) 
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])

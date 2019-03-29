@@ -32,7 +32,7 @@ def get_text_in_section(act_path, section_num):
 		number += section_num[i]
 	sect_num += number
 
-	file = open(act_path)
+	file = open(ENV['DATASET_PATH']+act_path)
 	for line in file:
 		if sect_num in line:
 			return line

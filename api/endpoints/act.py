@@ -13,7 +13,9 @@ def act_metadata(act_id):
     act["recent_version"] = {"id": new_act_id, "name": new_act_name}
 
     # get its abbreviations
-    abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])[0]["abbrev"]
+    abbr = mgdb_handler.read_all(abbreviations_collection, actual=act["name"])
+    if abbr:
+        abbr = abbr[0]["abbrev"]
     act["abbreviation"] = abbr
 
     return jsonify(act)
@@ -72,9 +74,9 @@ def act_citations(act_id):
     result = []
     case_ids = get_metas_from_node(act_id, "act", "case", split=False)
     for id in case_ids:
-        if id.startswith("case_"):
-            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
-            result.append(case)
+        #if id.startswith("case_"):
+        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+        result.append(case)
 
 
     return jsonify(result)

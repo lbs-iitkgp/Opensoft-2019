@@ -9,7 +9,7 @@ def get_doc_with_maxscore(inp, index):
 	
 	max_score = doc_data["hits"]['max_score']
 	if max_score is None or max_score is []:
-		return None
+		return ''
 	doc = doc_data["hits"]["hits"][0]["_source"]
 	return {
 			"name" : doc["name"], 
