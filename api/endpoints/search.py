@@ -105,9 +105,9 @@ def basic_search_to_propose_topic_cards():
     if query == '':
         return('No query sent')
     else:
-        judge = [mgdb_handler.read_all(judges_collection, name=j)[0]["serial"] for j in judge]
-        act = [mgdb_handler.read_all(acts_collection, name=a)[0]["serial"] for a in act]
-        keywords = [mgdb_handler.read_all(keyword_collection, name=k[0])[0]["serial"] for k in subjects]
+        judge = ["judge_"+str(mgdb_handler.read_all(judges_collection, name=j)[0]["serial"]) for j in judge]
+        act = ["act_"+str(mgdb_handler.read_all(acts_collection, name=a)[0]["serial"]) for a in act]
+        keywords = ["keyword_"+str(mgdb_handler.read_all(keyword_collection, name=k[0])[0]["serial"]) for k in subjects]
         params = {
             'judges': set(judge),
             'years' : set(year_range),
