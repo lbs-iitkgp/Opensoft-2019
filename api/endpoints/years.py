@@ -37,7 +37,7 @@ def year_piechart(year):
         for meta, _ in all_metas:
             if data[meta]['type'] == 'keyword':
                 keyword = meta
-        if result.has_key(keyword):
+        if keyword in result:
             result[keyword] += 1
         else:
             result[keyword] =1
