@@ -6,9 +6,10 @@ ES_URL = "http://localhost:9200/"
 
 def get_doc_with_maxscore(inp, index):
 	doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
-	if max_score is None:
-		return None
+	
 	max_score = doc_data["hits"]['max_score']
+	if max_score is None or max_score is []:
+		return None
 	doc = doc_data["hits"]["hits"][0]["_source"]
 	return {
 			"name" : doc["name"], 

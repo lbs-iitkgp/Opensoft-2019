@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 import os
 import json
+from env import ENV
 # all_central_acts = os.listdir("./Acts/Central_Text")
  
 # This function returns all the sections in a given act. The input has 
 # to be the path of the act file.
 def get_sections_in_act(act_path):
-	file = open(act_path)
+	file = open(ENV['DATASET_PATH']+act_path)
 	all_sections = []
 	for line in file:
 		sect_num = ""
