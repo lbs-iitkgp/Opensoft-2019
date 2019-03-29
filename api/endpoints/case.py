@@ -21,7 +21,7 @@ def case_line_distribution(case_id):
     result = {}
     for i in range (1947 ,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[]) 
+    subgraph = lkg.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =[])
     data = lkg.nodes(data=True)
     such_cases = subgraph[case_id]
     for case in such_cases:
