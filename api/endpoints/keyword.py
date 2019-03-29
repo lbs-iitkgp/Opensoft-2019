@@ -16,7 +16,7 @@ def keyword_line_distribution(keyword_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
     # nx_graph = export_neo4j()
-    result=[]
+    result={}
     for i in range (1947,2020):
         result[i] = 0
     

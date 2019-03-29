@@ -23,8 +23,8 @@ def year_cases(year):
 
 @app.route('/year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
-    result = [] 
-   
+    result = {} 
+      
     data = LKG.nodes(data=True)
     such_cases = LKG[year]
     for case in such_cases:

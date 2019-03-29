@@ -15,7 +15,7 @@ def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
     #   Find case's year from mongo
     # nx_graph = export_neo4j()
-    result = []
+    result = {}
     for i in range (1947, 2020):
         result[i] = 0
     
