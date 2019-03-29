@@ -25,10 +25,9 @@ def year_cases(year):
 def year_piechart(year):
     result = {} 
 
-
     year_id = mgdb_handler.read_all(years_collection, name=str(year))
     if year_id:
-        year = year_id[0]["name"]
+        year = year_id[0]["serial"]
     else:
         return {}
     data = LKG.nodes(data=True)
