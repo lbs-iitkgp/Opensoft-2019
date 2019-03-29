@@ -22,7 +22,7 @@ def year_cases(year):
     return jsonify(result)
 
 
-@app.route('year/<year>/piechart',methods=['GET'])
+@app.route('/year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
     result = [] 
    
