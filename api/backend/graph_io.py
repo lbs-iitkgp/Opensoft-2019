@@ -115,7 +115,7 @@ def neo4j_to_lkg():
     """
     This function reads the NEO4J graph stored in the neo4j browser and converts it into a networkx graph
     """
-    node_types = ["judge", "keyword", "case", "catch"]
+    node_types = ["judge", "keyword", "case", "catch", "act", "year"]
     from backend.graph_formation.base.legal_knowledge_graph import LegalKnowledgeGraph
 
     lkg = LegalKnowledgeGraph()
@@ -134,7 +134,7 @@ def neo4j_to_lkg():
                 node["data"].pop("id",None)
                 props = node["data"]
                 props["type"] = label
-                graph.add_node(id, **props)
+                lkg.add_node(id, **props)
     for node_type_1 in node_types:
         for node_type_2 in node_types:
             q = "MATCH (c:{})-[r]->(m:{}) return c,m".format(node_type_1, node_type_2) # Quering for all Relationships in the graph
