@@ -3,6 +3,7 @@ import os
 import re
 
 from env import ENV
+from dateparser import parse
 
 MONTHS_LIST = ['January', 'February', 'March', 'April',
                'May', 'June', 'July', 'August', 'September',
@@ -146,7 +147,7 @@ def get_timelines(file_path, nlp=None):
             prev_date = date
             merged_sections = [text]
             continue
-        if date == prev_date:
+        if parse(date) == parse(prev_date):
             merged_sections.append(text)
         else:
             truncated_list.append((prev_date, "\n".join(merged_sections)))
