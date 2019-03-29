@@ -18,3 +18,4 @@ editdistance
 pymongo
 abbreviations
 bs4
+flask
