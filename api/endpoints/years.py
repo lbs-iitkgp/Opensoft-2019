@@ -27,7 +27,7 @@ def year_piechart(year):
 
     year_id = mgdb_handler.read_all(years_collection, name=str(year))
     if year_id:
-        year = "year_"+year_id[0]["serial"]
+        year = "year_"+str(year_id[0]["serial"])
     else:
         return {}
     data = LKG.nodes(data=True)
