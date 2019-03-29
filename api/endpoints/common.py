@@ -80,3 +80,12 @@ def get_metas_from_node(node_id, node_type, meta_type, split = True):
                 meta_ids.append(meta)
     return meta_ids
 
+def rank_cases_by_pagination(G):
+    case_ids = G.fetch_cases()
+    cases = []
+
+    for case_id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id.split("_")[1]))[0]
+
+    ranked_cases = sorted(cases, key = lambda c: c["pagerank"], reverse=True)
+    return(ranked_cases[:50])

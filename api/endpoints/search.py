@@ -116,7 +116,7 @@ def basic_search_to_propose_topic_cards():
         }
 
         subgraph = LKG.query(**params)
-        cases = list(subgraph.nodes())
+        cases = rank_cases_by_pagination(subgraph)
         return jsonify(cases)
         
 
