@@ -48,11 +48,11 @@ def fetch_cards():
 def advanced_search():      
     subjects = set(request.form.get('subjects',''))
     # keywords = set(request.form.get('keywords','')
-    years = set(request.form.get('years','')
-    judges = set(request.form.get('judges','')
+    years = set(request.form.get('years',''))
+    judges = set(request.form.get('judges',''))
     # judgements = set(request.form['judgements'])
-    types = set(request.form.get('types','')
-    acts = set(request.form.get('acts','')
+    types = set(request.form.get('types',''))
+    acts = set(request.form.get('acts',''))
     params = {
         'judges': judges,
         # 'judgements' : judgements,
