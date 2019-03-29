@@ -111,7 +111,7 @@ def basic_search_to_propose_topic_cards():
             'keywords' : set(subjects),
             'acts' : set(act)
         }
-        subgraph = LKG.query(params=params)
+        subgraph = LKG.query(**params)
         cases = list(subgraph.nodes())
         return jsonify(cases)
         
