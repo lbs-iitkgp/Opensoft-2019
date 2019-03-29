@@ -21,10 +21,10 @@ def keyword_line_distribution(keyword_id):
     for i in range (1947,2020):
         result[i] = 0
     
-    data = lkg.nodes(data=True)
-    such_cases = lkg["keyword_"+ keyword_id]
+    data = LKG.nodes(data=True)
+    such_cases = LKG["keyword_"+ keyword_id]
     for case in such_cases:
-        all_metas = lkg.in_edges(case)
+        all_metas = LKG.in_edges(case)
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta

@@ -26,10 +26,10 @@ def year_cases(year):
 def year_piechart(year):
     result = [] 
    
-    data = lkg.nodes(data=True)
-    such_cases = lkg[year]
+    data = LKG.nodes(data=True)
+    such_cases = LKG[year]
     for case in such_cases:
-        all_metas = lkg.in_edges(case)
+        all_metas = LKG.in_edges(case)
         for meta, _ in all_metas:
             if data[meta]['type'] == 'keyword':
                 keyword = meta

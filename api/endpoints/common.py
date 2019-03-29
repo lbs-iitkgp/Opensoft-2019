@@ -56,9 +56,9 @@ def provide_metadata(judge,judgement,subject,keyword,year,type,nx_graph):
 
 
 def get_metas_to_node(id, node_type, meta_type, split = True):
-    nodes = lkg.nodes(data=True)
+    nodes = LKG.nodes(data=True)
     ids = []
-    for meta,_ in lkg.in_edges("{}_{}".format(node_type, id)):
+    for meta,_ in LKG.in_edges("{}_{}".format(node_type, id)):
         if nodes[meta]["type"] == meta_type:
             if split:
                 ids.append(meta.split('_')[1])
@@ -68,9 +68,9 @@ def get_metas_to_node(id, node_type, meta_type, split = True):
 
 
 def get_metas_from_node(id, node_type, meta_type, split = True):
-    nodes = lkg.nodes(data=True)
+    nodes = LKG.nodes(data=True)
     ids = []
-    for meta,_ in lkg.out_edges("{}_{}".format(node_type, id)):
+    for meta,_ in LKG.out_edges("{}_{}".format(node_type, id)):
         if nodes[meta]["type"] == meta_type:
             if split:
                 ids.append(meta.split('_')[1])

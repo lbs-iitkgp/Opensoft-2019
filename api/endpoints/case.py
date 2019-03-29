@@ -21,11 +21,11 @@ def case_line_distribution(case_id):
     result = {}
     for i in range (1947 ,2020):
         result[i] = 0
-    subgraph = lkg
-    data = lkg.nodes(data=True)
+    subgraph = LKG
+    data = LKG.nodes(data=True)
     such_cases = subgraph.in_edges(["case_" + str(case_id)])
     for case in such_cases:
-        all_metas = lkg.in_edges(case)
+        all_metas = LKG.in_edges(case)
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta

@@ -53,11 +53,11 @@ def act_line_distribution(act_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =["act_"+str(act_id)])
-    data = lkg.nodes(data=True)
+    subgraph = LKG.query(judges =[],catch=[], keywords=[] , judgements = [], types =[], year_range=[], acts =["act_"+str(act_id)])
+    data = LKG.nodes(data=True)
     such_cases = subgraph["act_"+str(act_id)]
     for case in such_cases:
-        all_metas = lkg.in_edges(case)
+        all_metas = LKG.in_edges(case)
         for meta, _ in all_metas:
             if data[meta]['type'] == 'year':
                 year = meta
