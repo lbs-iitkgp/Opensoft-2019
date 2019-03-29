@@ -27,7 +27,7 @@ def fetch_cards():
         query = request.args.get('query','')
         if query == '':
             return jsonify({})
-        year_range = subject_extraction.search_years(query)
+        year = subject_extraction.search_years(query)
         subjects = subject_extraction.get_subject_matches(query)
         judge = get_doc_with_maxscore(query, 'judge')
         act = get_doc_with_maxscore(query, 'act')
