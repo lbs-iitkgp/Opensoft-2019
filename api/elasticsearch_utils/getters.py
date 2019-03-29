@@ -19,8 +19,8 @@ def get_doc_with_maxscore(inp, index):
 			        }
 			    }
 			}
-			
-	doc_data = req.post(ES_URL + "{}/_search".format(index), json=data, headers=headers)
+
+	doc_data = req.post(ES_URL + "{}/_search".format(index), json=data, headers=headers).json()
 
 	max_score = doc_data["hits"]['max_score']
 	if max_score is None or max_score is []:
