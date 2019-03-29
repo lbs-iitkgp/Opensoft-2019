@@ -4,6 +4,7 @@ from backend.graph_io import json_to_lkg
 from sections_in_act import get_sections_in_act, get_text_in_section
 from endpoints.common import *
 from nlp.timeline import get_timelines
+from backend.graph_io import *
 
 import mongodb_handler as mgdb_handler
 import spacy
