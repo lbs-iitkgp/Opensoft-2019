@@ -62,11 +62,11 @@ def case_citations(case_id):
     cited_case_ids = get_metas_to_node(case_id, "case", "case")
     for id in cited_case_ids:
         cited_case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
-        result["cited_cases"].append({cited_case["serial"]: cited_case["title"]})
+        result["cited_cases"].append({cited_case["serial"]: cited_case["name"]})
 
     cited_by_cases = get_metas_from_node(case_id, "case", "case")
     for id in cited_by_cases:
         cited_by_case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
-        result["cited_by_cases"].append({cited_by_case["serial"]: cited_by_case["title"]})
+        result["cited_by_cases"].append({cited_by_case["serial"]: cited_by_case["name"]})
 
     return jsonify(result)
