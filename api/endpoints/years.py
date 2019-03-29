@@ -24,7 +24,13 @@ def year_cases(year):
 @app.route('/year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
     result = {} 
-      
+
+
+    year_id = mgdb_handler.read_all(years_collection, name=str(year))
+    if year_id:
+        year = year_id[0]["name"]
+    else:
+        return {}
     data = LKG.nodes(data=True)
     such_cases = LKG[year]
     for case in such_cases:
