@@ -56,14 +56,14 @@ def advanced_search():
     params = {
         'judges': judges,
         # 'judgements' : judgements,
-        'year_range' : years,
+        'years' : years,
         # 'keywords' : keywords,
         # 'types' : types,
         'subjects' : subjects,
         'acts' :acts
     }
     subgraph = LKG.query(params=params)
-    cases = list(subgraph.nodes())
+    cases = list(subgraph.fetch_cases())
     return jsonify(cases)
 
 

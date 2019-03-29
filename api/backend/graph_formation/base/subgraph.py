@@ -59,17 +59,7 @@ def fetch_subgraph_from_meta_nodes(graph, set_of_meta_nodes=set()):
 
 # How exactly are case years stored in graph?
 def fetch_subgraph_with_years(graph, years=set()):
-    if not years:
-        return graph
-
-    data = graph.nodes(data=True)
-    matching_cases = set()
-
-    for case in graph.fetch_cases():
-        if int(data[case]['year']) in years:
-            matching_cases.add(case)
-
-    return(fetch_subgraph_from_matching_cases(graph, matching_cases))
+    return(fetch_subgraph_from_meta_nodes(graph, years))
 
 def fetch_subgraph_with_judges(graph, judges=set()):
     return(fetch_subgraph_from_meta_nodes(graph, judges))
@@ -119,14 +109,18 @@ def graph_query(G, **query_params):
 
     if 'years' in query_params:
         if len(query_params['years']) >= 2:
+            query_params['years'] = [int(y) for y in query_params['years']]
+
             from_year = min(query_params['years'])
             to_year = max(query_params['years'])
-            year = list(range(from_year, to_year+1))
+            years = list(range(from_year, to_year+1))
         elif len(query_params['years']) == 1:
-            year = [query_params['years']]
-        gph_with_year = fetch_subgraph_with_year(G, query_params['years'])
+            years = query_params['years']
+
+        years = ["year_{}".format(y-1952) for y in years]
+        gph_with_years = fetch_subgraph_with_years(G, years)
     else:
-        gph_with_year_range = G
+        gph_with_years = G
 
     print('types' in query_params)
     if 'types' in query_params:
@@ -134,7 +128,7 @@ def graph_query(G, **query_params):
     else:
         gph_with_types = G
 
-    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_keywords, gph_with_catchwords, gph_with_year_range, gph_with_types])
+    result = merge_graphs_by_intersection(G, [gph_with_judges, gph_with_keywords, gph_with_catchwords, gph_with_years, gph_with_types])
 
 
     return(result)
