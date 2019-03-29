@@ -62,7 +62,7 @@ def advanced_search():
         'subjects' : subjects,
         'acts' :acts
     }
-    subgraph = lkg.query(params)
+    subgraph = LKG.query(params)
     cases = list(subgraph.nodes())
     return jsonify(cases)
 
@@ -111,7 +111,7 @@ def basic_search_to_propose_topic_cards():
             'subjects' : set(subjects),
             'acts' : set(act)
         }
-        subgraph = lkg.query(params)
+        subgraph = LKG.query(params)
         cases = list(subgraph.nodes())
         return jsonify(cases)
         
