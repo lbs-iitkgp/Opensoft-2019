@@ -57,7 +57,7 @@ def get_subject_matches(query, top=5):
 
 	for subject, vector in subject_tokens.items():
 		similarity = cosine_similarity(query_token_sum, vector)
-		if similarity > 0.6:
+		if similarity > 0.3:
 			matches.append((subject, similarity))
 
 	matches = sorted(matches, key=lambda k: k[1], reverse=True)
