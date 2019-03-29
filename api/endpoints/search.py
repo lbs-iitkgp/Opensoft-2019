@@ -31,17 +31,38 @@ def fetch_cards():
         subjects = subject_extraction.get_subject_matches(query)
         judge = get_doc_with_maxscore(query, 'judge')
         act = get_doc_with_maxscore(query, 'act')
+        case = get_doc_with_maxscore(query, 'case')
 
         cards = []
         for j in judge:
-            cards.append(mgdb_handler.read_all(judges_collection, serial=j["serial"])[0])
-        for s in subjects:
-            cards.append(mgdb_handler.read_all(keyword_collection, name=s)[0])
-        for a in act:
-            cards.append(mgdb_handler.read_all(acts_collection, serial=a["serial"])[0])
-        for y in year:
-            cards.append(mgdb_handler.read_all(year_collection, name=y)[0])
+            try:
+                cards.append(mgdb_handler.read_all(judges_collection, serial=j["serial"])[0])
+            except IndexError:
+                pass
 
+        for s in subjects:
+            try:
+                cards.append(mgdb_handler.read_all(keyword_collection, name=s)[0])
+            except IndexError:
+                pass
+
+        for a in act:
+            try:
+                cards.append(mgdb_handler.read_all(acts_collection, serial=a["serial"])[0])
+            except IndexError:
+                pass
+
+        for y in year:
+            try:
+                cards.append(mgdb_handler.read_all(year_collection, name=y)[0])
+            except IndexError:
+                pass
+
+        for c in case:
+            try:
+                cards.append(mgdb_handler.read_all(cases_collection, serial=c["serial"])[0])
+            except IndexError:
+                pass
         # cards = {
         #     'judges': judge,
         #     'year_range' : year_range,
