@@ -107,11 +107,11 @@ def basic_search_to_propose_topic_cards():
     else:
         judge = [mgdb_handler.read_all(judges_collection, name=j)[0]["serial"] for j in judge]
         act = [mgdb_handler.read_all(acts_collection, name=a)[0]["serial"] for a in act]
-        keywords = [mgdb_handler.read_all(keyword_collection, name=k)[0]["serial"] for k in keywords]
+        keywords = [mgdb_handler.read_all(keyword_collection, name=k[0])[0]["serial"] for k in subjects]
         params = {
             'judges': set(judge),
             'years' : set(year_range),
-            'keywords' : set(subjects),
+            'keywords' : set(keywords),
             'acts' : set(act)
         }
 
