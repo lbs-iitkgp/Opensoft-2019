@@ -102,7 +102,7 @@ def basic_search_to_propose_topic_cards():
     else:
         case = [case['name']]
 
-    if key == '':
+    if query == '':
         return('No query sent')
     else:
         params = {

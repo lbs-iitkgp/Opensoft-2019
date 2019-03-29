@@ -78,6 +78,5 @@ def get_metas_from_node(node_id, node_type, meta_type, split = True):
                 meta_ids.append(meta.split('_')[1])
             else:
                 meta_ids.append(meta)
-    print(meta_ids)
     return meta_ids
 
