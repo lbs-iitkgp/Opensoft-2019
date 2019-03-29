@@ -38,7 +38,7 @@ def case_line_distribution(case_id):
 def case_timeline(case_id):
     case_file = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]["file_name"]
 
-    result = [{item[0]: item[1]} for item in get_timelines(case_file, nlp)]
+    result = [[item[0]: item[1]] for item in get_timelines(case_file, nlp)]
 
     return jsonify(result)
 
