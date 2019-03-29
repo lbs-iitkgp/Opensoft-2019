@@ -5,7 +5,7 @@ ES_URL = "http://localhost:9200/"
 # ES_URL = "http://88234f03.ngrok.io/"
 
 def get_doc_with_maxscore(inp, index):
-	doc_data = req.get(ES_URL + "{}/_search?q=judge_name:{}".format(index, inp.replace(' ', '%20'))).json()
+	doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
 	if max_score is None:
 		return None
 	max_score = doc_data["hits"]['max_score']
