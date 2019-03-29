@@ -23,6 +23,7 @@ function Navbar(props) {
   return (
     <div className={classes.root}>
       <AppBar  >
+         
           <div id='searchTypes'>
           <NavLink to='/basic' style={{ textDecoration: 'none' }} ><Button  id='basic'>Basic Search</Button></NavLink> 
           <div id='line'></div>

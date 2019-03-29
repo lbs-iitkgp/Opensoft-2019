@@ -155,7 +155,7 @@
 }
 
 .MuiButton-containedPrimary-51 {
-  color: #  fff;
+  color: #fff;
   background-color: #cccccc !important;
 }
 
@@ -308,3 +308,7 @@ a:hover {
   margin-bottom: 2%;
 }
 
+.logo{
+  position: relative;
+  top: 2%;
+}
