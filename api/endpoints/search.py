@@ -2,6 +2,47 @@ from endpoints import *
 from nlp.topic import subject_extraction
 from elasticsearch_utils import getters
 
+@app.route('/search/cards', methods=['GET', 'POST']) 
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+def fetch_cards():
+    if request.method == 'POST':
+        subjects = set(request.form['subjects'])
+        # keywords = set(request.form['keywords'])
+        years = set(request.form['years'])
+        judges = set(request.form['judges'])
+        # judgements = set(request.form['judgements'])
+        # types = set(request.form['types'])
+        acts = set(request.form['acts'])
+        cards = {
+            'judges': judges,
+            # 'judgements' : judgements,
+            'year_range' : years,
+            # 'keywords' : keywords,
+            # 'types' : types,
+            'subjects' : subjects,
+            'acts' :acts
+        }
+        return jsonify(cards)
+    else if request.method == 'GET':
+        query = request.args.get('query','')
+        if query == '':
+            return jsonify({})
+        year_range = subject_extraction.search_years(query)
+        subjects = subject_extraction.get_subject_matches(query)
+        judge = get_doc_with_maxscore(query, 'judge')
+        act = get_doc_with_maxscore(query, 'act')
+        cards = {
+            'judges': set(judge),
+            'year_range' : set(year_range),
+            'subjects' : set(subjects),
+            'acts' : set(act)
+        }
+        return jsonify(cards)
+        # case = get_doc_with_maxscore(query, 'case')
+        
+
+
+
 @app.route('/search/advanced', methods=['GET', 'POST']) 
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def advanced_search():      
