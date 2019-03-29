@@ -32,10 +32,10 @@ def fetch_cards():
         judge = get_doc_with_maxscore(query, 'judge')
         act = get_doc_with_maxscore(query, 'act')
         cards = {
-            'judges': set(judge),
-            'year_range' : set(year_range),
-            'subjects' : set(subjects),
-            'acts' : set(act)
+            'judges': list(set(judge)),
+            'year_range' : list(set(year_range)),
+            'subjects' : list(set(subjects)),
+            'acts' : list(set(act))
         }
         return jsonify(cards)
         # case = get_doc_with_maxscore(query, 'case')
