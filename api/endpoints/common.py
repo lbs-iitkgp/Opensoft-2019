@@ -68,15 +68,16 @@ def get_metas_to_node(id, node_type, meta_type, split = True):
     return ids
 
 
-def get_metas_from_node(id, node_type, meta_type, split = True):
+def get_metas_from_node(node_id, node_type, meta_type, split = True):
     nodes = LKG.nodes(data=True)
-    ids = []
-    for meta in LKG["{}_{}".format(node_type, id)]:
+    meta_ids = []
+    for meta in LKG["{}_{}".format(node_type, node_id)]:
         print(meta, nodes[meta])
         if "type" in nodes[meta] and nodes[meta]["type"] == meta_type:
             if split:
-                ids.append(meta.split('_')[1])
+                meta_ids.append(meta.split('_')[1])
             else:
-                ids.append(meta)
-    return ids
+                meta_ids.append(meta)
+    print(meta_ids)
+    return meta_ids
 
