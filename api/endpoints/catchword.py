@@ -40,8 +40,8 @@ def catchword_cases(catchword_id):
     result = []
 
     case_ids = get_metas_from_node(catchword_id, "catch", "case")
-    for id in case_ids:
-        case = get_metas_from_node(catchword_id, "catch", "case")
+    for case_id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
         result.append(case)
 
     return jsonify(result)

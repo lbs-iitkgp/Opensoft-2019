@@ -35,8 +35,8 @@ def judge_line_distribution(judge_id):
 def judge_cases(judge_id):
     result = []
 
-    case_ids = get_metas_from_node(judge_id, "judge", "case", split=False)
-    for id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+    case_ids = get_metas_from_node(judge_id, "judge", "case")
+    for case_id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
         result.append(case)
     return jsonify(result)

@@ -13,7 +13,7 @@ def year_metadata(year):
 def year_cases(year):
     result = []
     year = mgdb_handler.read_all(years_collection, name=str(year))[0]
-    case_ids = get_metas_from_node(year["serial"], "year", "case", split=False)
+    case_ids = get_metas_from_node(year["serial"], "year", "case")
     for case_id in case_ids:
         case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
         result.append(case)

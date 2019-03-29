@@ -78,9 +78,9 @@ def act_line_distribution(act_id):
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
     result = []
-    case_ids = get_metas_from_node(act_id, "act", "case", split=False)
-    for id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+    case_ids = get_metas_from_node(act_id, "act", "case")
+    for case_id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
         result.append(case)
 
 

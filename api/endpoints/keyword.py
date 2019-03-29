@@ -36,9 +36,9 @@ def keyword_line_distribution(keyword_id):
 def keyword_cases(keyword_id):
     result = []
 
-    case_ids = get_metas_from_node(keyword_id, "keyword", "case", split=False)
-    for id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+    case_ids = get_metas_from_node(keyword_id, "keyword", "case")
+    for case_id in case_ids:
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
         result.append(case)
             
     return jsonify(result)
