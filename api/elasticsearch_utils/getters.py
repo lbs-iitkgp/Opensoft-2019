@@ -13,20 +13,22 @@ def get_doc_with_maxscore(inp, index):
 	# doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
 	
 	data = {
-			    "query": {
-			        "match_phrase" : {
-			            "name" : inp
-			        }
-			    }
-			}
+		"query": {
+	    "simple_query_string" : {
+	        "query": inp,
+	        "fields": ["name"],
+	        "default_operator": "or"
+	    }
+	  }
+	}
 
 	doc_data = req.post(ES_URL + "{}/_search".format(index), json=data, headers=headers).json()
 
-	max_score = doc_data["hits"]['max_score']
-	if max_score is None or max_score is []:
-		return ''
-	docs = [d["_source"] for d in doc_data["hits"]["hits"][0][:15]]
-	return([{"name" : doc["name"], "serial" : doc["serial"], "score" : doc["_score"]} for doc in docs])
+	# max_score = doc_data["hits"]['max_score']
+	# if max_score is None or max_score is []:
+		# return ''
+	docs = [(d["_source"],d['_score']) for d in doc_data["hits"]["hits"][:15]]
+	return([{"name" : doc[0]["name"], "serial" : doc[0]["serial"], "score" : doc[1]} for doc in docs])
 
 def get_judge_with_maxscore(inp, index):
 	judge_data = req.get(ES_URL + "judge/_search?q=judge_name:{}".format(inp.replace(' ', '%20'))).json()
