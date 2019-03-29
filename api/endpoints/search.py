@@ -101,17 +101,18 @@ def basic_search_to_propose_topic_cards():
     if judge is "":
         judge = []
     else:
-        judge = [judge['name']]
+        # judge = [judge['name']]
+        judge = [ j['name'] for j in judge ]  
 
     if act is "":
         act = []
     else:
-        act = [act['name']]
+        act = [ a['name'] for a in act ]
 
     if case is "":
         case = []
     else:
-        case = [case['name']]
+        case = [ c['name'] for c in act ]
 
     if query == '':
         return('No query sent')
