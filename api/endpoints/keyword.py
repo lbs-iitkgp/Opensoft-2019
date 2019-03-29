@@ -4,7 +4,7 @@ from endpoints import *
 @app.route('/keyword/<keyword_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_metadata(keyword_id):
-    key_word = mgdb_handler.read_all(keyword_collection, serial=keyword_id)[0]
+    key_word = mgdb_handler.read_all(keyword_collection, serial=int(keyword_id))[0]
     number_of_cases = len(get_metas_from_node(keyword_id, "keyword", "case"))
     key_word["number_of_cases"] = number_of_cases
 
@@ -20,10 +20,9 @@ def keyword_line_distribution(keyword_id):
     result=[]
     for i in range (1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],catch=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[],acts =[])
     
     data = lkg.nodes(data=True)
-    such_cases = subgraph[keyword_id]
+    such_cases = lkg["keyword_"+ keyword_id]
     for case in such_cases:
         all_metas = lkg.in_edges(case)
         for meta, _ in all_metas:
@@ -38,9 +37,10 @@ def keyword_line_distribution(keyword_id):
 def keyword_cases(keyword_id):
     result = []
 
-    case_ids = get_metas_from_node(keyword_id, "keyword", "case")
+    case_ids = get_metas_from_node(keyword_id, "keyword", "case", split=False)
     for id in case_ids:
-        case = get_metas_from_node(keyword_id, "keyword", "case")
-        result.append(case)
-
+        if id.startswith("case_"):
+            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+            result.append(case)
+            
     return jsonify(result)
