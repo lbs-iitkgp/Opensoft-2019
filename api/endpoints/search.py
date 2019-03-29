@@ -112,7 +112,7 @@ def basic_search_to_propose_topic_cards():
     if case is "":
         case = []
     else:
-        case = [ c['name'] for c in act ]
+        case = [ c['name'] for c in case]
 
     if query == '':
         return('No query sent')
