@@ -33,6 +33,7 @@ def fetch_cards():
         act = get_doc_with_maxscore(query, 'act')
         case = get_doc_with_maxscore(query, 'case')
 
+        print(subjects)
         cards = []
         for j in judge:
             try:
@@ -141,18 +142,21 @@ def basic_search_to_propose_topic_cards():
         new_judge = []
         for j in judge:
             mongo_j = mgdb_handler.read_all(judges_collection, name=j)
+            print(mongo_j)
             if mongo_j:
                 new_judge.append("judge_"+str(mongo_j[0]["serial"]))
 
         new_act = []
         for a in act:
             mongo_a = mgdb_handler.read_all(acts_collection, name=a)
+            print(mongo_a)
             if mongo_a:
                 new_act.append("act_"+str(mongo_a[0]['serial']))
 
         new_subjects = []
         for k in subjects:
             mongo_k = mgdb_handler.read_all(keyword_collection, name=k[0])
+            print(mongo_k)
             if mongo_k:
                 new_subjects.append("keyword_"+str(mongo_k[0]["serial"]))
 
