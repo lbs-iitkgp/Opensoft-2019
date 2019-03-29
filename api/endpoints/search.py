@@ -20,10 +20,10 @@ def fetch_cards():
             # 'keywords' : keywords,
             # 'types' : types,
             'subjects' : subjects,
-            'acts' :acts
+            'acts': acts
         }
         return jsonify(cards)
-    else if request.method == 'GET':
+    elif request.method == 'GET':
         query = request.args.get('query','')
         if query == '':
             return jsonify({})
@@ -31,12 +31,23 @@ def fetch_cards():
         subjects = subject_extraction.get_subject_matches(query)
         judge = get_doc_with_maxscore(query, 'judge')
         act = get_doc_with_maxscore(query, 'act')
-        cards = {
-            'judges': judge,
-            'year_range' : year_range,
-            'subjects' : subjects,
-            'acts' : act
-        }
+
+        cards = []
+        for j in judge:
+            cards.append(mgdb_handler.read_all(judges_collection, serial=int(j.split("_")[1]))[0])
+        for s in subjects:
+            cards.append(mgdb_handler.read_all(keyword_collection, serial=int(s.split("_")[1]))[0])
+        for a in act:
+            cards.append(mgdb_handler.read_all(acts_collection, serial=int(a.split("_")[1]))[0])
+        for y in year:
+            cards.append(mgdb_handler.read_all(year_collection, serial=int(y.split("_")[1]))[0])
+
+        # cards = {
+        #     'judges': judge,
+        #     'year_range' : year_range,
+        #     'subjects' : subjects,
+        #     'acts' : act
+        # }
         return jsonify(cards)
         # case = get_doc_with_maxscore(query, 'case')
         
