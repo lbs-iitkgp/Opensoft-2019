@@ -66,7 +66,7 @@ class FullWidthTabs2 extends Component{
       setvalue : 0,
       has_loaded: false
     }
-
+ 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeIndex = this.handleChangeIndex.bind(this);
     this.makeActUrl = this.makeActUrl.bind(this);
@@ -75,8 +75,6 @@ class FullWidthTabs2 extends Component{
   }
 
   componentDidMount(){
-    // var self = this;
-    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
     axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${this.props.myurl}`)
       .then(response => {
         console.log(new Array(response.data));

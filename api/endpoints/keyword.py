@@ -16,14 +16,15 @@ def keyword_metadata(keyword_id):
     return jsonify(result)
 
 @app.route('/keyword/<keyword_id>/plot_line', methods=['GET'])
+@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_line_distribution(keyword_id):
     # Iterate through each citer in neo4j
     #   Find citer's year from mongo
     # nx_graph = export_neo4j()
-    result={}
+    result=[]
     for i in range (1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges =[],subjects=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[])
+    subgraph = lkg.query(judges =[],subjects=[], keywords=[keyword_id] , judgements = [], types =[], year_range=[],acts =[])
     
     data = lkg.nodes(data=True)
     such_cases = subgraph[keyword_id]
