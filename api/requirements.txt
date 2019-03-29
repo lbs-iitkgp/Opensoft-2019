@@ -19,3 +19,4 @@ pymongo
 abbreviations
 bs4
 flask
+flask_cors

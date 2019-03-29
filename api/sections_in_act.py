@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import os
 import json
-all_central_acts = os.listdir("./Acts/Central_Text")
+# all_central_acts = os.listdir("./Acts/Central_Text")
  
 # This function returns all the sections in a given act. The input has 
 # to be the path of the act file.
