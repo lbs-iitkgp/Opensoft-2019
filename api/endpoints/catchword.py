@@ -5,10 +5,7 @@ from endpoints import *
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_metadata(catchword_id):
     # Just return catchword name, # of cases and precentile among catchwords maybe?
-    catch_word = mgdb_handler.read_all(catch_collection, serial=catchword_id)[0]
-    number_of_cases = len(get_metas_from_node(catchword_id, "catch", "case"))
-    catch_word["number_of_cases"] = number_of_cases
-
+    catch_word = mgdb_handler.read_all(catch_collection, serial=int(catchword_id))[0]
     return jsonify(catch_word)
 
 
@@ -24,9 +21,9 @@ def catchword_line_distribution(catchword_id):
 
     for i in range(1947,2020):
         result[i] = 0
-    subgraph = lkg.query(judges=[], catch=[catchword_id], keywords=[], judgements=[], types=[], year_range=[],acts = [])
+    
     data = lkg.nodes(data=True)
-    such_cases = subgraph[catchword_id]
+    such_cases = lkg["catch_"+ str(catchword_id)]
     for case in such_cases:
         all_metas = lkg.in_edges(case)
         for meta, _ in all_metas:
@@ -48,5 +45,3 @@ def catchword_cases(catchword_id):
         result.append(case)
 
     return jsonify(result)
-
-
