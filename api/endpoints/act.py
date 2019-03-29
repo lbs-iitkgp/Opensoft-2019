@@ -80,7 +80,6 @@ def act_citations(act_id):
     result = []
     case_ids = get_metas_from_node(act_id, "act", "case", split=False)
     for id in case_ids:
-        #if id.startswith("case_"):
         case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
         result.append(case)
 

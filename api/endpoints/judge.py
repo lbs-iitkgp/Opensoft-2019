@@ -37,7 +37,6 @@ def judge_cases(judge_id):
 
     case_ids = get_metas_from_node(judge_id, "judge", "case", split=False)
     for id in case_ids:
-        if id.startswith("case_"):
-            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
-            result.append(case)
+        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+        result.append(case)
     return jsonify(result)

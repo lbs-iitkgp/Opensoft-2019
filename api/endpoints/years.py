@@ -15,9 +15,8 @@ def year_cases(year):
     year = mgdb_handler.read_all(keyword_collection, name=year)[0]
     case_ids = get_metas_from_node(year["serial"], "year", "case", split=False)
     for id in case_ids:
-        if id.startswith("case_"):
-            case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
-            result.append(case)
+        case = mgdb_handler.read_all(cases_collection, serial=str(id))[0]
+        result.append(case)
 
     return jsonify(result)
 
