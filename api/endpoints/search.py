@@ -240,7 +240,7 @@ def basic_search_to_get_results_from_cards():
 
     print(request.form['active_cards'])
     print(request.args.get('active_cards', [])
-    active_cards = request.args.get('active_cards', [])
+    # active_cards = request.args.get('active_cards', [])
 
     for active_card in active_cards:
         node_type, node_id = active_card.split("_")
