@@ -244,11 +244,11 @@ def basic_search_to_get_results_from_cards():
         node_type, node_id = active_card.split("_")
 
         if node_type == "judge":
-            judges.append("judge_".format(node_id))
+            judges.append(active_card)
         elif node_type == "act":
-            acts.append("act_".format(node_id))
+            acts.append(active_card)
         elif node_type == "keyword":
-            keywords.append("keyword_".format(node_id))
+            keywords.append(active_card)
         elif node_type == "year":
             years.append(int(node_id)+1952)
 
