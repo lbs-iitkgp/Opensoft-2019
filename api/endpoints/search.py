@@ -3,7 +3,7 @@ from nlp.topic import subject_extraction
 from elasticsearch_utils.getters import *
 
 @app.route('/search/cards', methods=['GET', 'POST']) 
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def fetch_cards():
     if request.method == 'POST':
         subjects = set(request.form['subjects'])
@@ -39,31 +39,41 @@ def fetch_cards():
         cards = []
         for j in judge:
             try:
-                cards.append(mgdb_handler.read_all(judges_collection, serial=j["serial"])[0])
+                card = mgdb_handler.read_all(judges_collection, serial=j["serial"])[0]
+                card["result_type"] = "judge"
+                cards.append(card)
             except IndexError:
                 pass
 
         for s in subjects:
             try:
-                cards.append(mgdb_handler.read_all(keyword_collection, name=s)[0])
+                card = mgdb_handler.read_all(keyword_collection, name=s)[0]
+                card["result_type"] = "keyword"
+                cards.append(card)
             except IndexError:
                 pass
 
         for a in act:
             try:
-                cards.append(mgdb_handler.read_all(acts_collection, serial=a["serial"])[0])
+                card = mgdb_handler.read_all(acts_collection, serial=a["serial"])[0]
+                card["result_type"] = "act"
+                cards.append(card)
             except IndexError:
                 pass
 
         for y in year:
             try:
-                cards.append(mgdb_handler.read_all(years_collection, name=str(y))[0])
+                card = mgdb_handler.read_all(years_collection, name=str(y))[0]
+                card["result_type"] = "year"
+                cards.append(card)
             except IndexError:
                 pass
 
         for c in case:
             try:
-                cards.append(mgdb_handler.read_all(cases_collection, serial=c["serial"])[0])
+                card = mgdb_handler.read_all(cases_collection, serial=c["serial"])[0]
+                card["result_type"] = "case"
+                cards.append(card)
             except IndexError:
                 pass
         # cards = {
@@ -79,7 +89,7 @@ def fetch_cards():
 
 
 @app.route('/search/advanced', methods=['GET', 'POST']) 
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def advanced_search():      
     subjects = set(request.form.get('subjects',''))
     # keywords = set(request.form.get('keywords','')
@@ -103,7 +113,7 @@ def advanced_search():
 
 
 @app.route('/search/basic/stage_1', methods=['GET', 'POST'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def basic_search_to_propose_topic_cards():
     # [
     #   {
@@ -170,12 +180,12 @@ def basic_search_to_propose_topic_cards():
         }
 
         subgraph = LKG.query(**params)
-        cases = rank_cases_by_pagination(subgraph)
+        cases = rank_cases_by_pagination(subgraph.fetch_cases())
         return jsonify(cases)
         
 
 @app.route('/search/basic/stage_2', methods=['GET', 'POST'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def basic_search_to_get_results_from_cards():
     # [
     #   {

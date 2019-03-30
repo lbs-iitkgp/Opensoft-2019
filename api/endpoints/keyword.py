@@ -34,11 +34,7 @@ def keyword_line_distribution(keyword_id):
 @app.route('/keyword/<keyword_id>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def keyword_cases(keyword_id):
-    result = []
-
     case_ids = get_metas_from_node(keyword_id, "keyword", "case")
-    for case_id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
-        result.append(case)
-            
-    return jsonify(result)
+    cases = rank_cases_by_pagination(case_ids)
+
+    return jsonify(cases)

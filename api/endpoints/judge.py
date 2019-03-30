@@ -33,10 +33,7 @@ def judge_line_distribution(judge_id):
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_cases(judge_id):
-    result = []
-
     case_ids = get_metas_from_node(judge_id, "judge", "case")
-    for case_id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
-        result.append(case)
-    return jsonify(result)
+    cases = rank_cases_by_pagination(case_ids)
+
+    return jsonify(cases)

@@ -37,11 +37,6 @@ def catchword_line_distribution(catchword_id):
 @app.route('/catchword/<catchword_id>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def catchword_cases(catchword_id):
-    result = []
-
     case_ids = get_metas_from_node(catchword_id, "catch", "case")
-    for case_id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
-        result.append(case)
-
-    return jsonify(result)
+    cases = rank_cases_by_pagination(case_ids)
+    return jsonify(cases)

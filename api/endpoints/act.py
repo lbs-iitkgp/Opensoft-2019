@@ -77,11 +77,7 @@ def act_line_distribution(act_id):
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def act_citations(act_id):
     # Fetch list of cases that cite this act from neo4j and return their details from mongodb as json
-    result = []
     case_ids = get_metas_from_node(act_id, "act", "case")
-    for case_id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
-        result.append(case)
+    cases = rank_cases_by_pagination(case_ids)
 
-
-    return jsonify(result)
+    return jsonify(cases)

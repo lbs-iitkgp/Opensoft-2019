@@ -80,8 +80,7 @@ def get_metas_from_node(node_id, node_type, meta_type, split = True):
                 meta_ids.append(meta)
     return meta_ids
 
-def rank_cases_by_pagination(G):
-    case_ids = G.fetch_cases()
+def rank_cases_by_pagination(case_ids):
     cases = []
 
     for case_id in case_ids:
