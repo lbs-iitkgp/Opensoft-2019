@@ -40,8 +40,9 @@ def fetch_cards():
         for j in judge:
             try:
                 card = mgdb_handler.read_all(judges_collection, serial=j["serial"])[0]
-                card["result_type"] = "judge"
-                cards.append(card)
+                if card["percentile"] != 0.0:
+                    card["result_type"] = "judge"
+                    cards.append(card)
             except IndexError:
                 pass
 
@@ -49,7 +50,9 @@ def fetch_cards():
             try:
                 card = mgdb_handler.read_all(keyword_collection, name=s[0])[0]
                 card["result_type"] = "keyword"
-                cards.append(card)
+                if card["percentile"] != 0.0:
+                    card["result_type"] = "keyword"
+                    cards.append(card)
             except IndexError:
                 pass
 
