@@ -17,7 +17,8 @@ def get_doc_with_maxscore(inp, index):
 	    "simple_query_string" : {
 	        "query": inp,
 	        "fields": ["name"],
-	        "default_operator": "or"
+	        "default_operator": "or",
+	        "minimum_should_match" : "3<60%"
 	    }
 	  }
 	}
