@@ -27,8 +27,9 @@ def get_doc_with_maxscore(inp, index):
 	# max_score = doc_data["hits"]['max_score']
 	# if max_score is None or max_score is []:
 		# return ''
-	docs = [(d["_source"],d['_score']) for d in doc_data["hits"]["hits"][:15]]
+	docs = [(d["_source"],d['_score']) for d in doc_data["hits"]["hits"][:5]]
 	return([{"name" : doc[0]["name"], "serial" : doc[0]["serial"], "score" : doc[1]} for doc in docs])
+
 
 def get_judge_with_maxscore(inp, index):
 	judge_data = req.get(ES_URL + "judge/_search?q=judge_name:{}".format(inp.replace(' ', '%20'))).json()
