@@ -238,8 +238,9 @@ def basic_search_to_get_results_from_cards():
     keywords = []
     acts = []
 
-    print(request.form['active_cards'])
-    print(request.args.get('active_cards', [])
+    # print(request.form['active_cards'])
+    # print(request.args.get('active_cards', [])
+    active_cards = request.form.get('active_cards', [])
     # active_cards = request.args.get('active_cards', [])
 
     for active_card in active_cards:
