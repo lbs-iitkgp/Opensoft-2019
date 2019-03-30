@@ -4,6 +4,7 @@ import SearchBar from './query.js'
 import Container from 'react-bootstrap/Container';
 import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 var basicSearched;
       
@@ -37,6 +38,16 @@ class BasicSearch extends Component{
         }
       });
      }
+        //axios part
+        axios.put(`${process.env.REACT_APP_BACKEND_ORIGIN}basic/output/${this.state.basicSearched}`,{
+          basicSearched : this.state.basicSearched
+        }).then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
    }
     
     componentWillMount(){

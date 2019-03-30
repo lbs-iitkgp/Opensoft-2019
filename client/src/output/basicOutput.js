@@ -6,6 +6,7 @@ import '../App.css'
 import SearchBar from '../components/query.js'
 import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
+import Axios from 'axios';
 
 class Output extends Component {
     
@@ -27,15 +28,26 @@ class Output extends Component {
         })
 
     }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     getUpdatedResults(){
-        console.log(this.state.updatedQuery)
+        //console.log(this.state.updatedQuery)
+        Axios.post(`${process.env.REACT_APP_BACKEND_ORIGIN}basic/output/${this.state.updatedQuery}`,{
+            updatedQuery : this.state.updatedQuery
+        }) .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        
         this.props.history.push({
             pathname  : `/basic/output/${this.state.updatedQuery}`,
             state :{
                 defaultSearch : this.state.updatedQuery
             }
         })
+
+        
     }
 
     componentWillMount(){
