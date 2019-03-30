@@ -183,8 +183,10 @@ def basic_search_to_propose_topic_cards():
         }
 
         subgraph = LKG.query(**params)
-        cases = rank_cases_by_pagination(subgraph.fetch_cases())
-        return jsonify(cases)
+        cases = [c.split("_")[1] for c in subgraph.fetch_cases()]
+        print(cases, len(cases))
+        ranked_cases = rank_cases_by_pagination(cases)
+        return jsonify(ranked_cases)
         
 
 @app.route('/search/basic/stage_2', methods=['GET', 'POST'])
