@@ -93,22 +93,53 @@ def fetch_cards():
 
 @app.route('/search/advanced', methods=['GET', 'POST']) 
 @cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
-def advanced_search():      
+def advanced_search():
+    # Get query
+    query = request.args.get('query','')
+
+    # Get active cards
     subjects = set(request.form.get('subjects',''))
-    # keywords = set(request.form.get('keywords','')
     years = set(request.form.get('years',''))
     judges = set(request.form.get('judges',''))
-    # judgements = set(request.form['judgements'])
-    types = set(request.form.get('types',''))
     acts = set(request.form.get('acts',''))
+
+    # Fetch cards for given query
+
+    if query:
+        fetched_years = subject_extraction.search_years(query)
+        fetched_subjects = subject_extraction.get_subject_matches(query)
+        fetched_judges = get_doc_with_maxscore(query, 'judge')
+        fetched_acts = get_doc_with_maxscore(query, 'act')
+
+        if fetched_judges is "":
+            fetched_judges = []
+        else:
+            fetched_judges = [ j['name'] for j in fetched_judges ]  
+
+        if fetched_acts is "":
+            fetched_acts = []
+        else:
+            fetched_acts = [ a['name'] for a in fetched_acts]
+
+    else:
+        fetched_years = set()
+        fetched_subjects = set()
+        fetched_judges = set()
+        fetched_acts = set()
+        fetched_cases = set()
+
+    # Merge fetched cards and active cards
+    merged_subjects = subjects.union(set(fetched_subjects))
+    merged_judges = judges.union(set(fetched_judges))
+    merged_acts = acts.union(set(fetched_acts))
+    merged_year = years.union(set(fetched_years))
+
+    # Return data
     params = {
-        'judges': judges,
-        # 'judgements' : judgements,
-        'years' : years,
-        # 'keywords' : keywords,
-        # 'types' : types,
-        'subjects' : subjects,
-        'acts' :acts
+        'judges':merged_judges,
+        'years' : merged_years,
+        'subjects' : merged_subjects,
+        'acts': merged_acts
     }
     subgraph = LKG.query(params=params)
     cases = list(subgraph.fetch_cases())
@@ -202,4 +233,32 @@ def basic_search_to_get_results_from_cards():
     #   ...
     # ]
 
-    return('Hello')
+    judges = []
+    years = []
+    keywords = []
+    acts = []
+
+    active_cards = [{"node_type": "judge", "node_id": 2}]
+
+    for active_card in active_cards:
+        if active_card[node_type] == "judge":
+            judges.append("judge_".format(active_card["node_id"]))
+        elif active_card["node_type"] == "act":
+            acts.append("act_".format(active_card["node_id"]))
+        elif active_card["node_type"] == "keyword":
+            keywords.append("keyword_".format(active_card["node_id"]))
+        elif active_card["node_type"] == "year":
+            years.append(int(active_card["node_id"])+1952)
+
+    params = {
+        'judges': set(judges),
+        'years' : set(years),
+        'keywords' : set(keywords),
+        'acts' : set(acts)
+    }
+
+    subgraph = LKG.query(**params)
+    cases = [c.split("_")[1] for c in subgraph.fetch_cases()]
+    print(cases, len(cases))
+    ranked_cases = rank_cases_by_pagination(cases)
+    return jsonify(ranked_cases)
