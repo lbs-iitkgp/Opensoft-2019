@@ -2,7 +2,7 @@ from endpoints import *
 
 
 @app.route('/judge/<judge_id>', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def judge_metadata(judge_id):
     judge = mgdb_handler.read_all(judges_collection, serial=int(judge_id))[0]
 
@@ -10,7 +10,7 @@ def judge_metadata(judge_id):
 
 
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def judge_line_distribution(judge_id):
     # Iterate through each case of judge in neo4j
     #   Find case's year from mongo
@@ -31,7 +31,7 @@ def judge_line_distribution(judge_id):
 
 
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def judge_cases(judge_id):
     case_ids = get_metas_from_node(judge_id, "judge", "case")
     cases = rank_cases_by_pagination(case_ids)
