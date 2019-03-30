@@ -94,5 +94,5 @@ def case_citations(case_id):
     #       ...
     #   ]
     # }
-    result = { "cited_acts": [{'name':"Criminal"},{'name':"Land"}], "cited_cases": [{'name':"Criminal"},{'name':"Land"}], "cited_by_cases": [{'name':"Criminal"},{'name':"Land"}]  }
+    result = { "cited_acts": [{'1':"Criminal"},{'2':"Land"}], "cited_cases": [{'1':"Criminal"},{'2':"Land"}], "cited_by_cases": [{'1':"Criminal"},{'2':"Land"}]  }
     return jsonify(result)

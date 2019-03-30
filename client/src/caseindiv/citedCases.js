@@ -1,33 +1,11 @@
-import React,{useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import { makeStyles } from '@material-ui/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import '../App.css'
-import axios from 'axios'
-
-function TabContainer({ children, dir }) {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
-}
-
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    //backgroundColor: theme.palette.background.paper,
-    width: 500,
-  },
-}));
+import Tabs from 'react-bootstrap/Tabs'
+import React, { Component } from 'react'
+import Tab from 'react-bootstrap/Tab'
 
 function createData(data, index) {
   return { index, data }
 }
+
 
 var citedIn = [
   'case-1',
@@ -56,26 +34,28 @@ var Acts = [
   'case-2',
 ].map((ele, ind) => createData(ele, ind));
 
-function FullWidthTabs(props) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const json_data = React.useState({});
 
-  function handleChange(event, newValue) {
-    setValue(newValue);
+class ControlledTabs extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      key: 'home',
+      citedin : citedIn,
+      citedout : citedOut,
+      acts : Acts
+    };
   }
 
-  function handleChangeIndex(index) {
-    setValue(index);
-  }
-
-  useEffect(() => {
+  componentWillMount(){
+    var self = this;
     // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
-    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${props.myurl}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${self.props.myurl}`)
       .then(function (response) {
-        //self.setState({ data: response.data })
-        //json_data(response.data);
-        console.log("Aadi",response.data);
+        self.setState({ 
+          acts : response.data.cited_acts,
+          citedin : response.data.cited_by_cases,
+          citedout: response.data.cited_cases
+        })
       })
       .catch(function (error) {
         // handle error
@@ -84,48 +64,33 @@ function FullWidthTabs(props) {
       .then(function () {
         // always executed
       });
-  });
+  }
+  
 
-  //UNSAFE_componentWillMount();
-  console.log(json_data);
-  return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant={null}
-        >
-          <Tab label="cited in" />
-          <Tab label="cited by" />
-          <Tab label="Acts" />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis='x'
-        index={value}
-        onChangeIndex={handleChangeIndex}
+  render() {
+    return (
+      <Tabs
+        id="controlled-tab-example"
+        activeKey={this.state.key}
+        onSelect={key => this.setState({ key })}
       >
-        <TabContainer >
+        <Tab eventKey="home" title="CASES CITED IN">
           <ul>
-            <a href="#">{citedIn.map(ele => (<li>{ele.data}</li>))}</a>
+            {Object.keys(this.state.citedin).map(ele => (<a href="#"><li>{this.state.citedin[ele]}</li></a>))}
           </ul>
-        </TabContainer>
-        <TabContainer >
+        </Tab>
+        <Tab eventKey="profile" title="CASES CITED BY">
           <ul>
-            <a href="#">{citedOut.map(ele => (<li>{ele.data}</li>))}</a>
+            {Object.keys(this.state.citedout).map(ele => (<a href="#"><li>{this.state.citedout[ele]}</li></a>))}
           </ul>
-        </TabContainer>
-        <TabContainer >
+        </Tab>
+        <Tab eventKey="contact" title="ACTS" >
           <ul>
-            <a href="#">{Acts.map(ele => (<li>{ele.data}</li>))}</a>
+            {Object.keys(this.state.acts).map(ele => (<a href="#"><li>{this.state.acts[ele]}</li></a>))}
           </ul>
-        </TabContainer>
-      </SwipeableViews>
-    </div>
-  );
+        </Tab>
+      </Tabs>
+    );
 }
 
-export default FullWidthTabs;
+export default ControlledTabs;

@@ -106,8 +106,8 @@ class Area extends React.Component {
     if (width < 10) return null;
 
     // bounds
-    const xMax = width ;//- margin.left - margin.right;
-    const yMax = height ;//- margin.top - margin.bottom;
+    const xMax = width - margin.left - margin.right;
+    const yMax = height - margin.top - margin.bottom;
 
 
     // scales

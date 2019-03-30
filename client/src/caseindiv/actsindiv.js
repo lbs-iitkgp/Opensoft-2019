@@ -22,38 +22,39 @@ var cardsData = {
 class ResultCard extends Component{
  constructor(...props){
    super(...props);
- this.state = {
+    this.state = {
    minWidth  : 400,
    color : '',
    fontSize: 14,
    marginBottom: 12,
    padding : 10,
    margin :10,
-   cardsData : {}
+   data_json : cardsData
    }
 }
 
-componentWillMount(){
-    console.log("mount");
-    var id = this.props.match.params.id;
-    var self = this;
-    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}`)
-        .then(function (response) {
-            self.setState({ cardsData : response.data });
-            console.log("Aadi",response.data);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log('error is ' + error);
-        })
-        .then(function () {
-            // always executed
-        });
-    //console.log(this.state.json_data) 
-}
+    componentWillMount() {
+        var id = this.props.match.params.id;
+        var self = this;
+        // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+        axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}`)
+            .then(function (response) {
+                self.setState({ data_json: response.data })
+                console.log("ressss")
+            })
+            .catch(function (error) {
+                // handle error
+                console.log('error is ' + error);
+            })
+            .then(function () {
+                // always executed
+            });
+        console.log("exitting mount");    
+    }
 
 render() {
-    console.log("render",this.state.cardsData);
+    var urlTable = `/act/${this.props.match.params.id}/cases`
+    var urlPlot = `/act/${this.props.match.params.id}/plot_line`
     return (
        <div>
         <Navbar />
@@ -61,24 +62,24 @@ render() {
             <div id='actleft'>
             <Card  className="cardInActs" style={{ color : this.state.color }}  >
                 <div id="ActName">
-                 <b>Act Name :</b> {cardsData.name}
+                 <b>Act Name :</b> {this.state.data_json.name}
                     </div>
                     <div id="Year">
-                        <b>Year:</b> <a href="#">{this.state.cardsData.year}</a>
+                            <b>Year:</b> <a href="#">{this.state.data_json.year}</a>
                     </div>
                     <div id="Type">
-                            <b>Type :</b> {this.state.cardsData.type}
+                            <b>Type :</b> {this.state.data_json.type}
                     </div>
                     <div id="RecentVersion">
-                            <b>Recent Version :</b> <a href="#">{this.state.cardsData.recent_version.name}</a>
+                            <b>Recent Version :</b> <a href="#">{this.state.data_json.recent_version.name}</a>
                     </div>
                     <div id="abbr">
-                            <b>Abbreviation :</b> {this.state.cardsData.abbreviation}
+                            <b>Abbreviation :</b> {this.state.data_json.abbreviation}
                     </div>
                    
                     <br /><br />
                     </Card>
-                    <Graph />
+                    <Graph myurl={urlPlot}/>
                     </div>
                     <div id='tabsInActs'><Tabs /></div>
                  </div>                 
