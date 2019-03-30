@@ -221,7 +221,7 @@ def basic_search_to_propose_topic_cards():
         return jsonify(ranked_cases)
         
 
-@app.route('/search/basic/stage_2', methods=['GET', 'POST'])
+@app.route('/search/basic/stage_2', methods=['GET', 'POST', 'OPTIONS'])
 @cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def basic_search_to_get_results_from_cards():
     # [
@@ -238,6 +238,8 @@ def basic_search_to_get_results_from_cards():
     keywords = []
     acts = []
 
+    print(request.form['active_cards'])
+    print(request.args.get('active_cards', [])
     active_cards = request.args.get('active_cards', [])
 
     for active_card in active_cards:
