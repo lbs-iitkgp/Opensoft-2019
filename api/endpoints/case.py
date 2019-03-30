@@ -3,7 +3,7 @@ from endpoints import *
 @app.route('/case/<case_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def case_metadata(case_id):
-    case = mongo_db.find("case_id",case_id)
+    #case = mongo_db.find("case_id",case_id)
     # case  = {   'case_name': "hi",
     #             'case_indlawid': 42,
     #             'case_judges': 'some',
@@ -76,11 +76,7 @@ def case_timeline(case_id):
     return jsonify(result)
 
 @app.route('/case/<case_id>/citations', methods=['GET'])
-<<<<<<< HEAD
-@cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
-=======
 @cross_origin(origin='localhost',headers=["Content- Type","Authorization"])
->>>>>>> 86b73ef8d5f522213f8d552f2691ff7c5fa029c4
 def case_citations(case_id):
     # Get citer id's from neo4j, and respective names from mongo
     #
@@ -98,9 +94,5 @@ def case_citations(case_id):
     #       ...
     #   ]
     # }
-<<<<<<< HEAD
-    return('Hello')
-=======
     result = { "cited_acts": [{'name':"Criminal"},{'name':"Land"}], "cited_cases": [{'name':"Criminal"},{'name':"Land"}], "cited_by_cases": [{'name':"Criminal"},{'name':"Land"}]  }
     return jsonify(result)
->>>>>>> 86b73ef8d5f522213f8d552f2691ff7c5fa029c4
