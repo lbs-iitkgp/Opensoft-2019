@@ -12,17 +12,27 @@ headers = {
 def get_doc_with_maxscore(inp, index):
 	# doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
 	
-	data = {
-		"query": {
-	    "simple_query_string" : {
-	        "query": inp,
-	        "fields": ["name"],
-	        "default_operator": "or",
-	        "minimum_should_match" : "3<60%"
-	    }
-	  }
-	}
-
+	if index == "act":
+		data = {
+			"query": {
+		    "simple_query_string" : {
+		        "query": inp,
+		        "fields": ["name"],
+		        "default_operator": "or",
+		        "minimum_should_match" : "3<80%"
+		    }
+		  }
+		}
+	else:
+		data = {
+			"query": {
+		    "simple_query_string" : {
+		        "query": inp,
+		        "fields": ["name"],
+		        "default_operator": "or"
+		    }
+		  }
+		}
 	doc_data = req.post(ES_URL + "{}/_search".format(index), json=data, headers=headers).json()
 
 	# max_score = doc_data["hits"]['max_score']
