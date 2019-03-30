@@ -33,7 +33,7 @@ def fetch_cards():
         act = get_doc_with_maxscore(query, 'act')
         case = get_doc_with_maxscore(query, 'case')
 
-
+        print(case)
         print(year)
         print(subjects)
         cards = []
@@ -74,10 +74,11 @@ def fetch_cards():
 
         for c in case:
             try:
-                card = mgdb_handler.read_all(cases_collection, serial=c["serial"])[0]
+                card = mgdb_handler.read_all(cases_collection, serial=str(c["serial"]))[0]
+                print(card, case, "yahan")
                 card["result_type"] = "case"
                 cards.append(card)
-            except IndexError:
+            except IndexError as e:
                 pass
         # cards = {
         #     'judges': judge,

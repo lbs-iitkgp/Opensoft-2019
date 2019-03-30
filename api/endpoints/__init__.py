@@ -13,8 +13,11 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 cors = CORS(app, resources={r"/": {"origins": "http://localhost:3000"}})
 # lkg = json_to_lkg("LKG.json")
-LKG = neo4j_to_lkg()
-lkg_to_json(LKG, "neo4j_lkg.json")
+#LKG = neo4j_to_lkg()
+#import pickle as pk
+#with open("lp.pkl")
+LKG = json_to_lkg("lkg_old.json")
+#lkg_to_json(LKG, "neo4j_lkg.json")
 
 acts_collection = "act_db"
 recent_acts_collection = "recent_act_db"

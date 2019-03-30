@@ -12,6 +12,7 @@ headers = {
 def get_doc_with_maxscore(inp, index):
 	# doc_data = req.get(ES_URL + "{}/_search?q=name:{}".format(index, inp.replace(' ', '%20'))).json()
 	
+
 	if index == "act":
 		data = {
 			"query": {
