@@ -10,8 +10,15 @@ import ResultCard from './jjd.js'
 import '../App.css'
 import VerticalTimeline from './verticaltimeline.js'
 import Area from './plot.js'
-import CitedCases from './citedCases.js'
+import CitedCases from './cited_Case_Cpoy.js'
 import ScrollUpButton from "react-scroll-up-button"; 
+import {Component} from 'react'
+import axios from 'axios'
+
+
+function Transition(props) {
+  return (<Slide direction="up" {...props} />)
+}
 
 const useStyles = makeStyles({
   appBar: {
@@ -22,51 +29,85 @@ const useStyles = makeStyles({
   },
 });
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
+  
+class FullScreenDialog extends Component {
+ 
+ constructor(props){
+  super(props)
+  this.state={
+    json_data : {},
+   }
+  // this.handleClickOpen = this.handleClickOpen.bind(this)
+  // this.handleClose = this.handleClose.bind(this)
+ }
+ 
+  //const classes = useStyles();
+  //const [open, setOpen] = React.useState(false);
+  
+  //  handleClickOpen() {
+  //   setOpen(true);
+  // }
+
+  //  handleClose() {
+  //   setOpen(false);
+  // }
+
+  componentWillMount(){
+   var id = this.props.match.params.id;
+    var self = this;
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/case/${id}`)
+    .then(function (response) {
+      self.setState({json_data : response.data})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log('error is '+error);
+    })
+    .then(function () {
+      // always executed
+    }); 
+    console.log(this.state.json_data)  
 }
 
-function FullScreenDialog() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  
+    
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setOpen(false);
-  }
-
-  return (
-    <div >
-      
-        <AppBar className={classes.appBar} id='fixedTitle'>
+  render(){
+    //console.log("Aadi",this.state.json_data);
+    var urlPlot = `/case/${this.props.match.params.id}/plot_line`
+    var urlTimeline = `/case/${this.props.match.params.id}/timeline`
+    var urlCase = `/case/${this.props.match.params.id}/citations`
+    var stringofjudges = this.state.json_data.judges.map(a => a["name"]).join(',')
+    //console.log("URL",url);
+    return(
+     <div >
+       <AppBar  id='fixedTitle'>
           <Toolbar>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-              Title of the Case
-              </Typography>
-            <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-              <CloseIcon />
-            </IconButton>
+            <Typography variant="h6" color="inherit" >
+              {this.state.json_data.case_name}
+            </Typography>
           </Toolbar>
-        </AppBar>
-         <div id='contain'>
-         <div id='left-indiv'>
-            <div id ='resCard'><ResultCard /></div> 
-            <div id='graph'>< Area /></div>
-         </div>
-          <div id='vtl'>
-            <VerticalTimeline />
+         </AppBar>
+          <div id='contain'>
+            <div id='left-indiv'>
+              <div id ='resCard'><ResultCard  judgement={this.state.json_data["judgement"]} judge={stringofjudges} date={this.state.json_data["date"]}/></div> 
+              <div id='graph'>< Area myurl={urlPlot}/></div>
+            </div>
+            <div id='vtl'>
+              <VerticalTimeline myurl={urlTimeline}/>
+            </div>
+            <div id='actchips'>
+              <CitedCases myurl={urlCase}/>
+            </div>
           </div>
-          <div id='actchips'>
-             <CitedCases />
-          </div>
-        </div>
         <ScrollUpButton />
-        </div>
-  );
+     </div>
+      );
+  }
+
+
 }
+
 
 export default FullScreenDialog;
 

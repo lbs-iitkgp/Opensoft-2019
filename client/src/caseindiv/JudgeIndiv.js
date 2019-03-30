@@ -6,6 +6,7 @@ import '../App.css'
 import Navbar from '../navbar.js'
 import axios from 'axios'
 
+var dummy = { "name": "", "number_of_cases": "","percentile":""};
 
 class ResultCard extends Component{
  constructor(...props){
@@ -18,16 +19,17 @@ class ResultCard extends Component{
    //marginBottom: 12,
    //padding : 10,
    margin :10,
-   data_json : {}, 
+   data_json : dummy
    }
 }
 
 
 
 componentWillMount(){
-    var id = this.props.match.params.id;
+   var id = this.props.match.params.id;
     var self = this;
-    axios.get(`http://localhost:5000/judge/${id}`)
+    // axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/judge/${id}`)
     .then(function (response) {
       self.setState({data_json : response.data})
     })
@@ -37,11 +39,13 @@ componentWillMount(){
     })
     .then(function () {
       // always executed
-    });
-    
+    });   
 }
 
 render() {
+    var urlTable = `judge/${this.props.match.params.id}/cases`
+    var urlPlot = `/judge/${this.props.match.params.id}/plot_line`
+    //alert(url);
     return (
        <div>
          <Navbar />
@@ -53,7 +57,7 @@ render() {
                  <b>Name:</b> {this.state.data_json.name}
                </div>
                <div id="judge">
-                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
+                 <b>Number of Cases:</b> {this.state.data_json["no of cases"]}
                </div>
                <div id="date">
                   <b>Percentile :</b> {this.state.data_json.percentile}
@@ -61,9 +65,9 @@ render() {
                <br /><br />
              </Card>
           
-          <Graph  id="1" />
+          <Graph myurl={urlPlot}/>
           </div>
-          <AdvTable />
+          <AdvTable myurl={urlTable} />
          </div>
        </div>
           );

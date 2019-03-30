@@ -10,6 +10,7 @@ import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
 import Output from './output/output.js'
+import axios from 'axios';
 
 var Results = {
   "query" : "",
@@ -23,7 +24,10 @@ var Results = {
  constructor(props){
    super(props);
    this.state = {
-     defaultAdvSearch: ''
+     defaultAdvSearch: '',
+     data: '',
+     caseLoaded: false,
+     cardsData :''
    }
   
   this.updateResultCat = this.updateResultCat.bind(this);
@@ -32,6 +36,7 @@ var Results = {
   this.updateResSelectedAct = this.updateResSelectedAct.bind(this);
   this.updateSliderResult = this.updateSliderResult.bind(this);
   this.printResults = this.printResults.bind(this);
+  this.cardActivate = this.cardActivate.bind(this);
 }
 
 updateResultJudge(JudgeRes){
@@ -54,7 +59,7 @@ updateSliderResult(sliderPass){
   Results.years  = sliderPass.slice(0,2)
   }
 
-printResults(){
+printResults(){ 
   console.log(Results.query);
   console.log(Results.years[0], Results.years[1]);
   console.log(Results.category);
@@ -62,20 +67,52 @@ printResults(){
   console.log(Results.selectedActs);
   if(Results.query == '')
     return;
-  else{
+  else {   
 
 
-    ReactDOM.render(<Output />,document.getElementById('root'))
-    // scrollToComponent(this.refs.OutRef,{align:'bottom'});
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
-    this.props.history.push({
-      pathname  : `advSearch/${Results.query}`,
-      state :{
-          defaultAdvSearch : Results.query
-      }
-    })
+    // this.props.history.push({
+    //   pathname  : `advSearch/${Results.query}`,
+    //   state :{
+    //       defaultAdvSearch : Results
+    //   }
+    // })
+    this.callAxios(Results);
+    // ReactDOM.render()
+    ReactDOM.render(<Output />,document.getElementById('root'))
   }
 }
+
+  callAxios(Results){
+      axios.post(`${process.env.REACT_APP_BACKEND_ORIGIN}/search/advanced`, Results)
+      .then( (response) => {
+        console.log(response);
+        // this.setState({
+        //   cardsData : response.data.cardsData
+        // })
+        return response.data.map(ele => {
+            return Object.entries(ele).map((ind) => ind[1])
+        })
+      })
+      .then((sanit_pre) => {
+        // console.log(sanit_pre, "per")
+        let topass = [1,0,1,1,1,0,0,1];
+        return sanit_pre.map( (case_e,id) => case_e.filter((ele, index) => topass[index]))
+        // return sanit_pre
+      })
+      .then(sanit => {
+        //   console.log(sanit, "dsdgh")
+          this.setState({
+              data: sanit,
+              caseLoaded : true
+          })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+
 
   componentWillMount(){
       if(this.props.location.state === undefined){
@@ -85,21 +122,45 @@ printResults(){
         // alert(this.state.defaultAdvSearch);
     } else {
         this.setState({
-            defaultAdvSearch : this.props.location.state.defaultAdvSearch,  
+            defaultAdvSearch : this.props.location.state.defaultAdvSearch.query,  
         })
     }
+
+    
     //ReactDOM.unmountComponentAtNode(document.getElementById('root'));
     
-    if(this.props.match.params.id != undefined)
-      ReactDOM.render(<Output />,document.getElementById('root'));
-    else
-      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-  }
+    if(this.props.match.params.id != undefined){
+      this.setState({
+        loaded: true
+      })
+    }else{
+      this.setState({
+        loaded: false
+      })
+    }
+    //   ReactDOM.render(<Output />,document.getElementById('root'));
+    // else
+    //   ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+
+   }
+
+   cardActivate(){
+     this.setState({
+       cardLoaded: true
+     })
+   }
   
 
    
 
   render() {
+    if(this.state.defaultAdvSearch == undefined){
+      var defyears = [1965,2004];
+      var defcat = [];
+    }else{
+      var defyears = this.state.defaultAdvSearch.years;
+      var defcat = this.state.defaultAdvSearch.category;
+    }
     return (
       <div>
       <Navbar />  
@@ -109,8 +170,8 @@ printResults(){
         <SearchBar OnQueryPass={this.updateResultQuery} defaultSearch={this.state.defaultAdvSearch} />
         <h2>Years</h2>
         <br />
-        <YearsSlider onSliderDataPass={this.updateSliderResult}  />
-        <Category onCategoryDataPass={this.updateResultCat}  />
+        <YearsSlider defaultValue={defyears} onSliderDataPass={this.updateSliderResult}  />
+        <Category defaultValue={defcat} onCategoryDataPass={this.updateResultCat}  />
         <Judges  onJudgeNamePass={this.updateResultJudge} /> 
         <br />
         <h2>Acts</h2>
@@ -122,6 +183,9 @@ printResults(){
             </Button>
         </div>
      </Container>
+     <div>
+       { (this.state.caseLoaded) ? <Output cardQuery={Results.query} caseData={this.state.data} /> : '' }
+        </div>
      </div>
     );
   }

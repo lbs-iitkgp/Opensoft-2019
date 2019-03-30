@@ -30,7 +30,8 @@
 
  .flex-container {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
+  flex-wrap: wrap; 
   padding: 2px;
   margin :10px;
   justify-content: center;
@@ -155,7 +156,7 @@
 }
 
 .MuiButton-containedPrimary-51 {
-  color: #  fff;
+  color: #fff;
   background-color: #cccccc !important;
 }
 
@@ -278,7 +279,7 @@ a {
 }
 
 a:hover {
-  color: hotpink !important;
+  color: #b3b3b3!important;
 }
 
 #act_sec{
@@ -310,4 +311,10 @@ a:hover {
 
 #homepageNavbar{
   margin-top: 0%;
+}
+
+.chip{
+  font-weight: 700 !important;
+  /* display: none; */
+
 }

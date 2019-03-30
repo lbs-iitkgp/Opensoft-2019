@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 // import FormLabel from '@material-ui/core/FormLabel';
-import starWarsNames from "starwars-names";
+import JudgeNames from '../judges_tuple.js';
+// import starWarsNames from "starwars-names";
 import MultiChipSelect from "./MultiChipSelect.js";
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -15,18 +16,14 @@ class Judges extends Component{
   this.addSelectedItem= this.addSelectedItem.bind(this);
   this.removeSelectedItem=this.removeSelectedItem.bind(this);
   this.handleChangeInput=this.handleChangeInput.bind(this);
-  this.passData = this.passData.bind(this);
   }
    
-  passData(event){
-    this.props.onJudgeNamePass(event);
-  }
 
-  allItems = starWarsNames
-    .random(7)
-    .map(s => ({ name: s, id: s.toLowerCase() }));
+  allItems = JudgeNames.judge
+    // .random(7)
+    .map((ele, ind) => ({ name: ele[1], id: ele[0] }));
 
-  state = {
+  state = { 
     items: this.allItems,
     selectedItem: []
   };
@@ -61,6 +58,7 @@ class Judges extends Component{
       this.setState({ inputValue: inputVal });
    
     }
+    this.props.onJudgeNamePass(inputVal );
   }
      
       render() {
@@ -77,7 +75,7 @@ class Judges extends Component{
                  selectedItem={selectedItem}
                 onChange={this.handleChange}
                 onRemoveItem={this.removeSelectedItem}
-                onInputValueChange={this.passData}
+                
                />
             </FormControl>
           </FormGroup>

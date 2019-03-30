@@ -8,10 +8,10 @@ import axios from 'axios'
 
 
 
-var cardsData=  {
-  'name' : 'criminal',
-  'number_of_cases' : '1500',
-  'percentile' : '99'
+var dummy=  {
+  'name' : '',
+  'number_of_cases' : '',
+  'percentile' : ''
 }
 
 class KeyWords extends Component{
@@ -24,14 +24,14 @@ class KeyWords extends Component{
    marginBottom: 12,
    padding : 10,
    margin :10,
-   data_json : {}
+   data_json : dummy
    }
 }
 
 componentWillMount(){
     var id = this.props.match.params.id;
     var self = this;
-    axios.get(`http://localhost:5000/keyword/${id}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/${id}`)
     .then(function (response) {
       self.setState({data_json : response.data})
     })
@@ -46,6 +46,8 @@ componentWillMount(){
 }
 
 render() {
+  var graphurl=`/keyword/${this.props.match.params.id}/plotline`
+  var tableurl=`/keyword/${this.props.match.params.id}/cases`
     return (
        <div>
          <Navbar />
@@ -53,19 +55,19 @@ render() {
           <div id="keyWordLeft" >
             <Card  className="cardInKeyWords" style={{ color : this.state.color }}  >
                <div id="judgement">
-                 <b>Name:</b> {this.state.data_json.name}
+                 <b>Name:</b> {this.state.data_json["name"]}
                </div>
                <div id="judge">
-                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
+                 <b>Number of Cases:</b> {this.state.data_json["no of cases"]}
                </div>
                <div id="date">
-                  <b>Percentile :</b> {this.state.data_json.percentile}
+                  <b>Percentile :</b> {this.state.data_json["percentile"]}
                </div>
                <br /><br />
              </Card>
-             <Graph />
+             <Graph myurl={graphurl} />
           </div>
-            <AdvTable />
+            <AdvTable myurl={tableurl} />
          </div>
        </div>
           );

@@ -4,6 +4,7 @@ import SearchBar from './query.js'
 import Container from 'react-bootstrap/Container';
 import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 var basicSearched;
       
@@ -25,11 +26,12 @@ class BasicSearch extends Component{
         basicSearched : queryRes
       })
    }
-
+ 
     getBasicResult(){
         if(this.state.basicSearched == '')
           return;
-        else{
+
+        else{ 
 
         this.props.history.push({
         pathname : `/basic/output/${this.state.basicSearched}`,
@@ -37,8 +39,11 @@ class BasicSearch extends Component{
           defaultSearch : this.state.basicSearched,
         }
       });
-      }
-    }
+
+     }
+       
+   }
+
     
     componentWillMount(){
       ReactDOM.unmountComponentAtNode(document.getElementById('root'));
@@ -62,7 +67,7 @@ class BasicSearch extends Component{
               width: 200
             }
           });
-    
+        
         
       return (
        <div> 
