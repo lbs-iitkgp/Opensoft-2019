@@ -238,17 +238,19 @@ def basic_search_to_get_results_from_cards():
     keywords = []
     acts = []
 
-    active_cards = [{"node_type": "judge", "node_id": 2}]
+    active_cards = request.args.get('active_cards', [])
 
     for active_card in active_cards:
-        if active_card[node_type] == "judge":
-            judges.append("judge_".format(active_card["node_id"]))
-        elif active_card["node_type"] == "act":
-            acts.append("act_".format(active_card["node_id"]))
-        elif active_card["node_type"] == "keyword":
-            keywords.append("keyword_".format(active_card["node_id"]))
-        elif active_card["node_type"] == "year":
-            years.append(int(active_card["node_id"])+1952)
+        node_type, node_id = active_card.split("_")
+
+        if node_type == "judge":
+            judges.append("judge_".format(node_id))
+        elif node_type == "act":
+            acts.append("act_".format(node_id))
+        elif node_type == "keyword":
+            keywords.append("keyword_".format(node_id))
+        elif node_type == "year":
+            years.append(int(node_id)+1952)
 
     params = {
         'judges': set(judges),
