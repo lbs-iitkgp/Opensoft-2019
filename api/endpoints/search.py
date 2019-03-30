@@ -182,6 +182,7 @@ def basic_search_to_propose_topic_cards():
             'acts' : set(new_act)
         }
 
+        print(params)
         subgraph = LKG.query(**params)
         cases = [c.split("_")[1] for c in subgraph.fetch_cases()]
         print(cases, len(cases))
