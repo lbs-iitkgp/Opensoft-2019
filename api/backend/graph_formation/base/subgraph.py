@@ -111,8 +111,8 @@ def graph_query(G, **query_params):
         if len(query_params['years']) >= 2:
             query_params['years'] = [int(y) for y in query_params['years']]
 
-            from_year = min(int(query_params['years']))
-            to_year = max(int(query_params['years']))
+            from_year = min(query_params['years'])
+            to_year = max(query_params['years'])
             years = list(range(from_year, to_year+1))
         elif len(query_params['years']) == 1:
             years = query_params['years']
