@@ -84,7 +84,7 @@ def rank_cases_by_pagination(case_ids):
     cases = []
 
     for case_id in case_ids:
-        case = mgdb_handler.read_all(cases_collection, serial=str(case_id.split("_")[1]))[0]
+        case = mgdb_handler.read_all(cases_collection, serial=str(case_id))[0]
 
     ranked_cases = sorted(cases, key = lambda c: c["pagerank"], reverse=True)
     return(ranked_cases[:50])
