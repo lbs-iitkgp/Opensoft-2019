@@ -47,7 +47,7 @@ def fetch_cards():
 
         for s in subjects:
             try:
-                card = mgdb_handler.read_all(keyword_collection, name=s)[0]
+                card = mgdb_handler.read_all(keyword_collection, name=[0])[0]
                 card["result_type"] = "keyword"
                 cards.append(card)
             except IndexError:
