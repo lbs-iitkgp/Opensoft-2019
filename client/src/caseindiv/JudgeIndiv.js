@@ -6,7 +6,7 @@ import '../App.css'
 import Navbar from '../navbar.js'
 import axios from 'axios'
 
-var dummy = { "name": "Aadi", "number_of_cases": 20,"percentile":90};
+var dummy = { "name": "", "number_of_cases": "","percentile":""};
 
 class ResultCard extends Component{
  constructor(...props){
@@ -57,7 +57,7 @@ render() {
                  <b>Name:</b> {this.state.data_json.name}
                </div>
                <div id="judge">
-                 <b>Number of Cases:</b> {this.state.data_json.number_of_cases}
+                 <b>Number of Cases:</b> {this.state.data_json["no of cases"]}
                </div>
                <div id="date">
                   <b>Percentile :</b> {this.state.data_json.percentile}

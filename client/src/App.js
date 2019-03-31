@@ -10,6 +10,7 @@ import Navbar from './navbar.js'
 import Button from '@material-ui/core/Button';
 import ReactDOM from 'react-dom';
 import Output from './output/output.js'
+import axios from 'axios';
 
 var Results = {
   "query" : "",
@@ -23,7 +24,10 @@ var Results = {
  constructor(props){
    super(props);
    this.state = {
-     defaultAdvSearch: ''
+     defaultAdvSearch: '',
+     data: '',
+     caseLoaded: false,
+     cardsData :''
    }
   
   this.updateResultCat = this.updateResultCat.bind(this);
@@ -32,6 +36,7 @@ var Results = {
   this.updateResSelectedAct = this.updateResSelectedAct.bind(this);
   this.updateSliderResult = this.updateSliderResult.bind(this);
   this.printResults = this.printResults.bind(this);
+  this.cardActivate = this.cardActivate.bind(this);
 }
 
 updateResultJudge(JudgeRes){
@@ -54,7 +59,7 @@ updateSliderResult(sliderPass){
   Results.years  = sliderPass.slice(0,2)
   }
 
-printResults(){
+printResults(){ 
   console.log(Results.query);
   console.log(Results.years[0], Results.years[1]);
   console.log(Results.category);
@@ -63,7 +68,7 @@ printResults(){
   if(Results.query == '')
     return;
   else {   
-  ReactDOM.render(<Output />,document.getElementById('root'))
+
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
     this.props.history.push({
       pathname  : `advSearch/${Results.query}`,
@@ -71,8 +76,41 @@ printResults(){
           defaultAdvSearch : Results.query
       }
     })
+    this.callAxios(Results);
+    
   }
 }
+
+  callAxios(Results){
+      axios.post(`${process.env.REACT_APP_BACKEND_ORIGIN}/search/advanced`, Results)
+      .then( (response) => {
+        console.log(response);
+        // this.setState({
+        //   cardsData : response.data.cardsData
+        // })
+        return response.data.map(ele => {
+            return Object.entries(ele).map((ind) => ind[1])
+        })
+      })
+      .then((sanit_pre) => {
+        // console.log(sanit_pre, "per")
+        let topass = [1,0,1,1,1,0,0,1];
+        return sanit_pre.map( (case_e,id) => case_e.filter((ele, index) => topass[index]))
+        // return sanit_pre
+      })
+      .then(sanit => {
+        //   console.log(sanit, "dsdgh")
+          this.setState({
+              data: sanit,
+              caseLoaded : true
+          })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+  }
+
   componentWillMount(){
       if(this.props.location.state === undefined){
         this.setState({
@@ -84,13 +122,30 @@ printResults(){
             defaultAdvSearch : this.props.location.state.defaultAdvSearch,  
         })
     }
+
+    
     //ReactDOM.unmountComponentAtNode(document.getElementById('root'));
     
-    if(this.props.match.params.id != undefined)
-      ReactDOM.render(<Output />,document.getElementById('root'));
-    else
-      ReactDOM.unmountComponentAtNode(document.getElementById('root'));
-  }
+    if(this.props.match.params.id != undefined){
+      this.setState({
+        loaded: true
+      })
+    }else{
+      this.setState({
+        loaded: false
+      })
+    }
+    //   ReactDOM.render(<Output />,document.getElementById('root'));
+    // else
+    //   ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+
+   }
+
+   cardActivate(){
+     thi.setState({
+       cardLoaded: true
+     })
+   }
   
 
    
@@ -118,6 +173,9 @@ printResults(){
             </Button>
         </div>
      </Container>
+     <div>
+       { (this.state.caseLoaded) ? <Output cardQuery={Results.query} caseData={this.state.data} /> : '' }
+        </div>
      </div>
     );
   }

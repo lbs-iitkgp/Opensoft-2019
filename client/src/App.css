@@ -30,7 +30,8 @@
 
  .flex-container {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
+  flex-wrap: wrap; 
   padding: 2px;
   margin :10px;
   justify-content: center;
@@ -310,4 +311,9 @@ a:hover {
 
 #homepageNavbar{
   margin-top: 0%;
+}
+
+.chip{
+  font-weight: 700 !important;
+  /* display: none; */
 }

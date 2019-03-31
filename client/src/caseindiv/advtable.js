@@ -13,17 +13,17 @@ var data = {
   pagenumber : 0,
   sortColumn : []
 }
-
+// const name = <a href="saas">Dibya</a>
 class AdvFilter extends React.Component {
   constructor(props){
       super(props);
       this.state = {
-        columns: ['MyName', 'Title', 'Location', 'Age', 'Salary'],
+        columns: ['Date', 'Indlaw ID','Judgement', "Title"],
         data: [
-          ['Aadi George', 'Business Analyst', 'Minneapolis', 30, '$100,000'],
-          ['Aiden Lloyd', 'Business Consultant', 'Dallas', 55, '$200,000'],
-          ['Jaden Collins', 'Attorney', 'Santa Ana', 27, '$500,000'],
-          ['Franky Rees', 'Business Analyst', 'St. Petersburg', 22, '$50,000'],
+          ["name", 'Minneapolis', 30, '$100,000'],
+          ['Aiden Lloyd', 'Dallas', 55, '$200,000'],
+          ['Jaden Collin', 'Santa Ana', 27, '$500,000'],
+          ['Franky Rees', 'St. Petersburg', 22, '$50,000'],
           ]
       }
       this.onChangePages = this.onChangePages.bind(this);
@@ -33,7 +33,7 @@ class AdvFilter extends React.Component {
     }
 
     onColumnSortChanges(changedColumn,direction){
-      data.sortColumn = {column : changedColumn, order : direction};
+      data.sortColumn = {column : changedColumn, order : direction};  
       console.log(data.sortColumn);
     }
 
@@ -55,17 +55,43 @@ class AdvFilter extends React.Component {
 
     componentWillMount() {
       //var id = this.props.match.params.id;
-      var self = this;
-      console.log(self.props);
-      axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}`+self.props.myurl)
-        .then(function (response) {
-          // handle success
-          self.setState({
-            data: response.data,
-            columns : Object.keys(response.data[0])
+      // var self = this;
+       
+      console.log("idhar", this.props);
+      axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/`+this.props.myurl)
+        .then((response) => {
+          console.log(response);
+          return response.data.map((ele) => {
+            return Object.entries(ele).map((ind) => ind[1])
           })
-          console.log(self.state.data);
-          console.log(self.state.columns);
+        })
+        .then((sanit_pre)=> {
+          console.log(sanit_pre); 
+          // var to_have = []
+          // for (let index = 0; index < sanit_pre.length; index++) {
+          //   const element = sanit_pre[index];
+          //   let temp = [];
+          //   for (let index2 = 0; index2 < 8; index2++) {
+          let topass = [1,0,1,1,1,0,0,0];
+          return sanit_pre.map( (case_e,id) =>  case_e.filter((ele, index) => topass[index]))
+          //     if(topass[index2])
+          //      temp.push(element[index][index2]) 
+          //   }
+          //   to_have.push(temp);  
+          // }
+          // return to_have;
+          // san
+          
+        })
+        .then((sanit) => {
+          // handle success
+          console.log(sanit)  
+          this.setState({
+            data: sanit
+            // columns : Object.keys(response.data[0])
+          })
+          // console.log(this.state.data);
+          // console.log(this.state.columns);
         })
         .catch(function (error) {
           // handle error
@@ -83,20 +109,20 @@ class AdvFilter extends React.Component {
       filterType: 'multiselect',
       responsive: 'stacked',
       print: true,
-      rowsPerPage: data.rowsPerPage,
-      page: data.pagenumber,
-      onChangePage : this.onChangePages,
-      onChangeRowsPerPage : this.onChangeRowsPerPages,
-      onFilterChange : this.onFilterChanges,
-      onColumnSortChange : this.onColumnSortChanges,
+      // rowsPerPage: data.rowsPerPage,
+      // page: data.pagenumber,
+      // onChangePage : this.onChangePages,
+      // onChangeRowsPerPage : this.onChangeRowsPerPages,
+      // onFilterChange : this.onFilterChanges,
+      // onColumnSortChange : this.onColumnSortChanges,
       rowsPerPageOptions : [5,10,15]
     };
     return (
       <MUIDataTable
-        title="Employee list"
+        title="Case list"
         data={data}
         columns={columns}
-        options={options}
+        // options={options}
       />
     );
   }

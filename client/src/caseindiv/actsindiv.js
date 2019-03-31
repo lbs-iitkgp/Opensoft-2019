@@ -8,16 +8,16 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios'
 
 var cardsData = {
-    'name' : 'Indian stamp Act',
-    'year' : '2010',
-    'type' : 'Central',
+    'name' : '',
+    'year' : '',
+    'type' : '',
     "recent_version": {
-            "id": '1',
-            "name": 'indo act'
+            "id": '',
+            "name": ''
          },
-         "abbreviation": 'irctc'
+         "abbreviation": ''
 
-}
+} 
      
 class ResultCard extends Component{
  constructor(...props){
@@ -40,7 +40,7 @@ class ResultCard extends Component{
         axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}`)
             .then(function (response) {
                 self.setState({ data_json: response.data })
-                console.log("ressss")
+                
             })
             .catch(function (error) {
                 // handle error
@@ -49,12 +49,15 @@ class ResultCard extends Component{
             .then(function () {
                 // always executed
             });
-        console.log("exitting mount");    
+            
     }
 
 render() {
     var urlTable = `/act/${this.props.match.params.id}/cases`
     var urlPlot = `/act/${this.props.match.params.id}/plot_line`
+    var recenturl = `/act/${this.props.match.params.id}`
+    var yearurl   = `/year/${this.props.match.params.id}`  
+    
     return (
        <div>
         <Navbar />
@@ -65,13 +68,13 @@ render() {
                  <b>Act Name :</b> {this.state.data_json.name}
                     </div>
                     <div id="Year">
-                            <b>Year:</b> <a href="#">{this.state.data_json.year}</a>
+                            <b>Year:</b> <a href={yearurl}>{this.state.data_json.year}</a>
                     </div>
                     <div id="Type">
                             <b>Type :</b> {this.state.data_json.type}
                     </div>
                     <div id="RecentVersion">
-                            <b>Recent Version :</b> <a href="#">{this.state.data_json.recent_version.name}</a>
+                            <b>Recent Version :</b> <a href={recenturl}>{this.state.data_json.recent_version.name}</a>
                     </div>
                     <div id="abbr">
                             <b>Abbreviation :</b> {this.state.data_json.abbreviation}

@@ -26,7 +26,7 @@ class BasicSearch extends Component{
         basicSearched : queryRes
       })
    }
-
+ 
     getBasicResult(){
         if(this.state.basicSearched == '')
           return;
@@ -38,16 +38,7 @@ class BasicSearch extends Component{
         }
       });
      }
-        //axios part
-        axios.put(`${process.env.REACT_APP_BACKEND_ORIGIN}basic/output/${this.state.basicSearched}`,{
-          basicSearched : this.state.basicSearched
-        }).then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
+       
    }
     
     componentWillMount(){
@@ -72,7 +63,7 @@ class BasicSearch extends Component{
               width: 200
             }
           });
-    
+        
         
       return (
        <div> 

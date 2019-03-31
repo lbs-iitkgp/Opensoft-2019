@@ -37,13 +37,13 @@ class Router extends Component {
               <Route exact path='/modal/:id' component={Modal}  />
               <Route exact path='/keywords/:id' component={KeyWords} />
               <Route exact path='/catchwords/:id' component={CatchyWords} />
-              <Route exact path='/years' component={YearsIndiv} />
+              <Route exact path='/year/:id' component={YearsIndiv} />
               </div>
             </Switch>
         </BrowserRouter>
         </div>
       );
     }
-  };
+  }; 
   
   export default Router; 

@@ -77,6 +77,7 @@ class FullScreenDialog extends Component {
     var urlPlot = `/case/${this.props.match.params.id}/plot_line`
     var urlTimeline = `/case/${this.props.match.params.id}/timeline`
     var urlCase = `/case/${this.props.match.params.id}/citations`
+    var stringofjudges = this.state.json_data.judges.map(a => a["name"]).join(',')
     //console.log("URL",url);
     return(
      <div >
@@ -89,7 +90,7 @@ class FullScreenDialog extends Component {
          </AppBar>
           <div id='contain'>
             <div id='left-indiv'>
-              <div id ='resCard'><ResultCard  judgement={this.state.json_data.case_judgement} judge={this.state.json_data.case_judge} date={this.state.json_data.case_date}/></div> 
+              <div id ='resCard'><ResultCard  judgement={this.state.json_data["judgement"]} judge={stringofjudges} date={this.state.json_data["date"]}/></div> 
               <div id='graph'>< Area myurl={urlPlot}/></div>
             </div>
             <div id='vtl'>
