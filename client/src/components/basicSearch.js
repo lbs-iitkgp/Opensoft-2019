@@ -30,16 +30,20 @@ class BasicSearch extends Component{
     getBasicResult(){
         if(this.state.basicSearched == '')
           return;
+
         else{ 
+
         this.props.history.push({
         pathname : `/basic/output/${this.state.basicSearched}`,
         state : {
           defaultSearch : this.state.basicSearched,
         }
       });
+
      }
        
    }
+
     
     componentWillMount(){
       ReactDOM.unmountComponentAtNode(document.getElementById('root'));

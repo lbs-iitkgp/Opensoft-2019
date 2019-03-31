@@ -1,48 +1,43 @@
 from endpoints import *
-from base_class.subgraph import fetch_subgraph_with_year_range
-from base_class.neo4j_to_networkx_graph import export_neo4j
-import os
-import json
-import re
+
 
 @app.route('/year/<year>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_metadata(year):
+    year = mgdb_handler.read_all(keyword_collection, name=year)[0]
+    number_of_cases = len(get_metas_from_node(year["serial"], "year", "case"))
+    year["number_of_cases"] = number_of_cases
 
-    result = []
-    for year_node in mydb.mytable.find({"year":year}) :
-        part = {
-        "year": year,
-        "number_of_cases": mydb.mytable.find({"year":year}).count(),
-        "percentile": mydb.mytable.find({"year":year}).count()*100.0/mydb.mytable.count() 
-        }
-        result.append(part)
-    return jsonify(result)
+    return jsonify(year)
 
 
 @app.route('/year/<year>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def year_cases(year):
-    # Fetch list of cases that relate to this year from neo4j,
-    # and return their details from mongodb as json
-    # graph = export_neo4j()
     result = []
-    subgraph = fetch_subgraph_with_year_range(graph , set(year))
-    for node in subgraph['nodes']:
-        case = mydb.mytable.find({"case_id":node['case_id']})
-        point = {
-            "case_id": case['case_id'],
-            "case_name": case['case_name'],
-            "case_indlaw_id": case['case_indlawid'],
-            "case_judges": case['judge'],
-            "case_judgement": case['judgement'],
-            "case_date": case['case_date'],
-            "case_year": case['case_year']
-            }
-        result.append(point)
+    year = mgdb_handler.read_all(keyword_collection, name=year)[0]
+    case_ids = get_metas_from_node(year["serial"], "year", "case")
+    for id in case_ids:
+        case = get_metas_from_node(year["serial"], "year", "case")
+        result.append(case)
+
     return jsonify(result)
+
 
 @app.route('year/<year>/piechart',methods=['GET'])
 def year_piechart(year):
-   
-    return jsonify('Hello)
+    result = []
+    subgraph = lkg.query(judges = [], subjects=[], keywords=[], judgements = [], types =[], year_range=[year], acts =[])
+    
+    data = lkg.nodes(data=True)
+    such_cases = subgraph[year]
+    for case in such_cases:
+        all_metas = lkg.in_edges(case)
+        for meta, _ in all_metas:
+            if data[meta]['type'] == 'keyword':
+                keyword = meta
+        if result.has_key(keyword):
+            result[keyword] += 1
+        else:
+            result[keyword] =1
+    return jsonify(result)

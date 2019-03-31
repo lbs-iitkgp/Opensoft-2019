@@ -69,6 +69,7 @@ printResults(){
     return;
   else {   
 
+
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
     // this.props.history.push({
     //   pathname  : `advSearch/${Results.query}`,
@@ -78,7 +79,7 @@ printResults(){
     // })
     this.callAxios(Results);
     // ReactDOM.render()
-    
+    ReactDOM.render(<Output />,document.getElementById('root'))
   }
 }
 
@@ -111,6 +112,7 @@ printResults(){
       });
 
   }
+
 
   componentWillMount(){
       if(this.props.location.state === undefined){

@@ -1,16 +1,16 @@
 from endpoints import *
 
+
 @app.route('/judge/<judge_id>', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_metadata(judge_id):
-    judge = mongo_db.find({"judge_id":judge_id})      
-    result =  {
-      "name": judge['name'],
-      "number_of_cases": judge['number_of_cases'],
-       "percentile": mongo_db.find("judge_id",judge_id).count()*100.0/mongo_db.count()
-    #    90
-    }
-    return jsonify(result)
+    judge = mgdb_handler.read_all(judges_collection, serial=judge_id)[0]
+
+    cases_count = len(get_metas_from_node(judge_id, "judge", "case"))
+    judge["number_of_cases"] = cases_count
+
+    return jsonify(judge)
+
 
 @app.route('/judge/<judge_id>/plot_line', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
@@ -33,28 +33,19 @@ def judge_line_distribution(judge_id):
     #     result[int(year)] += 1
     return jsonify(result)
 
+
 @app.route('/judge/<judge_id>/cases', methods=['GET'])
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def judge_cases(judge_id):
-#     # Fetch list of cases that relate to this judge from neo4j,
-#     # and return their details from mongodb as json
-#     nx_graph = export_neo4j()
     result = []
-    for i in range (1947,2020):
-        result[i] = 0
-    subgraph = lkg.query(judges =[judge_id], subjects=[], keywords=[], judgements = [], types =[], year_range=[],acts =[])
-    
-    for node in subgraph['nodes']:
-        case = mongo_db.find("case_id", node['case_id'])
-        point = {
-            "case_id": case['case_id'],
-            "case_name": case['case_name'],
-            "case_indlaw_id": case['case_indlawid'],
-            "case_judges": case['judge'],
-            "case_judgement": case['judgement'],
-            "case_date": case['case_date'],
-            "case_year": case['case_year']
-            }
-        result.append(point)
+
+    case_ids = get_metas_from_node(judge_id, "judge", "case")
+    for id in case_ids:
+        case = get_metas_from_node(judge_id, "judge", "case")
+        result.append(case)
+
     return jsonify(result)
+<<<<<<< HEAD
      
+=======
+>>>>>>> upstream/master
