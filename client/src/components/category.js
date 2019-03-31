@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import starWarsNames from "starwars-names";
+// import starWarsNames from "starwars-names";
+import categories from '../cats.js';
 import MultiChipSelect from "./MultiChipSelect.js";
 
 class Category extends Component{
@@ -15,12 +16,12 @@ class Category extends Component{
   }
    
   passData(event){
-    this.props.onCategoryDataPass(event);
+  
   }
 
-  allItems = starWarsNames
-    .random(7)
-    .map(s => ({ name: s, id: s.toLowerCase() }));
+  allItems = categories.categories
+    // .random(7)
+    .map((elem, index) => ({ name: elem, id: index }));
 
   state = {
     items: this.allItems,
@@ -57,10 +58,17 @@ class Category extends Component{
       this.setState({ inputValue: inputVal });
    
     }
+    this.props.onCategoryDataPass(inputVal);
   }
      
       render() {
-        const { selectedItem, items } = this.state
+        var { selectedItem, items } = this.state
+        selectedItem = this.props.defaultValue;
+        // if(this.props.defaultValue != undefined ){
+        //   selectedItem = this.props.defaultValue.category;
+        //   // var def = [temp[0], temp[1]]
+        // }
+
         return (
         // <MuiThemeProvider> 
           <FormGroup>
@@ -73,7 +81,7 @@ class Category extends Component{
                  selectedItem={selectedItem}
                 onChange={this.handleChange}
                 onRemoveItem={this.removeSelectedItem}
-                onInputValueChange={this.passData}
+                // onInputValueChange={this.passData}
                 
                />
             </FormControl>

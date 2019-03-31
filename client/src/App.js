@@ -70,13 +70,14 @@ printResults(){
   else {   
 
     window.scroll({top: 800, left: 0, behavior: 'smooth' })
-    this.props.history.push({
-      pathname  : `advSearch/${Results.query}`,
-      state :{
-          defaultAdvSearch : Results.query
-      }
-    })
+    // this.props.history.push({
+    //   pathname  : `advSearch/${Results.query}`,
+    //   state :{
+    //       defaultAdvSearch : Results
+    //   }
+    // })
     this.callAxios(Results);
+    // ReactDOM.render()
     
   }
 }
@@ -119,7 +120,7 @@ printResults(){
         // alert(this.state.defaultAdvSearch);
     } else {
         this.setState({
-            defaultAdvSearch : this.props.location.state.defaultAdvSearch,  
+            defaultAdvSearch : this.props.location.state.defaultAdvSearch.query,  
         })
     }
 
@@ -142,7 +143,7 @@ printResults(){
    }
 
    cardActivate(){
-     thi.setState({
+     this.setState({
        cardLoaded: true
      })
    }
@@ -151,6 +152,13 @@ printResults(){
    
 
   render() {
+    if(this.state.defaultAdvSearch == undefined){
+      var defyears = [1965,2004];
+      var defcat = [];
+    }else{
+      var defyears = this.state.defaultAdvSearch.years;
+      var defcat = this.state.defaultAdvSearch.category;
+    }
     return (
       <div>
       <Navbar />  
@@ -160,8 +168,8 @@ printResults(){
         <SearchBar OnQueryPass={this.updateResultQuery} defaultSearch={this.state.defaultAdvSearch} />
         <h2>Years</h2>
         <br />
-        <YearsSlider onSliderDataPass={this.updateSliderResult}  />
-        <Category onCategoryDataPass={this.updateResultCat}  />
+        <YearsSlider defaultValue={defyears} onSliderDataPass={this.updateSliderResult}  />
+        <Category defaultValue={defcat} onCategoryDataPass={this.updateResultCat}  />
         <Judges  onJudgeNamePass={this.updateResultJudge} /> 
         <br />
         <h2>Acts</h2>

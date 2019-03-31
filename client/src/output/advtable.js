@@ -26,7 +26,7 @@ class AdvFilter extends React.Component {
       // console.log(this.props.data, "dfeg")
       this.state = {
         columns: ['Date', 'Indlaw ID', 'Judgement', 'Title', 'Summary'],
-        res: this.props.casedata  
+        res: this.props.data  
       }
       // this.onChangePages = this.onChangePages.bind(this);
       // this.onChangeRowsPerPages = this.onChangeRowsPerPages.bind(this);

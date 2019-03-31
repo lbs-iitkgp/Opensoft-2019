@@ -59,13 +59,13 @@ class Output extends Component {
             })
           })
           .then((sanit_pre) => {
-            // console.log(sanit_pre, "per")
+            console.log(sanit_pre, "per")
             let topass = [1,0,1,1,1,0,0,1];
             return sanit_pre.map( (case_e,id) => case_e.filter((ele, index) => topass[index]))
             // return sanit_pre
           })
           .then(sanit => {
-            //   console.log(sanit, "dsdgh")
+              console.log(sanit, "dsdgh")
               this.setState({
                   data: sanit,
                   loaded : true

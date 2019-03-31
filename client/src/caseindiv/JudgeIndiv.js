@@ -43,7 +43,7 @@ componentWillMount(){
 }
 
 render() {
-    var urlTable = `/judge/${this.props.match.params.id}/cases`
+    var urlTable = `judge/${this.props.match.params.id}/cases`
     var urlPlot = `/judge/${this.props.match.params.id}/plot_line`
     //alert(url);
     return (

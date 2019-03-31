@@ -42,16 +42,7 @@ class Demo extends Component{
       }
 
       printPresentCards(){
-        var activeones = []
-        for(var i=0;i<cardsData.length;i++ ){
-          if(this.state.cardsColor[i] != 0 )
-          activeones.push(cardsData[i].url)
-          else 
-            continue;  
-        } 
-        console.log(activeones);
-        this.props.onAdvCardsPass(activeones);
-      }
+              }
 
 
       callAxios(data){
@@ -117,7 +108,7 @@ class Demo extends Component{
 
       render() {
               return (
-                 (this.state.loaded) ? generateCards(this.state.cardsData) : '' 
+                 (this.state.loaded) ? this.generateCards(this.state.cardsData) : '' 
               );
           }
           
