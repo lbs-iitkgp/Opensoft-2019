@@ -39,6 +39,9 @@ render() {
           <div id="cards2" >
             {cardsData.map( ele => (
               <Card  className="card" style={{ color : this.state.color }}  >
+                <div id="casename">
+                  <b>{this.props.casename}</b> 
+                </div>
                 <div id="judgement">
                   <b>Judgement:</b> {this.props.judgement}
                 </div>

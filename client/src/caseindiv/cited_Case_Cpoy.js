@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -77,13 +76,14 @@ class FullWidthTabs2 extends Component{
   componentDidMount(){
     axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${this.props.myurl}`)
       .then(response => {
+        console.log("now",response.data.cited_acts)
         console.log(new Array(response.data));
         this.setState({ result: new Array(response.data), has_loaded: true });
 
       })
       .catch(function (error) {
         // handle error
-        console.log('error is ' + error);
+        console.log(error);
       })
       .then(function () {
         // always executed
@@ -107,7 +107,7 @@ class FullWidthTabs2 extends Component{
   }
 
   makeCaseUrl(ele) {
-  return `${process.env.REACT_APP_FRONTEND_ORIGIN}/modal/${ele}`;
+  return `${process.env.REACT_APP_FRONTEND_ORIGIN}/case/${ele}`;
   }
 
   makeActUrl(ele) {
@@ -140,10 +140,6 @@ class FullWidthTabs2 extends Component{
 
   render() {
     
-    //const classes = useStyles();
-    console.log("Aadi",this.state.result);
-    
-    console.log("render",this.state.result);
     return (
       <div >
         <AppBar position="static" color="default">

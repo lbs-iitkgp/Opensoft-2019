@@ -44,7 +44,9 @@ componentWillMount(){
 
 render() {
     var urlTable = `judge/${this.props.match.params.id}/cases`
-    var urlPlot = `/judge/${this.props.match.params.id}/plot_line`
+    var urlPlot = `/judge/${this.props.match.params.id}/plot_line` 
+    var percent = this.state.data_json.percentile
+    var percent1 = parseFloat(percent).toPrecision(3)
     //alert(url);
     return (
        <div>
@@ -60,12 +62,13 @@ render() {
                  <b>Number of Cases:</b> {this.state.data_json["no of cases"]}
                </div>
                <div id="date">
-                  <b>Percentile :</b> {this.state.data_json.percentile}
+                  <b>Percentile :</b> {percent1}
                </div>
                <br /><br />
              </Card>
           
           <Graph myurl={urlPlot}/>
+          <div id='graphlabel'><b>Number of cases vs. Years</b></div>
           </div>
           <AdvTable myurl={urlTable} />
          </div>

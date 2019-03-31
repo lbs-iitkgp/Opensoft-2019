@@ -42,12 +42,12 @@ class VerticalTimeline2 extends React.Component{
    return(
    <div className='timeline'>
     <VerticalTimeline layout='1-column' >
-    {Object.keys(this.state.data).map(ele => (
+    {this.state.data.map(ele => (
       <VerticalTimelineElement
       className="vertical-timeline-element--work"
       iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
     >
-    <h3 className="vertical-timeline-element-title">{this.state.data[0][0]}</h3>
+    <h2 className="vertical-timeline-element-title"><b>{ele[0]}</b></h2>
     <p> 
       <ReadMoreAndLess
           ref={this.ReadMore}
@@ -56,7 +56,7 @@ class VerticalTimeline2 extends React.Component{
           readMoreText="Read more"
           readLessText="Read less"
           >
-            {this.state.data[0][1]}
+            {ele[1]}
       </ReadMoreAndLess>
      </p>
     </VerticalTimelineElement>

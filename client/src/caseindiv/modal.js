@@ -14,6 +14,11 @@ import CitedCases from './cited_Case_Cpoy.js'
 import ScrollUpButton from "react-scroll-up-button"; 
 import {Component} from 'react'
 import axios from 'axios'
+import Navbar from '../navbar.js'
+
+var JudgeName=''
+,Judgement='',
+CaseDate='',CaseName='';
 
 
 function Transition(props) {
@@ -35,7 +40,10 @@ class FullScreenDialog extends Component {
  constructor(props){
   super(props)
   this.state={
-    json_data : {},
+     Judge_Name : '',
+     Judgement_1 : '',
+     Case_Date :'',
+     Case_Name : ''
    }
   // this.handleClickOpen = this.handleClickOpen.bind(this)
   // this.handleClose = this.handleClose.bind(this)
@@ -54,19 +62,34 @@ class FullScreenDialog extends Component {
 
   componentWillMount(){
    var id = this.props.match.params.id;
-    var self = this;
+    
     axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/case/${id}`)
-    .then(function (response) {
-      self.setState({json_data : response.data})
+    .then(response => {
+      console.log(response.data)
+      var judge_name = response.data.judges.map(a => a.name).join(',')
+       
+      JudgeName = judge_name
+      Judgement = response.data.judgement
+      CaseDate = response.data.date
+      console.log(response.data.name,"respone.data.name")
+      CaseName = response.data.name
+      console.log(CaseName)
+      this.setState({
+        Judge_Name : JudgeName,
+        Judgement_1 : Judgement,
+        Case_Date : CaseDate,
+        Case_Name : CaseName
+      })
+     
     })
     .catch(function (error) {
       // handle error
-      console.log('error is '+error);
+      console.log(error);
     })
     .then(function () {
       // always executed
     }); 
-    console.log(this.state.json_data)  
+    
 }
 
   
@@ -77,20 +100,13 @@ class FullScreenDialog extends Component {
     var urlPlot = `/case/${this.props.match.params.id}/plot_line`
     var urlTimeline = `/case/${this.props.match.params.id}/timeline`
     var urlCase = `/case/${this.props.match.params.id}/citations`
-    var stringofjudges = this.state.json_data.judges.map(a => a["name"]).join(',')
-    //console.log("URL",url);
     return(
      <div >
-       <AppBar  id='fixedTitle'>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" >
-              {this.state.json_data.case_name}
-            </Typography>
-          </Toolbar>
-         </AppBar>
-          <div id='contain'>
+       <Navbar />
+       <br />
+       <div id='contain'>
             <div id='left-indiv'>
-              <div id ='resCard'><ResultCard  judgement={this.state.json_data["judgement"]} judge={stringofjudges} date={this.state.json_data["date"]}/></div> 
+              <div id ='resCard'><ResultCard casename={this.state.Case_Name}  judgement={this.state.Judgement_1} judge={this.state.Judge_Name} date={this.state.Case_Date}/></div> 
               <div id='graph'>< Area myurl={urlPlot}/></div>
             </div>
             <div id='vtl'>
