@@ -60,7 +60,7 @@ class FullWidthTabs2 extends Component{
   constructor(props){
     super(props);
     this.state = {
-      result : [],
+      result : {},
       value : 0,
       setvalue : 0,
       has_loaded: false
@@ -76,16 +76,19 @@ class FullWidthTabs2 extends Component{
   componentDidMount(){
     axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}${this.props.myurl}`)
       .then(response => {
-        console.log("now",response.data.cited_acts)
-        console.log(new Array(response.data));
-        this.setState({ result: new Array(response.data), has_loaded: true });
-
+        var array = response.data
+        console.log(array)
+        // console.log(array)
+        // this.setState({ result: new Array(response.data), has_loaded: true });
+        return(array)
       })
       .catch(function (error) {
         // handle error
         console.log(error);
       })
-      .then(function () {
+      .then((res) => {
+        console.log("res", res)
+        this.setState({result: res, has_loaded: true})
         // always executed
       });
   }
@@ -111,28 +114,43 @@ class FullWidthTabs2 extends Component{
   }
 
   makeActUrl(ele) {
-    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/act/${ele}`;
+    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/case/${ele}`;
+    
   }
-
   formcards(){
-    Acts = this.state.result[0].cited_acts;
-    citedIn = this.state.result[0].cited_by_cases;
-    citedOut = this.state.result[0].cited_cases;
-    console.log(citedIn[0].name);
+    Acts = this.state.result.cited_acts;
+    citedIn = this.state.result.cited_by_cases;
+    citedOut = this.state.result.cited_cases;
+    console.log(citedIn, "cited in");
     return (<div>
     <TabContainer >
       <ul>
-        {citedIn.map((index, ele) => (<li><a href={this.makeCaseUrl(1)}>{ele.name}</a></li>))}
+        { citedIn.map((c) => {
+            return Object.keys(c).map((res) => {
+              return (<li><a href={this.makeCaseUrl(res)}>{c[res]}</a></li>)
+            })
+          })
+        }
       </ul>
     </TabContainer>
       <TabContainer >
         <ul>
-          {citedOut.map((index, ele) => (<li><a href={this.makeCaseUrl(1)}>{ele.name}</a></li>))}
+        { citedOut.map((c) => {
+            return Object.keys(c).map((res) => {
+              return (<li><a href={this.makeCaseUrl(res)}>{c[res]}</a></li>)
+            })
+          })
+        }
         </ul>
       </TabContainer>
       <TabContainer >
         <ul>
-          {Acts.map((index, ele) => (<li><a href={this.makeActUrl(1)}>{ele.name}</a></li>))}
+          {Acts.map((c) => {
+             return Object.keys(c).map((res) => {
+              return (<li><a href={this.makeCaseUrl(res)}>{c[res]}</a></li>)
+            })
+          })
+        }
         </ul>
       </TabContainer>
       </div>)

@@ -39,7 +39,7 @@ function SimpleTabs() {
         </Tabs>
       </AppBar>
       {value === 0 && <TabContainer><ActsAccord /></TabContainer>}
-      {value === 1 && <TabContainer><AdvTable /></TabContainer>}
+      {value === 1 && <TabContainer><AdvTable  /></TabContainer>}
      </div>
   );
 }

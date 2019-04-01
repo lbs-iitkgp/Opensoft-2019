@@ -60,9 +60,27 @@ class Output extends Component {
           })
           .then((sanit_pre) => {
             console.log(sanit_pre, "per")
-            let topass = [1,0,1,1,1,0,0,1];
+            let topass = [1,0,1,1,1,0,1,1];
+            // let topass = [1,1,1,1,1,1,1,1];
+
             return sanit_pre.map( (case_e,id) => case_e.filter((ele, index) => topass[index]))
+          }).then((sanit_pre) => {
+            console.log(sanit_pre, "per 2")
             // return sanit_pre
+            return sanit_pre.map((case_e, id) => {
+                console.log(case_e, "sdd")
+                return case_e.map((ele, ind) => {
+                    console.log(ele, ind)
+                    if (ind == 3) {
+                        var caseurl = "/case/"+case_e[4];
+                        const urlwithname = <a href={caseurl}>{ele}</a>
+                        return urlwithname
+                    } else {
+                        return ele
+                    }
+                })
+                // return case_e
+            })
           })
           .then(sanit => {
               console.log(sanit, "dsdgh")

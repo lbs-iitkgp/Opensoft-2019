@@ -107,7 +107,7 @@
           console.log("cardss",response.data);
          var p = response.data.map(ele => {
           this.state.cardsColor[ele.result_type+"_"+ele.serial] = ''
-          return ({"name" : ele.name.length > 35 ? ele.name.slice(0,35)+"..." : ele.name, "index": ele.serial, "type": ele.result_type.toUpperCase() }  )
+          return ({"name" : ele.name.length > 35 ? ele.name.slice(0,35)+"..." : ele.name, "index": ele.serial, "type": ele.result_type }  )
           });
          console.log(p);
          return p;
@@ -131,17 +131,20 @@
          this.callAxios(this.props.parState);
   }
 
-  urlTo(id){
-    return `keywords/${id}`
+  urlTo(restype, id){
+    //var lowrestype = restype.toLowerCase()
+    console.log(restype, id)
+    return `/${restype}/${id}`
   }
 
   generateCards(Cdata){
-    console.log(Cdata)
+    console.log("Cards render data", Cdata)
+
     return Cdata.map( ele   => (
       <Card  className="card" style={{ color : this.state.cardsColor[ele.index], minWidth: this.state.minWidth }} id={ele.index} >
         <div id="case"><div className="chip"><Chips title={ele.type} /></div><Switches id={ele.type+"_"+ele.index} OnPassChecked={this.handleToggle}  /></div>
         <div >
-          <a href={this.urlTo(ele.index)}><b>{ele.name}</b></a>
+          <a href={this.urlTo(ele.type, ele.index)}><b>{ele.name}</b></a>
         </div>
       </Card>
     ))

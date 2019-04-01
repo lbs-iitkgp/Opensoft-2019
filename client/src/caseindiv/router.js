@@ -35,8 +35,8 @@ class Router extends Component {
               <Route exact path="/act/:id" component={ActIndiv}  />
               <Route exact path='/output' component={Output} />
               <Route exact path='/case/:id' component={Modal}  />
-              <Route exact path='/keywords/:id' component={KeyWords} />
-              <Route exact path='/catchwords/:id' component={CatchyWords} />
+              <Route exact path='/keyword/:id' component={KeyWords} />
+              <Route exact path='/catchword/:id' component={CatchyWords} />
               <Route exact path='/year/:id' component={YearsIndiv} />
               </div>
             </Switch>

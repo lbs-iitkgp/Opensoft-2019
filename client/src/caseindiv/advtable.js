@@ -13,17 +13,19 @@ var data = {
   pagenumber : 0,
   sortColumn : []
 }
-// const name = <a href="saas">Dibya</a>
+
+ 
+// const name = <a href="saas">char</a>
 class AdvFilter extends React.Component {
   constructor(props){
       super(props);
       this.state = {
         columns: ['Date', 'Indlaw ID','Judgement', "Title"],
         data: [
-          ["name", 'Minneapolis', 30, '$100,000'],
-          ['Aiden Lloyd', 'Dallas', 55, '$200,000'],
-          ['Jaden Collin', 'Santa Ana', 27, '$500,000'],
-          ['Franky Rees', 'St. Petersburg', 22, '$50,000'],
+          ['', '', , ''],
+          [' ', '', , ''],
+          ['', ' ', , ''],
+          ['', '', , ''],
           ]
       }
       this.onChangePages = this.onChangePages.bind(this);
@@ -83,6 +85,7 @@ class AdvFilter extends React.Component {
           // san
           
         })
+        
         .then((sanit) => {
           // handle success
           console.log(sanit)  
