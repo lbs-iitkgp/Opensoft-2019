@@ -27,7 +27,7 @@ class Router extends Component {
         <BrowserRouter>
             <Switch>
               <div className="App">
-              <Route exact path='/' component={App} />
+              <Route exact path='/' component={BasicSearch} />
               <Route exact path='/advSearch/:id' component={App} />
               <Route exact path='/basic' component={BasicSearch} />
               <Route exact path='/basic/output/:id' component={BasicOutput} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {useState} from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -6,7 +7,11 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import '../App.css'
+import axios from 'axios'
 
+var titles = new Array ();
+var descris = new Array ();
+       
 const styles = theme => ({
     root: {
       width: '100%',
@@ -20,33 +25,66 @@ const styles = theme => ({
   });
 
   function createSections(section,index){
-    var secTitle = section[0];
-    var secDes = section[1]
-    return{index,secTitle,secDes}
-  }
+    
+    
+    var a = window.location.href.length-1
+      var id = window.location.href[a]
+    axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}/sections`)
+    .then( (response) => {
+      titles = response
+      for(var i=0;i<titles.length;i++){
+        axios.get(`${process.env.REACT_APP_BACKEND_ORIGIN}/act/${id}/section/${i}`)
+      .then((response) =>{
+        descris.push(response.data.section_text)
+           
+      })
+      .catch( (error) => {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });   
+  }    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+    
+    
+   
 
-  var sectionsData =[
-    ['section-1','this is description of sec-1this is description of sec-1this is description of sec-1this is description of sec-1this is description of sec-1 '],
-    ['section-2','this is description of sec-2'],
-    ['section-3','this is description of sec-13']
-  ].map((ele,ind)=>createSections(ele,ind));
+}
+   
+
   
-
-  function ActsAccord(props) {
+  
+  
+   
+ 
+  function ActsAccord(props,title,desc) {
     const { classes } = props;
+     var nums = new Array ()
+    for(var j=0;j<titles.length;j++){
+    nums[j] = j;
+    }
 
       return(
           <div className={classes.root}>
-          {sectionsData.map(ele => (
+          {nums.map(ele => (
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>
-                 <h3>{ele.secTitle}</h3>
+                <Typography className={ele}>
+                 <h3>{ele}</h3>
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography id='act_sec'>
-                  {ele.secDes}   
+                  {ele}
                  </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>

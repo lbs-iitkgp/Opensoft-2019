@@ -126,7 +126,7 @@ class Area extends React.Component {
     return (
       <div>
         <svg ref={s => (this.svg = s)} width={width} height={height}>
-          <rect x={0} y={0} width={width} height={height} fill="#32deaa" rx={14} />
+          <rect x={0} y={0} width={width} height={height} fill="#3f51b5" rx={14} />
           <defs>
             <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#FFFFFF" stopOpacity={1} />

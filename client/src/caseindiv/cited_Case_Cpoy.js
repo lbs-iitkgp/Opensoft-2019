@@ -69,7 +69,7 @@ class FullWidthTabs2 extends Component{
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeIndex = this.handleChangeIndex.bind(this);
     this.makeActUrl = this.makeActUrl.bind(this);
-    this.makeCaseUrl  = this.makeActUrl.bind(this);
+    this.makeCaseUrl  = this.makeCaseUrl.bind(this);
     this.updateCases = this.updateCases.bind(this);
   }
 
@@ -114,26 +114,30 @@ class FullWidthTabs2 extends Component{
   }
 
   makeActUrl(ele) {
-    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/case/${ele}`;
+    return `${process.env.REACT_APP_FRONTEND_ORIGIN}/act/${ele}`;
     
   }
   formcards(){
+    console.log(citedIn, "cited in");
     Acts = this.state.result.cited_acts;
     citedIn = this.state.result.cited_by_cases;
     citedOut = this.state.result.cited_cases;
-    console.log(citedIn, "cited in");
+   
     return (<div>
-    <TabContainer >
-      <ul>
+
+<TabContainer >
+        <b>Cases Cited In</b>
+        <ul>
         { citedIn.map((c) => {
             return Object.keys(c).map((res) => {
               return (<li><a href={this.makeCaseUrl(res)}>{c[res]}</a></li>)
             })
           })
         }
-      </ul>
+        </ul>
     </TabContainer>
       <TabContainer >
+      <b>Cases Cited By</b>
         <ul>
         { citedOut.map((c) => {
             return Object.keys(c).map((res) => {
@@ -144,10 +148,11 @@ class FullWidthTabs2 extends Component{
         </ul>
       </TabContainer>
       <TabContainer >
+      <b>Acts</b>
         <ul>
           {Acts.map((c) => {
              return Object.keys(c).map((res) => {
-              return (<li><a href={this.makeCaseUrl(res)}>{c[res]}</a></li>)
+              return (<li><a href={this.makeActUrl(res)}>{c[res]}</a></li>)
             })
           })
         }
@@ -168,10 +173,9 @@ class FullWidthTabs2 extends Component{
             textColor="primary"
             variant={null}
           >
-            <Tab label="cited in" />
-            <Tab label="cited by" />
-            <Tab label="Acts" />
-          </Tabs>
+            <Tab label="CITATIONS" />
+            
+              </Tabs>
         </AppBar>
         <SwipeableViews
           axis='x'
@@ -180,6 +184,8 @@ class FullWidthTabs2 extends Component{
         >
           { this.state.has_loaded ? this.formcards() : '' }
         </SwipeableViews>
+        
+    
       </div>
     );
   }
